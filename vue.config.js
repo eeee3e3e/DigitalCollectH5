@@ -18,11 +18,11 @@ module.exports = defineConfig({
           '^/api': '/api'
         }
       },
-      '/static': {
+      '/static-proxy': {
         target: 'http://api.csscmeta.com',
         changOrigin: true,
         pathRewrite: {
-          '^/static': ''
+          '^/static-proxy': ''
         }
       }
     },

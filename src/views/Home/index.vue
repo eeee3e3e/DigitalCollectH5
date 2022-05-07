@@ -115,6 +115,7 @@ export default {
               this.finished = result.TotalCount === 0 ? true : result.TotalCount < (result.PageIndex * result.PageSize)
             })
             .finally(() => {
+              this.finished = true
               this.varAwait = false
               this.loading = false
               resolve()
@@ -151,7 +152,7 @@ export default {
 
       &-header {
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         justify-content: space-between;
 
         .left {
@@ -175,7 +176,9 @@ export default {
 
         .right {
           width: 114px;
-          height: 22px;
+          display: flex;
+          align-items: flex-end;
+          //height: 22px;
 
           img {
             width: 100%;

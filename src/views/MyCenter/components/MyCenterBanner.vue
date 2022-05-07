@@ -1,9 +1,9 @@
 <template>
   <div class="app-my-center-banner" v-if="bannerImages.length">
-    <Swipe @change="bannerChange">
+    <Swipe :autoplay="4000" @change="bannerChange">
       <SwipeItem v-for="(bannerItem, index) of bannerImages" :key="index">
         <div class="app-my-center-banner-item">
-          <img :src="bannerItem" alt="">
+          <base-image :src="bannerItem" alt=""/>
         </div>
       </SwipeItem>
       <template #indicator>
@@ -17,14 +17,15 @@
 </template>
 
 <script>
-import { Swipe, SwipeItem } from 'vant'
+import { Swipe, SwipeItem, Image } from 'vant'
 import { dictionaryApi } from "@/api";
 import getImageUrl from "@/utils/get-image-url";
 
 export default {
   components: {
     Swipe,
-    SwipeItem
+    SwipeItem,
+    BaseImage: Image
   },
   data() {
     return {
@@ -61,7 +62,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@banner-item-height: 90px;
+@banner-item-height: auto;
 
 .app-my-center-banner {
   margin-bottom: 20px;

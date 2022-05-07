@@ -44,9 +44,11 @@ export default {
 @import "../assets/styles/global-variable";
 
 .app-layout {
+  height: 100%;
+
   &-main {
     position: relative;
-    height: 100vh;
+    height: 100%;
     //padding-top: @nav-bar-height;
     box-sizing: border-box;
     overflow-y: auto;

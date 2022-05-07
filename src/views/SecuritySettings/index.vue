@@ -17,8 +17,8 @@
         </div>
         <div class="app-security-settings-card-body">
           <CellGroup :border="false">
-            <Cell is-link>
-              <template>
+            <Cell is-link @click="onToAuthentication">
+              <template v-if="userInfo.IsIdentityVerify">
                 <div class="certified">
                   <img class="icon" src="/static/images/security-settings/certified.png" alt="">
                   <span>已认证</span>
@@ -69,16 +69,25 @@
 
 <script>
 import { CellGroup, Cell } from 'vant'
+import { mapGetters } from "vuex";
 
 export default {
   components: {
     CellGroup,
     Cell
   },
+  computed: {
+    ...mapGetters(['userInfo']),
+  },
   methods: {
     // 退出登录
     onLogout() {
       this.$router.replace('/city-meta/verification-code-login')
+    },
+    // 前往认证
+    onToAuthentication() {
+      if (this.userInfo.IsIdentityVerify) return
+      this.$router.push('/city-meta/authentication')
     }
   }
 }

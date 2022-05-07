@@ -6,7 +6,7 @@
         <span v-html="goods.CreateDateTime"></span>
       </div>
       <div class="app-home-card-header-right">
-        <span v-html="goods.ReleaseUserName"></span>
+        <span v-html="goods.SerialType"></span>
       </div>
     </div>
     <div class="app-home-card-main" @click="() => $emit('click', goods)">
@@ -98,6 +98,10 @@ export default {
       align-items: center;
       white-space: nowrap;
       margin-right: 15px;
+
+      span {
+        font-family: DINAlternate, DINAlternate-Bold;
+      }
 
       .icon {
         width: 12px;

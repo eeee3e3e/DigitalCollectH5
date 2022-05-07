@@ -17,13 +17,19 @@
 
 <script>
 import { BaseReuseCard } from '@/components'
+import { mapGetters } from "vuex";
+import tip from "@/utils/tip";
 
 export default {
   components: {
     BaseReuseCard
   },
+  computed: {
+    ...mapGetters(['hasUserInfo'])
+  },
   methods: {
     onToConversion() {
+      if (!this.hasUserInfo) return tip('请登录')
       this.$router.push('/city-meta/conversion')
     }
   }

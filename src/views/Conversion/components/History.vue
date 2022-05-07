@@ -20,8 +20,8 @@
                 <img src="/static/images/collection/for-entry-icon.png" alt="">
               </div>
               <div class="into">
-                <p>城市数藏 & Xmeta 联合勋章</p>
-                <p class="desc">2022-04-22 20:00:00</p>
+                <p v-html="item.CommodityName"></p>
+                <p class="desc" v-html="item.CommodityExchangesDateTime"></p>
               </div>
               <div class="right">
                 <img src="/static/images/right-icon.png" alt="">
@@ -107,9 +107,9 @@ export default {
               this.finished = result.TotalCount === 0 ? true : result.TotalCount < (result.PageIndex * result.PageSize)
             })
             .finally(() => {
-              resolve()
+              this.finished = true
               this.loading = false
-              console.log(this)
+              resolve()
             })
       })
     },

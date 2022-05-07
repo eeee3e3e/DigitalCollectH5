@@ -95,7 +95,7 @@ export default {
 
     // 查看藏品
     onToDetail() {
-      this.$router.replace('/city-meta/verification-code-login')
+      this.$router.replace('/city-meta/collection')
     }
   }
 }

@@ -41,10 +41,11 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { Field } from 'vant'
 import { BaseActionSheet } from '@/components'
 import { userApi } from '@/api'
+import AppLoading from "@/utils/app-loading";
 
 export default {
   components: {
@@ -69,7 +70,8 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['SET_USER_INFO']),
+    ...mapMutations(['SET_AUTH']),
+    ...mapActions(['REFRESH_USER_INFO']),
 
     onClickHistory() {
     },
@@ -79,7 +81,8 @@ export default {
     },
     onToAuthenticationResult() {
       if (this.loading) return
-      this.loading = true
+
+      AppLoading.showAppLoading()
 
       const data = {
         ...this.formData,
@@ -87,14 +90,14 @@ export default {
       }
 
       userApi
-          .verifyVerificationCode(data)
-          .then(result => {
-            const userInfo = Object.assign({}, this.userInfo, { ...this.formData })
-            this.SET_USER_INFO(userInfo)
-            this.$router.push('/city-meta/authentication-result')
+          .userVerifyIDCard(data)
+          .then(async () => {
+            await this.REFRESH_USER_INFO()
+            this.SET_AUTH(data)
+            await this.$router.push('/city-meta/authentication-result')
           })
           .finally(() => {
-            this.loading = false
+            AppLoading.closeAppLoading()
           })
     }
   }

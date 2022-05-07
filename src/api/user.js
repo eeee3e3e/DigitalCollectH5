@@ -41,3 +41,15 @@ export function editUserInfo(data = {}) {
     data
   })
 }
+
+// 获取用户
+export function getUserInfoById(userId = undefined) {
+  return request({
+    url: `${BASE_API}/GetUser`,
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    params: {
+      userId
+    }
+  })
+}

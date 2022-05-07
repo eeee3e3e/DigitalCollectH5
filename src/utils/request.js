@@ -5,15 +5,17 @@ import { getAuthorization } from "@/utils/cookies";
 import router from "@/router";
 
 const request = axios.create({
-  baseURL:  process.env.NODE_ENV === 'development' ? '/api' : 'http://api.csscmeta.com/api'
+  baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'http://api.csscmeta.com/api'
 })
 
 function useAuthorization(config) {
   if (!config.headers) {
     config.headers = {}
   }
+  const token = getAuthorization()
+  if (!token) return
   Object.assign(config.headers, {
-    Authorization: getAuthorization()
+    Authorization: token
   })
 }
 
@@ -27,6 +29,12 @@ request.interceptors.request.use(
   }
 )
 
+function showErrorMessage() {
+  const token = getAuthorization()
+  if (!token) throw new Error('没有授权的接口 不需要提示信息')
+  tip.error(...arguments)
+}
+
 request.interceptors.response.use(
   function (response) {
     const { data } = response
@@ -38,7 +46,7 @@ request.interceptors.response.use(
     const { ReturnCode, ReturnMessage } = data
 
     if (ReturnCode !== '200') {
-      tip.error(ReturnMessage)
+      showErrorMessage(ReturnMessage)
 
       if (ReturnCode === '401') {
         router.replace({ path: '/city-meta/verification-code-login' })
@@ -50,7 +58,7 @@ request.interceptors.response.use(
     return Promise.resolve(data)
   },
   function (error) {
-    tip.error('服务器异常')
+    showErrorMessage('服务器异常')
     return Promise.reject(error)
   }
 )

@@ -32,7 +32,7 @@
             </Cell>
             <Cell is-link>
               <template>
-                <span v-html="userInfo.NickName"/>
+                <input class="input-user-nick-name" v-model="form.NickName"/>
               </template>
               <template #title>
                 <span>昵称</span>
@@ -72,11 +72,11 @@
               <template>
                 <div class="chain-account">
                   <img class="icon" src="/static/images/edit-userinfo/chain-account-icon.png" alt="">
-                  <span>188***88888</span>
+                  <p class="OpbChainClientAddress" v-html="userInfo.OpbChainClientAddress"></p>
                 </div>
               </template>
               <template #extra>
-                <div class="copy-icon" @click="doCopy('测试')">
+                <div class="copy-icon" @click="doCopy(userInfo.OpbChainClientAddress)">
                   <img class="icon" src="/static/images/copy-icon.png" alt="">
                 </div>
               </template>
@@ -85,8 +85,13 @@
               </template>
             </Cell>
             <Cell>
+              <template>
+                <div class="ID">
+                  <p class="OpbChainClientAddress" v-html="userInfo.ID"></p>
+                </div>
+              </template>
               <template #extra>
-                <div class="copy-icon" @click="doCopy('测试')">
+                <div class="copy-icon" @click="doCopy(userInfo.ID)">
                   <img class="icon" src="/static/images/copy-icon.png" alt="">
                 </div>
               </template>
@@ -106,7 +111,7 @@
 
 <script>
 import { CellGroup, Cell, Notify, Uploader } from 'vant'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { fileApi, userApi } from '@/api'
 import AppLoading from "@/utils/app-loading";
 import getImageUrl from "@/utils/get-image-url";
@@ -121,8 +126,8 @@ export default {
   data() {
     return {
       form: {
-        fileList: [],
-        UserHead: undefined
+        UserHead: undefined,
+        NickName: undefined
       }
     }
   },
@@ -130,10 +135,15 @@ export default {
     ...mapGetters(['userInfo'])
   },
   created() {
-    this.form.UserHead = this.userInfo.UserHead
+    // this.form.UserHead = this.userInfo.UserHead
+    this.form = { ...this.userInfo }
   },
   methods: {
-    getImageUrl: getImageUrl,
+    ...mapActions(['REFRESH_USER_INFO']),
+
+    getImageUrl(path) {
+      return getImageUrl(path) || '/static/images/avatar.png'
+    },
 
     // 文件读取完成后的回调函数
     onAfterRead(event) {
@@ -167,13 +177,11 @@ export default {
 
     onSave() {
       AppLoading.showAppLoading()
-      const params = {
-        ID: this.userInfo.ID,
-        UserHead: this.form.UserHead
-      }
+      const params = { ...this.form }
       userApi
           .editUserInfo(params)
-          .then(result => {
+          .then(async result => {
+            await this.REFRESH_USER_INFO()
             tip('修改成功')
             this.$router.go(-1)
           })
@@ -219,6 +227,13 @@ export default {
     }
 
     &-body {
+
+      .input-user-nick-name {
+        background-color: transparent;
+        outline: none;
+        text-align: right;
+        border: none;
+      }
 
       .head-portrait {
         align-items: center;
@@ -272,14 +287,24 @@ export default {
         }
       }
 
-      .chain-account {
+      .chain-account, .ID {
+        width: 100%;
         display: flex;
         padding-right: 10px;
+        justify-content: flex-end;
 
         .icon {
           width: 13px;
           object-fit: cover;
           margin-right: 8px;
+        }
+
+        p {
+          //display: inline-block;
+          width: calc(100% - 50px);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap
         }
       }
 

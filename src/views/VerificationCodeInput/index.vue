@@ -10,13 +10,13 @@
       </div>
     </div>
     <div class="app-verification-code-input-main">
-      <div class="app-verification-code-input-main-body">
+      <div class="app-verification-code-input-main-body" @click="onInputFocus">
         <div v-for="(_, index) of array6" :key="index" class="code-item">
           <span v-if="verificationCodeArray[index]">{{ verificationCodeArray[index] }}</span>
           <i v-else/>
         </div>
       </div>
-      <input class="hidden-input" :value="verificationCode" type="number" :maxlength="6"
+      <input ref="codeInput" autofocus class="hidden-input" :value="verificationCode" type="tel" :maxlength="6"
              @input="onVerificationCodeInput"/>
     </div>
 
@@ -73,6 +73,11 @@ export default {
   methods: {
     ...mapMutations(['SET_USER_INFO', 'DEL_LOGIN_PHONE']),
 
+    // 聚焦input
+    onInputFocus() {
+      this.$refs.codeInput.focus()
+    },
+
     // 重新发送验证码
     onResendCode() {
       if (this.loading) return
@@ -103,7 +108,9 @@ export default {
 
     // 验证码输入
     onVerificationCodeInput(event) {
+      console.log(event.target.value)
       const value = formatVerificationCodeValue(event.target.value)
+      console.log(value)
       this.verificationCode = value.length > 6 ? (value || '').slice(0, 6) : value
     },
 
@@ -225,11 +232,11 @@ export default {
     }
 
     .hidden-input {
-      position: absolute;
+      position: fixed;
       background-color: transparent;
       width: 100%;
       height: 100%;
-      top: 0;
+      top: -100%;
       left: 0;
       outline: none;
       border: none;

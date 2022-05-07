@@ -16,7 +16,7 @@
           >
 
             <div class="card">
-              <div v-for="item of dataSource" :key="item.ID" class="card-item" @click ="goTocollection(item)">
+              <div v-for="item of dataSource" :key="item.ID" class="card-item" @click="goTocollection(item)">
                 <div class="card-item-view">
                   <div class="card-item-view-body">
                     <base-image :src="getImageUrl(item.FrontImage)"
@@ -26,12 +26,17 @@
                         <Loading type="spinner" size="20"/>
                       </template>
                     </base-image>
+
+                    <img v-if="!item.DDCID" class="bg-icon await" src="/static/images/collection/await.png" alt="">
+                    <img v-else class="bg-icon ready" src="/static/images/collection/ready.png" alt="">
                   </div>
                 </div>
                 <div class="card-item-info">
                   <div class="card-item-info-body">
                     <div class="card-item-info-body-top">
-                      <p>JISHADGIN #0001/1000</p>
+                      <!--                      //修改为 12位，左右布局-->
+                      <p>{{ item.CommodityCode | filterCommodityID }}</p>
+                      <p> #{{ item.CommodityNo }}/{{ item.LimitNum }}</p>
                     </div>
                     <p class="card-item-info-body-title" v-html="item.CommodityName"></p>
                     <p class="card-item-info-body-source" v-html="item.BrandName"></p>
@@ -113,14 +118,16 @@ export default {
             } else {
               this.dataSource.push(...data)
             }
+            this.pagination.TotalCount = result.TotalCount
             this.finished = result.TotalCount === 0 ? true : result.TotalCount < (result.PageIndex * result.PageSize)
           })
           .finally(() => {
+            this.finished = true
             this.varAwait = false
             this.loading = false
           })
     },
-    goTocollection (item) {
+    goTocollection(item) {
       this.$router.push({
         path: '/city-meta/collection_s',
         query: {
@@ -202,9 +209,29 @@ export default {
               align-items: center;
               justify-content: center;
               //background-color: #000000;
+              position: relative;
+
               img {
                 width: 100%;
                 object-fit: cover;
+              }
+
+              .bg-icon {
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 10;
+              }
+
+              .await {
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.6);
+              }
+
+              .ready {
+                width: 40px;
+                height: 40px;
               }
             }
           }
@@ -222,27 +249,30 @@ export default {
               padding-top: 14px;
 
               &-top {
+                padding-left: 15px;
+                padding-right: 10px;
+                display: flex;
+                justify-content: space-between;
                 background-image: url(/public/static/images/collection/card-info-text-background.png);
                 background-position: 0 0;
-                background-size: 100%;
+                background-size: 100% 100%;
                 background-repeat: no-repeat;
                 height: 16px;
 
                 p {
                   width: 100%;
-                  padding: 0 3px 0 15px;
                   box-sizing: border-box;
                   font-size: 12px;
                   font-family: PingFangSC, PingFangSC-Regular;
                   font-weight: 400;
                   color: #716249;
-                  line-height: 15px;
+                  line-height: 16px;
                   height: 16px;
-                  overflow: hidden;
-                  text-overflow: ellipsis;
-                  white-space: nowrap;
+                  //overflow: hidden;
+                  //text-overflow: ellipsis;
+                  //white-space: nowrap;
                   transform: scale(0.9);
-                  text-align: left;
+                  //text-align: left;
                 }
               }
 

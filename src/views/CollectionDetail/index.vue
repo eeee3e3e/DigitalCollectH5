@@ -3,32 +3,33 @@
     <div class="exhibition-hall">
       <div class="exhibition-hall-show">
         <div class="exhibition-hall-show-body">
-<!--          <img src="/static/images/collection-detail/_default_slot.png" alt="">-->
-          <img v-if="collectStatus === '2'" :src="getImageSrc(goodsDetail.FrontImage)"alt="">
-          <img v-if="collectStatus === '1'" :src="getImageSrc(collectionDetail.FrontImage)"alt="">
+          <img v-if="collectStatus === '2'" :src="getImageSrc(goodsDetail.AttachmentList[0])"alt="">
+          <img v-if="collectStatus === '1'" :src="getImageSrc(collectionDetail.AttachmentList[0])"alt="">
         </div>
       </div>
       <div class="exhibition-hall-body">
         <div class="content">
           <div class="content-body">
             <p class="title">
-              城市数藏 & Xmeta 联合勋章
+              <span  v-if="collectStatus === '2'">{{goodsDetail.Name}}</span>
+              <span  v-if="collectStatus === '1'">{{collectionDetail.CommodityName}}</span>
             </p>
             <div class="tags">
               <div class="tags-item">
                 <div class="bg" v-if="collectStatus === '1'">
-                  <p style="padding-left: 25px;width: 125px; overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">J{{collectionDetail.CommodityCode}}</p>
+                  <p>{{collectionDetail.CommodityCode.substring(collectionDetail.CommodityCode.length-12)}}</p>
+                  <p> {{collectionDetail.CommodityNo}}/{{collectionDetail.LimitNum}}</p>
                 </div>
                 <div class="unit" v-if="collectStatus === '2'">
                   <span>限量</span>
                 </div>
                 <div class="value" v-if="collectStatus === '2'">
-                  <span >{{goodsDetail.LimitNum}}</span>
+                  <span>{{goodsDetail.LimitNum}}</span>
                 </div>
               </div>
               <div class="tags-item" v-if="collectStatus === '2'">
                 <div class="value">
-                  <span>{{goodsDetail.Name}}</span>
+                  <span>{{goodsDetail.SerialType}}</span>
                 </div>
               </div>
             </div>
@@ -47,8 +48,9 @@
             <img src="/static/images/collection-detail/brand-party-icon.png" alt="">
           </div>
           <div class="into">
-            <p>城市数藏 · 数字文化馆</p>
-            <p class="desc">藏品品牌方</p>
+            <p>藏品品牌方</p>
+            <p class="desc"  v-if="collectStatus === '2'">{{goodsDetail.BrandName}}</p>
+            <p class="desc"  v-if="collectStatus === '1'">{{collectionDetail.BrandName}}</p>
           </div>
           <div class="right">
             <img src="/static/images/right-icon.png" alt="">
@@ -68,7 +70,8 @@
           <div class="story-card-title-detail">
             <div>收藏者</div>
             <div>
-              <img style="display:inline-block;vertical-align: top;margin-right:8px;width:18px;height:18px;border-radius: 9px;object-fit: cover;" :src="getImageSrc(collectionDetail.OwnerUserInfo.UserHead)" alt="">
+              <img v-if="collectionDetail.OwnerUserInfo.UserHead !==null && collectionDetail.OwnerUserInfo.UserHead !==''" style="display:inline-block;vertical-align: top;margin-right:8px;width:18px;height:18px;border-radius: 9px;object-fit: cover;" :src="getImageSrc(collectionDetail.OwnerUserInfo.UserHead)" alt="">
+              <img v-else style="display:inline-block;vertical-align: top;margin-right:8px;width:18px;height:18px;border-radius: 9px;object-fit: cover;" src="/static/images/avatar.png" alt="">
               <span>{{collectionDetail.OwnerUserInfo.NickName}}</span>
             </div>
           </div>
@@ -76,13 +79,14 @@
           <div class="story-card-title-detail">
             <div>生成时间</div>
             <div>
-              <span>{{collectionDetail.CommodityStartDateTime}}</span>
+              <span>{{collectionDetail.CommodityExchangesDateTime}}</span>
             </div>
           </div>
           <div class="story-card-title-detail">
             <div>链上标识</div>
             <div>
-              <span>{{collectionDetail.DDCID}}</span>
+              <span v-if="collectionDetail.DDCID !==null &&  collectionDetail.DDCID !==''">{{collectionDetail.DDCID}}</span>
+              <span v-else>正在上链中...</span>
             </div>
           </div>
           <div class="story-card-title-detail">
@@ -95,7 +99,7 @@
             {{collectionDetail.HashCode}}
           </p>
         </div>
-          <img v-if="collectionDetail.DDCID !==null" class="ddcid" src="/static/images/collection-detail/sl-logo.png" alt="">
+          <img v-if="collectionDetail.DDCID !==null && collectionDetail.DDCID !=='' " class="ddcid" src="/static/images/collection-detail/sl-logo.png" alt="">
       </div>
       <div class="work-information">
         <div class="work-information-card">
@@ -112,13 +116,13 @@
             <div>{{collectionDetail.AuthorName}}</div>
           </div><div class="work-information-card-title-des">
           <div>发行时间</div>
-          <div>{{collectionDetail.CommodityExchangesDateTime}}</div>
+          <div>{{collectionDetail.CommodityStartDateTime}}</div>
         </div>
 
         </div>
       </div>
       <div class="footer">
-        <button class="save">转赠藏品</button>
+        <button class="save" @click="examplesCollection">转赠藏品</button>
       </div>
     </div>
     <!--藏品详情-->
@@ -164,9 +168,9 @@
           <div class="background"></div>
         </div>
         <div class="info-card-title-detail">
-          <span>
+          <p>
             {{goodsDetail.PurchaseNote}}
-          </span>
+          </p>
         </div>
         </div>
       </div>
@@ -182,6 +186,7 @@
 </template>
 
 <script>
+import underDevelopmentTip from "@/utils/under-development-tip";
 import { BaseReuseCard } from '@/components'
 import { goodsApi } from '@/api'
 import getImageUrl from "@/utils/get-image-url";
@@ -215,12 +220,16 @@ export default {
     }
   },
   methods: {
+    // 转赠藏品
+    examplesCollection () {
+      underDevelopmentTip()
+    },
     getImageSrc(path) {
       return getImageUrl(path)
     },
     // 前往购买
     goBuy () {
-      window.location.href =  this.goodsDetail.YouzanUrl ? this.goodsDetail.YouzanUrl : 'http://www.baidu.com'
+      window.location.href =  this.goodsDetail.YouzanUrl ? this.goodsDetail.YouzanUrl : ''
     },
     // 获取商品详情
     getDetail() {
@@ -283,7 +292,7 @@ export default {
 
         img {
           width: 315px;
-          height: 256px;
+          height: 315px;
         }
       }
     }
@@ -325,6 +334,10 @@ export default {
               border-radius: 4px;
               overflow: hidden;
               .bg {
+                padding-left: 35px;
+                padding-right: 10px;
+                display: flex;
+                justify-content: space-between;
                 width: 164px;
                 height: 20px;
                 border-radius: 10px;
@@ -549,6 +562,8 @@ export default {
           }
 
           &-describe {
+            overflow: hidden;
+            text-overflow: ellipsis;
             height: 52px;
             margin-top: 8px;
             width: 100%;
@@ -677,6 +692,7 @@ export default {
           background: linear-gradient(270deg,rgba(178,227,255,0.00), #7ac3ff);
         }
         &-detail {
+          display: flex;
           color: #aaaaaa;
           font-size: 16px;
           box-sizing: border-box;
@@ -685,6 +701,13 @@ export default {
           align-items:center;
           box-sizing: border-box;
           justify-content:center;
+          ::v-deep img{
+            object-fit: cover;
+            width:auto;
+            height:auto;
+            max-width:100%;
+            max-height:100%;
+          }
           >div{
             display: inline-block;
             object-fit: cover;
@@ -708,7 +731,7 @@ export default {
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.13);
       &-title {
         position: relative;
-        font-size: 16px;
+        font-size: 20px;
         font-family: PingFangSC, PingFangSC-Semibold;
         font-weight: 600;
         text-align: justify;
@@ -730,8 +753,8 @@ export default {
           height: 100%;
           align-items: center;
           justify-content: center;
-          >span {
-            font-size: 12px;
+          >p {
+            font-size: 10px;
             font-family: PingFangSC, PingFangSC-Regular;
             font-weight: 400;
             text-align: justify;

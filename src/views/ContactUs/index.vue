@@ -11,7 +11,7 @@
               <p>客服邮箱</p>
               <p class="desc">BD@citymeta.mobi</p>
             </div>
-            <div class="right" @click="doCopy('测试')">
+            <div class="right" @click="doCopy('BD@citymeta.mobi')">
               <img src="/static/images/copy-icon.png" alt="">
             </div>
           </div>
@@ -25,7 +25,7 @@
               <p>商务合作</p>
               <p class="desc">BD@citymeta.mobi</p>
             </div>
-            <div class="right" @click="doCopy('测试')">
+            <div class="right" @click="doCopy('BD@citymeta.mobi')">
               <img src="/static/images/copy-icon.png" alt="">
             </div>
           </div>
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { Collapse, CollapseItem } from 'vant'
+import { Collapse, CollapseItem, Notify } from 'vant'
 
 export default {
   components: {
@@ -71,7 +71,9 @@ export default {
       this
           .$copyText(message)
           .then(result => {
-            console.log(result, message)
+            Notify({
+              message: '复制成功'
+            })
           })
           .catch(error => {
           })

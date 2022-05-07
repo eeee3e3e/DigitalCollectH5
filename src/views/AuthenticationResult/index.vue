@@ -22,7 +22,7 @@
           <CellGroup :border="false">
             <Cell>
               <template>
-                <span v-html="userInfo.Name"></span>
+                <span v-html="auth.Name"></span>
               </template>
               <template #title>
                 <span>真实姓名</span>
@@ -30,7 +30,7 @@
             </Cell>
             <Cell>
               <template>
-                <span>{{ userInfo.IDCard | filterIDCard }}</span>
+                <span>{{ auth.IDCard | filterIDCard }}</span>
               </template>
               <template #title>
                 <span>身份证号</span>
@@ -53,7 +53,7 @@ export default {
     Cell
   },
   computed: {
-    ...mapGetters(['userInfo']),
+    ...mapGetters(['auth']),
   },
   methods: {
     // 退出登录
