@@ -27,7 +27,10 @@
                       </template>
                     </base-image>
 
-                    <img v-if="!item.DDCID" class="bg-icon await" src="/static/images/collection/await.png" alt="">
+
+                    <div v-if="item.DDCID" class="bg-icon await">
+                      <img src="/static/images/collection/await.png" alt="">
+                    </div>
                     <img v-else class="bg-icon ready" src="/static/images/collection/ready.png" alt="">
                   </div>
                 </div>
@@ -227,6 +230,13 @@ export default {
                 width: 100%;
                 height: 100%;
                 background-color: rgba(0, 0, 0, 0.6);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                img {
+                  width: 60%;
+                }
               }
 
               .ready {

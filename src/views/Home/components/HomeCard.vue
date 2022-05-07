@@ -20,7 +20,12 @@
             </template>
           </base-image>
         </div>
-        <div class="card-view-tag">
+        <div v-if="goods.HomeStatus === '2'" class="time-end">
+          <img class="icon" src="/static/images/home/time-end.png" alt="">
+          <!--            <img class="icon" src="/static/images/home/have-not-started-icon.png" alt="">-->
+          <!--            <span v-html="goods.HomeStatusName"></span>-->
+        </div>
+        <div v-else class="card-view-tag">
           <div v-if="goods.HomeStatus === '1'" class="card-view-tag-body is-hot-sale">
             <img class="icon" src="/static/images/home/is-hot-sale-icon.png" alt="">
             <span v-html="goods.HomeStatusName"></span>
@@ -146,6 +151,22 @@ export default {
           //max-width: 100%;
           height: 100%;
           object-fit: cover;
+        }
+      }
+
+      .time-end {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          width: 50%;
         }
       }
 
