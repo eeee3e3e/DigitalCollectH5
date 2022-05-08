@@ -582,6 +582,7 @@ export default {
           margin-top: 22px;
           display: flex;
           justify-content: space-between;
+          padding: 5px 0;
 
           > div{
             font-size: 16px;
@@ -594,14 +595,15 @@ export default {
           &-describe {
             overflow: hidden;
             text-overflow: ellipsis;
-            height: 82px;
+            //height: 82px;
+            min-height: 82px;
             margin-top: 18px;
             width: 100%;
             word-break: break-all;
             background: #0b0e15;
             border-radius: 8px;
             white-space: normal;
-            padding: 6px 16px;
+            padding: 10px 16px;
             box-sizing: border-box;
             font-size: 15px;
             text-align: justify;

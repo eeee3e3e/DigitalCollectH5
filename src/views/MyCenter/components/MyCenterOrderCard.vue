@@ -20,7 +20,7 @@
       </GridItem>
       <GridItem icon="photo-o" text="已付款" @click="onShowUnderDevelopmentTip">
         <template #icon>
-          <img class="app-my-center-order-card-grid-icon" src="/static/images/my-center/obligation-icon.png" alt="">
+          <img class="app-my-center-order-card-grid-icon" src="/static/images/my-center/await-pay.png" alt="">
         </template>
       </GridItem>
       <GridItem icon="photo-o" text="已取消" @click="onShowUnderDevelopmentTip">

@@ -32,7 +32,7 @@
           </div>
 
           <div class="form-submit">
-            <button class="common-save-button form-submit-button" :class="isSend ? '' : 'submit-disabled'"
+            <button class="common-save-button form-submit-button" :class="!isSend ? 'submit-disabled' : ''"
                     :disabled="!isCheck" @click="onSendVerificationCode">
               <span>发送短信验证码</span>
             </button>
@@ -302,8 +302,8 @@ export default {
         }
 
         .submit-disabled {
-          background: linear-gradient(270deg, #19191a, #23242b);
-          color: #666666;
+          background: linear-gradient(270deg, #19191a, #23242b) !important;
+          color: #666666 !important;
         }
       }
     }

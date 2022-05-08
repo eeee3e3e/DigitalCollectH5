@@ -47,7 +47,7 @@
       <Grid :column-num="4" :border="false">
         <GridItem text="藏品合成" @click="onShowUnderDevelopmentTip">
           <template #icon>
-            <img class="user-card-grid-item-icon" src="/static/images/my-center/obligation-icon.png" alt="">
+            <img class="user-card-grid-item-icon" src="/static/images/my-center/collection-synthetic.png" alt="">
           </template>
         </GridItem>
         <GridItem text="转赠记录" @click="onShowUnderDevelopmentTip">
@@ -119,6 +119,10 @@ export default {
 .app-my-center-card {
   padding: 0 24px;
   box-sizing: border-box;
+  background-image: url(/public/static/images/my-center/background.png);
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: 0 0;
 
   .user-card {
     padding-top: 36px;
@@ -208,7 +212,7 @@ export default {
     }
 
     &-grid {
-      padding: 10px 0;
+      padding: 20px 0 10px 0;
 
       &-item {
         &-icon {
