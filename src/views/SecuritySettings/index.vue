@@ -69,7 +69,7 @@
 
 <script>
 import { CellGroup, Cell } from 'vant'
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   components: {
@@ -80,13 +80,20 @@ export default {
     ...mapGetters(['userInfo']),
   },
   methods: {
+    ...mapMutations(['SET_AUTH']),
     // 退出登录
     onLogout() {
       this.$router.replace('/city-meta/verification-code-login')
     },
     // 前往认证
     onToAuthentication() {
-      if (this.userInfo.IsIdentityVerify) return
+      if (this.userInfo.IsIdentityVerify) {
+        this.SET_AUTH({
+          Name: this.userInfo.RealName
+        })
+        this.$router.push('/city-meta/authentication-result')
+        return
+      }
       this.$router.push('/city-meta/authentication')
     }
   }

@@ -19,17 +19,41 @@
 import { BaseReuseCard } from '@/components'
 import { mapGetters } from "vuex";
 import tip from "@/utils/tip";
+import { Dialog } from 'vant'
 
 export default {
   components: {
     BaseReuseCard
   },
   computed: {
-    ...mapGetters(['hasUserInfo'])
+    ...mapGetters(['hasUserInfo', 'userInfo'])
   },
   methods: {
     onToConversion() {
-      if (!this.hasUserInfo) return tip('请登录')
+      if (!this.hasUserInfo) {
+        Dialog.confirm({
+          message: '请登录后进行兑换',
+        })
+            .then(() => {
+              this.$router.push('/city-meta/verification-code-login')
+            })
+            .catch(() => {
+              // on cancel
+            });
+        return;
+      }
+      if (!this.userInfo.IsIdentityVerify) {
+        Dialog.confirm({
+          message: '进行实名认证后，再进行兑换',
+        })
+            .then(() => {
+              this.$router.push('/city-meta/authentication')
+            })
+            .catch(() => {
+              // on cancel
+            });
+        return
+      }
       this.$router.push('/city-meta/conversion')
     }
   }

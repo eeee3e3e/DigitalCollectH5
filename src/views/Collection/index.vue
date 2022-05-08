@@ -28,7 +28,7 @@
                     </base-image>
 
 
-                    <div v-if="item.DDCID" class="bg-icon await">
+                    <div v-if="!item.DDCID" class="bg-icon await">
                       <img src="/static/images/collection/await.png" alt="">
                     </div>
                     <img v-else class="bg-icon ready" src="/static/images/collection/ready.png" alt="">
@@ -260,7 +260,7 @@ export default {
 
               &-top {
                 padding-left: 15px;
-                padding-right: 10px;
+                padding-right: 5px;
                 display: flex;
                 justify-content: space-between;
                 background-image: url(/public/static/images/collection/card-info-text-background.png);
@@ -270,7 +270,7 @@ export default {
                 height: 16px;
 
                 p {
-                  width: 100%;
+                  //width: 100%;
                   box-sizing: border-box;
                   font-size: 12px;
                   font-family: PingFangSC, PingFangSC-Regular;
@@ -282,7 +282,7 @@ export default {
                   //text-overflow: ellipsis;
                   //white-space: nowrap;
                   transform: scale(0.9);
-                  //text-align: left;
+                  text-align: left;
                 }
               }
 
@@ -292,10 +292,11 @@ export default {
                 font-weight: 500;
                 text-align: justify;
                 color: #ffffff;
-                margin-top: 13px;
+                margin-top: 10px;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+                line-height: 1.5;
               }
 
               &-source {

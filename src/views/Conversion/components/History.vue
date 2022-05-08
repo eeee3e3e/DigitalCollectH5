@@ -17,7 +17,7 @@
                @click="onToConversion(item)">
             <div class="app-collection-for-entry-body">
               <div class="icon">
-                <img src="/static/images/collection/for-entry-icon.png" alt="">
+                <img :src="getImageUrl(item.CommodityFrontImage)" alt="">
               </div>
               <div class="into">
                 <p v-html="item.CommodityName"></p>
@@ -48,6 +48,7 @@ import { BaseReuseCard } from '@/components'
 import { PullRefresh, List, Empty } from 'vant'
 import { goodsApi } from "@/api";
 import { mapGetters } from "vuex";
+import getImageUrl from "@/utils/get-image-url";
 
 export default {
   components: {
@@ -75,6 +76,7 @@ export default {
     this.getDataSource()
   },
   methods: {
+    getImageUrl: getImageUrl,
     onToConversion(item) {
       this.$router.push({
         path: '/city-meta/collection_s',

@@ -3,8 +3,8 @@
     <div class="exhibition-hall">
       <div class="exhibition-hall-show">
         <div class="exhibition-hall-show-body">
-          <img v-if="collectStatus === '2'" :src="getImageSrc(goodsDetail.AttachmentList[0])"alt="">
-          <img v-if="collectStatus === '1'" :src="getImageSrc(collectionDetail.AttachmentList[0])"alt="">
+          <img v-if="collectStatus === '2' && goodsDetail.AttachmentList && goodsDetail.AttachmentList.length" :src="getImageSrc(goodsDetail.AttachmentList[0])" alt="">
+          <img v-if="collectStatus === '1' && collectionDetail.AttachmentList && collectionDetail.AttachmentList.length" :src="getImageSrc(collectionDetail.AttachmentList[0])" alt="">
         </div>
       </div>
       <div class="exhibition-hall-body">
@@ -18,7 +18,7 @@
               <div class="tags-item">
                 <div class="bg" v-if="collectStatus === '1'">
                   <p>{{collectionDetail.CommodityCode.substring(collectionDetail.CommodityCode.length-12)}}</p>
-                  <p> {{collectionDetail.CommodityNo}}/{{collectionDetail.LimitNum}}</p>
+                  <p> #{{collectionDetail.CommodityNo}}/{{collectionDetail.LimitNum}}</p>
                 </div>
                 <div class="unit" v-if="collectStatus === '2'">
                   <span>限量</span>
@@ -48,9 +48,10 @@
             <img src="/static/images/collection-detail/brand-party-icon.png" alt="">
           </div>
           <div class="into">
-            <p>藏品品牌方</p>
-            <p class="desc"  v-if="collectStatus === '2'">{{goodsDetail.BrandName}}</p>
-            <p class="desc"  v-if="collectStatus === '1'">{{collectionDetail.BrandName}}</p>
+<!--            <p>藏品品牌方</p>-->
+            <p   v-if="collectStatus === '2'">{{goodsDetail.BrandName}}</p>
+            <p   v-if="collectStatus === '1'">{{collectionDetail.BrandName}}</p>
+            <p class="desc">藏品品牌方</p>
           </div>
           <div class="right">
             <img src="/static/images/right-icon.png" alt="">
@@ -177,7 +178,10 @@
       <div class="footerdes">
         <p class="price">￥{{goodsDetail.Price}}</p>
         <button class="save_one" v-if="this.HomeStatus === '1'" @click="goBuy">前往购买</button>
-        <button class="save_two" v-if="this.HomeStatus === '0'">距抢购开始<br/>{{goodsDetail.Countdown}}</button>
+        <button class="save_two" v-if="this.HomeStatus === '0'">
+          <p>距抢购开始</p>
+          <p style="margin-top:3px;">{{this.count}}</p>
+        </button>
         <button class="save_three" v-if="this.HomeStatus === '2'">藏品已售空</button>
 
       </div>
@@ -198,6 +202,9 @@ export default {
   },
   data() {
     return {
+      seconds:'', //倒计时
+      count:'',
+      StartDateTime:'', // 預售時間
       collectStatus:'', // 通过状态判断显示当前显示dom
       goodsDetail: {},
       collectionDetail:{},
@@ -220,6 +227,27 @@ export default {
     }
   },
   methods: {
+    // 天 时 分 秒 格式化函数
+    countDown() {
+      const curTime = new Date().getTime()
+      this.seconds = (new Date(this.StartDateTime.replace(/\-/g,'/')).getTime() - curTime) /1000
+      let d = parseInt(this.seconds / (24 * 60 * 60))
+      d = d < 10 ? "0" + d : d
+      let h = parseInt(this.seconds / (60 * 60) % 24);
+      h = h < 10 ? "0" + h : h
+      let m = parseInt(this.seconds / 60 % 60);
+      m = m < 10 ? "0" + m : m
+      let s = parseInt(this.seconds % 60);
+      s = s < 10 ? "0" + s : s
+      this.count = d + '天' + h + '时' + m + '分' + s + '秒'
+    },
+    //定时器没过1秒参数减1
+    Time() {
+      setInterval(() => {
+        this.seconds -= 1
+        this.countDown()
+      }, 1000)
+    },
     // 转赠藏品
     examplesCollection () {
       underDevelopmentTip()
@@ -239,6 +267,8 @@ export default {
           .getGoodsDetailById(id)
           .then(result => {
             this.goodsDetail = result.Data
+            this.StartDateTime = this.goodsDetail.StartDateTime
+            this.Time()
           })
     },
     // 获取我的藏品详情
@@ -334,7 +364,7 @@ export default {
               border-radius: 4px;
               overflow: hidden;
               .bg {
-                padding-left: 35px;
+                padding-left: 25px;
                 padding-right: 10px;
                 display: flex;
                 justify-content: space-between;
@@ -508,7 +538,7 @@ export default {
 
         .right {
           width: 15px;
-
+          margin-top: -3px;
           img {
             width: 100%;
             object-fit: cover;
@@ -564,8 +594,8 @@ export default {
           &-describe {
             overflow: hidden;
             text-overflow: ellipsis;
-            height: 52px;
-            margin-top: 8px;
+            height: 82px;
+            margin-top: 18px;
             width: 100%;
             word-break: break-all;
             background: #0b0e15;
@@ -731,7 +761,7 @@ export default {
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.13);
       &-title {
         position: relative;
-        font-size: 20px;
+        font-size: 16px;
         font-family: PingFangSC, PingFangSC-Semibold;
         font-weight: 600;
         text-align: justify;
@@ -754,12 +784,12 @@ export default {
           align-items: center;
           justify-content: center;
           >p {
-            font-size: 10px;
+            font-size: 14px;
             font-family: PingFangSC, PingFangSC-Regular;
             font-weight: 400;
             text-align: justify;
             color: #aaaaaa;
-            line-height: 20px;
+            line-height: 24px;
           }
         }
         }
@@ -824,6 +854,7 @@ export default {
       border:none;
     }
     .save_two {
+      letter-spacing:2px;
       width: 170px;
       height: 42px;
       background: #999999;

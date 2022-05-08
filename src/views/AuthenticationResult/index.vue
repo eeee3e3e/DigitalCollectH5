@@ -30,7 +30,8 @@
             </Cell>
             <Cell>
               <template>
-                <span>{{ auth.IDCard | filterIDCard }}</span>
+                <span v-if="!userInfo.IsIdentityVerify">{{ auth.IDCard | filterIDCard }}</span>
+                <span v-else>已认证</span>
               </template>
               <template #title>
                 <span>身份证号</span>
@@ -53,7 +54,7 @@ export default {
     Cell
   },
   computed: {
-    ...mapGetters(['auth']),
+    ...mapGetters(['auth', 'userInfo']),
   },
   methods: {
     // 退出登录

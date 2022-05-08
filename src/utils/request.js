@@ -5,7 +5,7 @@ import { getAuthorization } from "@/utils/cookies";
 import router from "@/router";
 
 const request = axios.create({
-  baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'http://api.csscmeta.com/api'
+  baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'https://api.csscmeta.com:8443/api'
 })
 
 function useAuthorization(config) {

@@ -3,7 +3,7 @@
     <div class="app-home-card-header">
       <div class="app-home-card-header-left">
         <img class="icon" src="/static/images/home/timer-icon.png" alt="">
-        <span v-html="goods.CreateDateTime"></span>
+        <span v-html="goods.StartDateTime"></span>
       </div>
       <div class="app-home-card-header-right">
         <span v-html="goods.SerialType"></span>
@@ -254,7 +254,7 @@ export default {
         align-items: flex-end;
 
         .source {
-          transform: translateY(50%);
+          //transform: translateY(50%);
           opacity: 0.4;
           font-size: 12px;
           font-family: PingFangSC, PingFangSC-Regular;
