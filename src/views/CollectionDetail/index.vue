@@ -289,7 +289,9 @@ export default {
           .then(result => {
             this.goodsDetail = result.Data
             // this.StartDateTime = this.goodsDetail.StartDateTime
-            this.Time()
+            if (this.HomeStatus === '0') {
+              this.Time()
+            }
           })
     },
     // 获取我的藏品详情

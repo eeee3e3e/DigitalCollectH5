@@ -36,10 +36,11 @@
           <span class="timer">2022-05-09</span>
         </div>
         <div class="app-about-us-main-footer-body">
-          <p>本次更新：</p>
-          <p>- 可跟随系统的设置，切换为深色模式</p>
-          <p>- 优化折线图样式</p>
-          <p>- bug修复</p>
+          <p>城市数藏平台正式上线！</p>
+          <p>- 支持藏品空投兑换</p>
+          <p>- 支持在线购买藏品</p>
+          <p>- 支持藏品BSN上链</p>
+          <p>- 全新UI交互升级</p>
         </div>
       </div>
     </div>

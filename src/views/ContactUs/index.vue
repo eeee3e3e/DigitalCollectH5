@@ -23,9 +23,9 @@
             </div>
             <div class="into">
               <p>商务合作</p>
-              <p class="desc">BD@citymeta.mobi</p>
+              <p class="desc">wangjingfei@bjcitymeta.com</p>
             </div>
-            <div class="right" @click="doCopy('BD@citymeta.mobi')">
+            <div class="right" @click="doCopy('wangjingfei@bjcitymeta.com')">
               <img src="/static/images/copy-icon.png" alt="">
             </div>
           </div>

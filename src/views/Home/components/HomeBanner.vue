@@ -39,6 +39,8 @@ export default {
   methods: {
     bannerChange(index) {
       this.currentBannerIndex = index
+      // 跳转操作指南 （新建一个vue文件：一张操作指南图片）
+      // this.$router.push('')
     },
 
     // 获取banner资源
