@@ -1,6 +1,8 @@
 <template>
   <div class="app-authentication-result">
 
+    <base-to-back :go-back-handel="goBackHandel"/>
+
     <div class="app-authentication-result-header">
       <div class="app-authentication-result-header-body">
         <div class="icon">
@@ -47,19 +49,20 @@
 <script>
 import { CellGroup, Cell } from 'vant'
 import { mapGetters } from "vuex";
+import { BaseToBack } from '@/components'
 
 export default {
   components: {
     CellGroup,
+    BaseToBack,
     Cell
   },
   computed: {
     ...mapGetters(['auth', 'userInfo']),
   },
   methods: {
-    // 退出登录
-    onLogout() {
-      this.$router.replace('/city-meta/verification-code-login')
+    goBackHandel() {
+      this.$router.replace({ path: '/city-meta/my-center' })
     }
   }
 }

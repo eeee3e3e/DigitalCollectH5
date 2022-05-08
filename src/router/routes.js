@@ -47,7 +47,7 @@ const routes = [
         path: 'authentication-result',
         meta: {
           title: '认证结果',
-          showToBack: true
+          // showToBack: true
         },
         component: () => import('@/views/AuthenticationResult')
       },

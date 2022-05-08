@@ -65,12 +65,6 @@ export default {
       default: () => ({})
     }
   },
-  computed: {
-    status() {
-      const { goods } = this
-      const { StartDateTime } = goods
-    }
-  },
   components: {
     BaseImage: Image,
     Loading
@@ -129,9 +123,13 @@ export default {
   }
 
   &-main {
-    padding: 10px;
+    padding: 16px;
     background-color: #161616;
     border-radius: 8px;
+    background-image: url(/public/static/images/home/card-background.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: 0 0;
 
     .card-view {
       width: 100%;
@@ -143,7 +141,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 10px 10px 0 10px;
+      //padding: 10px 10px 0 10px;
       box-sizing: border-box;
 
       &-body {
@@ -160,8 +158,9 @@ export default {
         position: absolute;
         top: 0;
         left: 0;
+        bottom: 3px;
         width: 100%;
-        height: 100%;
+        //height: 100%;
         background-color: rgba(0, 0, 0, .6);
         display: flex;
         align-items: center;
@@ -206,6 +205,7 @@ export default {
     }
 
     .card-info {
+      //padding: 0 16px;
       padding-bottom: 11px;
 
       &-title {

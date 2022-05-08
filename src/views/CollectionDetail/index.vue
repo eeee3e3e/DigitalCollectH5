@@ -3,33 +3,35 @@
     <div class="exhibition-hall">
       <div class="exhibition-hall-show">
         <div class="exhibition-hall-show-body">
-          <img v-if="collectStatus === '2' && goodsDetail.AttachmentList && goodsDetail.AttachmentList.length" :src="getImageSrc(goodsDetail.AttachmentList[0])" alt="">
-          <img v-if="collectStatus === '1' && collectionDetail.AttachmentList && collectionDetail.AttachmentList.length" :src="getImageSrc(collectionDetail.AttachmentList[0])" alt="">
+          <img v-if="collectStatus === '2' && goodsDetail.AttachmentList && goodsDetail.AttachmentList.length"
+               :src="getImageSrc(goodsDetail.AttachmentList[0])" alt="">
+          <img v-if="collectStatus === '1' && collectionDetail.AttachmentList && collectionDetail.AttachmentList.length"
+               :src="getImageSrc(collectionDetail.AttachmentList[0])" alt="">
         </div>
       </div>
       <div class="exhibition-hall-body">
         <div class="content">
           <div class="content-body">
             <p class="title">
-              <span  v-if="collectStatus === '2'">{{goodsDetail.Name}}</span>
-              <span  v-if="collectStatus === '1'">{{collectionDetail.CommodityName}}</span>
+              <span v-if="collectStatus === '2'">{{ goodsDetail.Name }}</span>
+              <span v-if="collectStatus === '1'">{{ collectionDetail.CommodityName }}</span>
             </p>
             <div class="tags">
               <div class="tags-item">
                 <div class="bg" v-if="collectStatus === '1'">
-                  <p>{{collectionDetail.CommodityCode.substring(collectionDetail.CommodityCode.length-12)}}</p>
-                  <p> #{{collectionDetail.CommodityNo}}/{{collectionDetail.LimitNum}}</p>
+                  <p>{{ collectionDetail.CommodityCode.substring(collectionDetail.CommodityCode.length - 12) }}</p>
+                  <p> #{{ collectionDetail.CommodityNo }}/{{ collectionDetail.LimitNum }}</p>
                 </div>
                 <div class="unit" v-if="collectStatus === '2'">
                   <span>限量</span>
                 </div>
                 <div class="value" v-if="collectStatus === '2'">
-                  <span>{{goodsDetail.LimitNum}}</span>
+                  <span>{{ goodsDetail.LimitNum }}</span>
                 </div>
               </div>
               <div class="tags-item" v-if="collectStatus === '2'">
                 <div class="value">
-                  <span>{{goodsDetail.SerialType}}</span>
+                  <span>{{ goodsDetail.SerialType }}</span>
                 </div>
               </div>
             </div>
@@ -48,9 +50,9 @@
             <img src="/static/images/collection-detail/brand-party-icon.png" alt="">
           </div>
           <div class="into">
-<!--            <p>藏品品牌方</p>-->
-            <p   v-if="collectStatus === '2'">{{goodsDetail.BrandName}}</p>
-            <p   v-if="collectStatus === '1'">{{collectionDetail.BrandName}}</p>
+            <!--            <p>藏品品牌方</p>-->
+            <p v-if="collectStatus === '2'">{{ goodsDetail.BrandName }}</p>
+            <p v-if="collectStatus === '1'">{{ collectionDetail.BrandName }}</p>
             <p class="desc">藏品品牌方</p>
           </div>
           <div class="right">
@@ -71,22 +73,30 @@
           <div class="story-card-title-detail">
             <div>收藏者</div>
             <div>
-              <img v-if="collectionDetail.OwnerUserInfo.UserHead !==null && collectionDetail.OwnerUserInfo.UserHead !==''" style="display:inline-block;vertical-align: top;margin-right:8px;width:18px;height:18px;border-radius: 9px;object-fit: cover;" :src="getImageSrc(collectionDetail.OwnerUserInfo.UserHead)" alt="">
-              <img v-else style="display:inline-block;vertical-align: top;margin-right:8px;width:18px;height:18px;border-radius: 9px;object-fit: cover;" src="/static/images/avatar.png" alt="">
-              <span>{{collectionDetail.OwnerUserInfo.NickName}}</span>
+              <img
+                  v-if="collectionDetail.OwnerUserInfo.UserHead !==null && collectionDetail.OwnerUserInfo.UserHead !==''"
+                  style="display:inline-block;vertical-align: top;margin-right:8px;width:18px;height:18px;border-radius: 9px;object-fit: cover;"
+                  :src="getImageSrc(collectionDetail.OwnerUserInfo.UserHead)" alt="">
+              <img v-else
+                   style="display:inline-block;vertical-align: top;margin-right:8px;width:18px;height:18px;border-radius: 9px;object-fit: cover;"
+                   src="/static/images/avatar.png" alt="">
+              <span>{{ collectionDetail.OwnerUserInfo.NickName }}</span>
             </div>
           </div>
 
           <div class="story-card-title-detail">
             <div>生成时间</div>
             <div>
-              <span>{{collectionDetail.CommodityExchangesDateTime}}</span>
+              <span>{{ collectionDetail.CommodityExchangesDateTime }}</span>
             </div>
           </div>
           <div class="story-card-title-detail">
             <div>链上标识</div>
             <div>
-              <span v-if="collectionDetail.DDCID !==null &&  collectionDetail.DDCID !==''">{{collectionDetail.DDCID}}</span>
+              <span
+                  v-if="collectionDetail.DDCID !==null &&  collectionDetail.DDCID !==''">{{
+                  collectionDetail.DDCID
+                }}</span>
               <span v-else>正在上链中...</span>
             </div>
           </div>
@@ -97,10 +107,11 @@
             </div>
           </div>
           <p class="story-card-title-detail-describe">
-            {{collectionDetail.HashCode}}
+            {{ collectionDetail.HashCode }}
           </p>
         </div>
-          <img v-if="collectionDetail.DDCID !==null && collectionDetail.DDCID !=='' " class="ddcid" src="/static/images/collection-detail/sl-logo.png" alt="">
+        <img v-if="collectionDetail.DDCID !==null && collectionDetail.DDCID !=='' " class="ddcid"
+             src="/static/images/collection-detail/sl-logo.png" alt="">
       </div>
       <div class="work-information">
         <div class="work-information-card">
@@ -110,15 +121,16 @@
           </div>
           <div class="work-information-card-title-des">
             <div>发行方</div>
-            <div>{{collectionDetail.ReleaseUserName}}</div>
+            <div>{{ collectionDetail.ReleaseUserName }}</div>
           </div>
           <div class="work-information-card-title-des">
             <div>创作者</div>
-            <div>{{collectionDetail.AuthorName}}</div>
-          </div><div class="work-information-card-title-des">
-          <div>发行时间</div>
-          <div>{{collectionDetail.CommodityStartDateTime}}</div>
-        </div>
+            <div>{{ collectionDetail.AuthorName }}</div>
+          </div>
+          <div class="work-information-card-title-des">
+            <div>发行时间</div>
+            <div>{{ collectionDetail.CommodityStartDateTime }}</div>
+          </div>
 
         </div>
       </div>
@@ -136,7 +148,7 @@
             <div class="background"></div>
           </div>
           <div class="storydes-card-title-detail">
-            <div  v-html="goodsDetail.Description"></div>
+            <div v-html="goodsDetail.Description"></div>
           </div>
         </div>
       </div>
@@ -148,15 +160,16 @@
           </div>
           <div class="work-information-card-title-des">
             <div>发行方</div>
-            <div>{{goodsDetail.ReleaseUserName}}</div>
+            <div>{{ goodsDetail.ReleaseUserName }}</div>
           </div>
           <div class="work-information-card-title-des">
             <div>创作者</div>
-            <div>{{goodsDetail.AuthorName}}</div>
-          </div><div class="work-information-card-title-des">
-          <div>发行时间</div>
-          <div>{{goodsDetail.CreateDateTime}}</div>
-        </div>
+            <div>{{ goodsDetail.AuthorName }}</div>
+          </div>
+          <div class="work-information-card-title-des">
+            <div>发行时间</div>
+            <div>{{ goodsDetail.StartDateTime }}</div>
+          </div>
 
         </div>
       </div>
@@ -164,25 +177,25 @@
       <!-- 收藏信息-->
       <div class="info">
         <div class="info-card">
-        <div class="info-card-title">
-          购买须知
-          <div class="background"></div>
-        </div>
-        <div class="info-card-title-detail">
-          <p>
-            {{goodsDetail.PurchaseNote}}
-          </p>
-        </div>
+          <div class="info-card-title">
+            购买须知
+            <div class="background"></div>
+          </div>
+          <div class="info-card-title-detail">
+            <p>
+              {{ goodsDetail.PurchaseNote }}
+            </p>
+          </div>
         </div>
       </div>
       <div class="footerdes">
-        <p class="price">￥{{goodsDetail.Price}}</p>
-        <button class="save_one" v-if="this.HomeStatus === '1'" @click="goBuy">前往购买</button>
-        <button class="save_two" v-if="this.HomeStatus === '0'">
+        <p class="price">￥{{ goodsDetail.Price }}</p>
+        <button class="save_one" v-if="HomeStatus === '1'" @click="goBuy">前往购买</button>
+        <button class="save_two" v-if="HomeStatus === '0'">
           <p>距抢购开始</p>
-          <p style="margin-top:3px;">{{this.count}}</p>
+          <p style="margin-top:3px;">{{ count }}</p>
         </button>
-        <button class="save_three" v-if="this.HomeStatus === '2'">藏品已售空</button>
+        <button class="save_three" v-if="HomeStatus === '2'">藏品已售空</button>
 
       </div>
     </div>
@@ -195,6 +208,7 @@ import { BaseReuseCard } from '@/components'
 import { goodsApi } from '@/api'
 import getImageUrl from "@/utils/get-image-url";
 import { getMyCommodityDetails } from "@/api/goods";
+import moment from 'moment'
 
 export default {
   components: {
@@ -202,13 +216,13 @@ export default {
   },
   data() {
     return {
-      seconds:'', //倒计时
-      count:'',
-      StartDateTime:'', // 預售時間
-      collectStatus:'', // 通过状态判断显示当前显示dom
+      seconds: '', //倒计时
+      count: '',
+      StartDateTime: '', // 預售時間
+      collectStatus: '', // 通过状态判断显示当前显示dom
       goodsDetail: {},
-      collectionDetail:{},
-      HomeStatus:''
+      collectionDetail: {},
+      HomeStatus: ''
     }
   },
   computed: {
@@ -218,7 +232,7 @@ export default {
   },
   created() {
     // 读取路由[collectStatus]参数 ’1‘ || ’2‘
-    const { collectStatus} = this.routeParams
+    const { collectStatus } = this.routeParams
     this.collectStatus = collectStatus
     if (this.collectStatus === '2') {
       this.getDetail()
@@ -229,8 +243,6 @@ export default {
   methods: {
     // 天 时 分 秒 格式化函数
     countDown() {
-      const curTime = new Date().getTime()
-      this.seconds = (new Date(this.StartDateTime.replace(/\-/g,'/')).getTime() - curTime) /1000
       let d = parseInt(this.seconds / (24 * 60 * 60))
       d = d < 10 ? "0" + d : d
       let h = parseInt(this.seconds / (60 * 60) % 24);
@@ -243,47 +255,56 @@ export default {
     },
     //定时器没过1秒参数减1
     Time() {
-      setInterval(() => {
-        this.seconds -= 1
+      const { goodsDetail } = this
+      const StartDateTime = goodsDetail.StartDateTime.replace(/\-/ig, '/')
+      const nowDate = moment().valueOf()
+      const StartDateTimeMoment = moment(StartDateTime).valueOf()
+      if (StartDateTimeMoment <= nowDate) {
+        this.HomeStatus = '1'
+        return
+      }
+      setTimeout(() => {
+        this.seconds = (StartDateTimeMoment - nowDate) / 1000
         this.countDown()
+        this.Time()
       }, 1000)
     },
     // 转赠藏品
-    examplesCollection () {
+    examplesCollection() {
       underDevelopmentTip()
     },
     getImageSrc(path) {
       return getImageUrl(path)
     },
     // 前往购买
-    goBuy () {
-      window.location.href =  this.goodsDetail.YouzanUrl ? this.goodsDetail.YouzanUrl : ''
+    goBuy() {
+      window.location.href = this.goodsDetail.YouzanUrl ? this.goodsDetail.YouzanUrl : ''
     },
     // 获取商品详情
     getDetail() {
-      const { id, homeStatus} = this.routeParams
+      const { id, homeStatus } = this.routeParams
       this.HomeStatus = homeStatus
       goodsApi
           .getGoodsDetailById(id)
           .then(result => {
             this.goodsDetail = result.Data
-            this.StartDateTime = this.goodsDetail.StartDateTime
+            // this.StartDateTime = this.goodsDetail.StartDateTime
             this.Time()
           })
     },
     // 获取我的藏品详情
     getCollDetail() {
       // 需要两个参数
-      const { userId,commodityDetailsID } = this.routeParams
+      const { userId, commodityDetailsID } = this.routeParams
       const params = {
         userId: userId,
-        commodityDetailsID:commodityDetailsID
+        commodityDetailsID: commodityDetailsID
       }
       goodsApi
           .getMyCommodityDetails(params)
           .then(result => {
             this.collectionDetail = result.Data
-            console.log('this.collectionDetail',this.collectionDetail)
+            console.log('this.collectionDetail', this.collectionDetail)
           })
     }
   }
@@ -295,7 +316,8 @@ export default {
 
 .app-collection-detail {
   background: #0b0e15;
-  padding-bottom:100px;
+  padding-bottom: 100px;
+
   .exhibition-hall {
     background-image: url(/public/static/images/collection-detail/background.png);
     background-size: 100% 670px;
@@ -363,6 +385,7 @@ export default {
               margin: 0 5px;
               border-radius: 4px;
               overflow: hidden;
+
               .bg {
                 padding-left: 25px;
                 padding-right: 10px;
@@ -376,7 +399,8 @@ export default {
                 background-size: 100%;
                 text-align: center;
                 background-repeat: no-repeat;
-                >p{
+
+                > p {
                   font-size: 11px;
                   font-family: PingFangSC, PingFangSC-Regular;
                   font-weight: 400;
@@ -385,6 +409,7 @@ export default {
                   line-height: 20px;
                 }
               }
+
               .unit {
                 background: #fed89b;
                 padding: 4px 8px;
@@ -539,6 +564,7 @@ export default {
         .right {
           width: 15px;
           margin-top: -3px;
+
           img {
             width: 100%;
             object-fit: cover;
@@ -569,22 +595,24 @@ export default {
         text-align: justify;
         color: #ffffff;
         line-height: 16px;
-        .background{
+
+        .background {
           width: 78px;
           height: 9px;
           position: absolute;
           bottom: -5px;
           left: -2px;
           opacity: 0.2;
-          background: linear-gradient(270deg,rgba(178,227,255,0.00), #7ac3ff);
+          background: linear-gradient(270deg, rgba(178, 227, 255, 0.00), #7ac3ff);
         }
+
         &-detail {
           margin-top: 22px;
           display: flex;
           justify-content: space-between;
           padding: 5px 0;
 
-          > div{
+          > div {
             font-size: 16px;
             font-family: PingFangSC, PingFangSC-Regular;
             font-weight: 400;
@@ -620,6 +648,7 @@ export default {
   .work-information {
     padding: 0 16px;
     margin-top: 12px;
+
     &-card {
       padding: 16px 20px;
       box-sizing: border-box;
@@ -627,6 +656,7 @@ export default {
       background: #191c23;
       border-radius: 8px;
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.13);
+
       &-title {
         font-size: 16px;
         position: relative;
@@ -635,20 +665,23 @@ export default {
         text-align: justify;
         color: #ffffff;
         line-height: 16px;
-        .background{
+
+        .background {
           width: 78px;
           height: 9px;
           position: absolute;
           bottom: -5px;
           left: -2px;
           opacity: 0.2;
-          background: linear-gradient(270deg,rgba(255,178,243,0.00), #ff7af9);
+          background: linear-gradient(270deg, rgba(255, 178, 243, 0.00), #ff7af9);
         }
-        &-des{
+
+        &-des {
           display: flex;
           justify-content: space-between;
           margin-top: 22px;
-          >div:nth-child(1){
+
+          > div:nth-child(1) {
             font-size: 14px;
             font-family: PingFangSC, PingFangSC-Regular;
             font-weight: 400;
@@ -656,7 +689,8 @@ export default {
             color: #aaaaaa;
             line-height: 30px;
           }
-          >div:nth-child(2){
+
+          > div:nth-child(2) {
             font-size: 14px;
             font-family: PingFangSC, PingFangSC-Regular;
             font-weight: 400;
@@ -670,30 +704,31 @@ export default {
   }
 
   .footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      padding: 20px 36px;
-      box-sizing: border-box;
-      background: #0b0e15;
-      width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 20px 36px;
+    box-sizing: border-box;
+    background: #0b0e15;
+    width: 100%;
 
-      .save {
-        width: 100%;
-        height: 50px;
-        background: linear-gradient(90deg, #3487ed, #5484ff);
-        border-radius: 25px;
-        box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.06);
-        font-size: 16px;
-        font-family: PingFangSC, PingFangSC-Medium;
-        font-weight: 500;
-        color: #ffffff;
-        text-align: center;
-        line-height: 50px;
-        border: none;
-        outline: none;
-      }
+    .save {
+      width: 100%;
+      height: 50px;
+      background: linear-gradient(90deg, #3487ed, #5484ff);
+      border-radius: 25px;
+      box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.06);
+      font-size: 16px;
+      font-family: PingFangSC, PingFangSC-Medium;
+      font-weight: 500;
+      color: #ffffff;
+      text-align: center;
+      line-height: 50px;
+      border: none;
+      outline: none;
+    }
   }
+
   .storydes {
     padding: 0 16px;
     margin-top: 12px;
@@ -714,15 +749,17 @@ export default {
         text-align: justify;
         color: #ffffff;
         line-height: 16px;
-        .background{
+
+        .background {
           width: 78px;
           height: 9px;
           position: absolute;
           bottom: -5px;
           left: -2px;
           opacity: 0.2;
-          background: linear-gradient(270deg,rgba(178,227,255,0.00), #7ac3ff);
+          background: linear-gradient(270deg, rgba(178, 227, 255, 0.00), #7ac3ff);
         }
+
         &-detail {
           display: flex;
           color: #aaaaaa;
@@ -730,17 +767,19 @@ export default {
           box-sizing: border-box;
           overflow: hidden;
           height: 100%;
-          align-items:center;
+          align-items: center;
           box-sizing: border-box;
-          justify-content:center;
-          ::v-deep img{
+          justify-content: center;
+
+          ::v-deep img {
             object-fit: cover;
-            width:auto;
-            height:auto;
-            max-width:100%;
-            max-height:100%;
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
           }
-          >div{
+
+          > div {
             display: inline-block;
             object-fit: cover;
             margin-top: 28px;
@@ -751,9 +790,11 @@ export default {
       }
     }
   }
+
   .info {
     padding: 0 16px;
     margin-top: 12px;
+
     &-card {
       padding: 16px 20px;
       box-sizing: border-box;
@@ -761,6 +802,7 @@ export default {
       background: #191c23;
       border-radius: 8px;
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.13);
+
       &-title {
         position: relative;
         font-size: 16px;
@@ -769,7 +811,8 @@ export default {
         text-align: justify;
         color: #ffffff;
         line-height: 16px;
-        margin-bottom:17px;
+        margin-bottom: 17px;
+
         .background {
           width: 78px;
           height: 9px;
@@ -779,13 +822,15 @@ export default {
           opacity: 0.2;
           background: linear-gradient(270deg, rgba(178, 227, 255, 0.00), #7ac3ff);
         }
+
         &-detail {
           box-sizing: border-box;
           overflow: hidden;
           height: 100%;
           align-items: center;
           justify-content: center;
-          >p {
+
+          > p {
             font-size: 14px;
             font-family: PingFangSC, PingFangSC-Regular;
             font-weight: 400;
@@ -794,9 +839,10 @@ export default {
             line-height: 24px;
           }
         }
-        }
+      }
     }
   }
+
   .footerdes {
     position: fixed;
     bottom: 0;
@@ -808,6 +854,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     .price {
       font-size: 26px;
       font-family: DINAlternate, DINAlternate-Bold;
@@ -816,65 +863,70 @@ export default {
       color: #ffffff;
       line-height: 26px;
     }
+
     .save_one {
       width: 170px;
       height: 42px;
       background: #fed89b;
       border-radius: 21px;
-      box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.06);
+      box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.06);
       font-size: 14px;
       font-family: PingFangSC, PingFangSC-Medium;
       font-weight: 500;
       text-align: center;
       color: #101012;
-      border:none;
+      border: none;
     }
+
     .save_three {
       width: 170px;
       height: 42px;
       background: #999999;
       border-radius: 21px;
-      box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.06);;
+      box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.06);;
       font-size: 14px;
       font-family: PingFangSC, PingFangSC-Medium;
       font-weight: 500;
       text-align: center;
       color: #101012;
-      border:none;
+      border: none;
     }
+
     .save_three {
       width: 170px;
       height: 42px;
       background: #999999;
       border-radius: 21px;
-      box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.06);;
+      box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.06);;
       font-size: 14px;
       font-family: PingFangSC, PingFangSC-Medium;
       font-weight: 500;
       text-align: center;
       color: #101012;
-      border:none;
+      border: none;
     }
+
     .save_two {
-      letter-spacing:2px;
+      letter-spacing: 2px;
       width: 170px;
       height: 42px;
       background: #999999;
       border-radius: 21px;
-      box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.06);;
+      box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.06);;
       font-size: 11px;
       font-family: PingFangSC, PingFangSC-Medium;
       font-weight: 500;
       text-align: center;
       color: #101012;
-      border:none;
+      border: none;
     }
   }
+
   .ddcid {
     width: 128px;
     height: 128px;
     opacity: 0.2;
-    position:absolute;
+    position: absolute;
     right: 22px;
     top: 60px;
     display: inline-block;

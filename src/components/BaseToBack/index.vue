@@ -1,6 +1,7 @@
 <template>
   <div class="app-to-back" @click="toBack">
-    <svg class="svg-icon" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1" width="9px"
+    <svg class="svg-icon" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1"
+         width="9px"
          height="16px">
       <g transform="matrix(1 0 0 1 -12 -9 )">
         <path
@@ -13,9 +14,19 @@
 
 <script>
 export default {
+  props: {
+    go: {
+      type: Number,
+      default: -1
+    },
+    goBackHandel: [Function]
+  },
   methods: {
     toBack() {
-      this.$router.go(-1)
+      if (this.goBackHandel) {
+        return this.goBackHandel()
+      }
+      this.$router.go(this.go)
     }
   }
 }
