@@ -1,7 +1,7 @@
 import axios from "axios";
 import { isEmpty } from "lodash";
 import tip from "@/utils/tip";
-import { getAuthorization } from "@/utils/cookies";
+import { clearAuthorization, clearUserId, getAuthorization } from "@/utils/cookies";
 import router from "@/router";
 
 const request = axios.create({
@@ -49,6 +49,8 @@ request.interceptors.response.use(
       showErrorMessage(ReturnMessage)
 
       if (ReturnCode === '401') {
+        clearUserId()
+        clearAuthorization()
         router.replace({ path: '/city-meta/verification-code-login' })
       }
 

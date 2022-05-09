@@ -32,7 +32,7 @@
 
       <div class="app-about-us-main-footer">
         <div class="app-about-us-main-footer-header">
-          <span class="version">最新版本 v1.0.1</span>
+          <span class="version">最新版本 v1.0.0</span>
           <span class="timer">2022-05-09</span>
         </div>
         <div class="app-about-us-main-footer-body">

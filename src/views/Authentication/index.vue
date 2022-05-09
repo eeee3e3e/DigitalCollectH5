@@ -19,7 +19,7 @@
           </Field>
         </div>
         <div class="form-item">
-          <Field v-model="formData.IDCard" placeholder="请输入您的身份证号码" type="tel">
+          <Field v-model="formData.IDCard" placeholder="请输入您的身份证号码">
             <template #label>
               <img class="code-input-icon" src="/static/images/authentication/idCard-icon.png" alt="">
             </template>
@@ -169,7 +169,11 @@ export default {
               display: flex;
               align-items: center;
               justify-content: center;
-              width: auto;
+              width: 15px;
+
+              img {
+                max-width: 100%;
+              }
             }
           }
         }

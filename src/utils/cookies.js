@@ -11,6 +11,10 @@ export function setAuthorization(value) {
   Cookies.set(AuthorizationKey, `authorization ${value}`)
 }
 
+export function clearAuthorization(value) {
+  Cookies.set(AuthorizationKey, `authorization ${value}`)
+}
+
 export function getUserId() {
   return Cookies.get(UserIdKey)
 }

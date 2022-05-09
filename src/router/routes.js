@@ -123,6 +123,14 @@ const routes = [
         component: () => import('@/views/AboutUs')
       },
       {
+        path: 'help-document',
+        meta: {
+          title: '关于我们',
+          showToBack: true,
+        },
+        component: () => import('@/views/HelpDocument')
+      },
+      {
         path: '*',
         redirect: '/city-meta/home'
       }

@@ -1,7 +1,7 @@
 <template>
   <div class="app-home-banner" v-if="bannerImages.length">
     <Swipe :autoplay="4000" @change="bannerChange">
-      <SwipeItem v-for="(bannerItem, index) of bannerImages" :key="index">
+      <SwipeItem v-for="(bannerItem, index) of bannerImages" :key="index" @click="onToHelpDocument(bannerItem)">
         <div class="app-home-banner-item">
           <base-image :src="bannerItem" alt=""/>
         </div>
@@ -21,6 +21,10 @@ import { Swipe, SwipeItem, Image } from 'vant'
 import { dictionaryApi } from '@/api'
 import getImageUrl from "@/utils/get-image-url";
 
+export function isExternal(path) {
+  return /^(https?:|mailto:|tel:)/.test(path)
+}
+
 export default {
   components: {
     Swipe,
@@ -37,6 +41,14 @@ export default {
     this.getDataSource()
   },
   methods: {
+    onToHelpDocument(bannerItem) {
+      // const { LinkUrl } = bannerItem
+      const LinkUrl = '/city-meta/help-document'
+      // if (isExternal(LinkUrl)) {
+      //   return window.location.href = LinkUrl
+      // }
+      this.$router.push({ path: LinkUrl })
+    },
     bannerChange(index) {
       this.currentBannerIndex = index
       // 跳转操作指南 （新建一个vue文件：一张操作指南图片）
