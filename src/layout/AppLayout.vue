@@ -26,10 +26,16 @@ export default {
   },
   computed: {
     showTabBar() {
-      return this.$route?.meta?.showTabBar || false
+      if (this.$route && this.$route.meta) {
+        return this.$route.meta.showTabBar
+      }
+      return false
     },
     showToBack() {
-      return this.$route?.meta?.showToBack || false
+      if (this.$route && this.$route.meta) {
+        return this.$route.meta.showToBack
+      }
+      return false
     }
   },
   created() {
