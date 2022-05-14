@@ -92,6 +92,30 @@ const routes = [
         component: () => import('@/views/CollectionDetail')
       },
       {
+        path: 'collection-examples',
+        meta: {
+          title: '转赠好友',
+          showToBack: true
+        },
+        component: () => import('@/views/CollectionExamples')
+      },
+      {
+        path: 'examples-successful',
+        meta: {
+          title: '转赠成功',
+          // showToBack: true
+        },
+        component: () => import('@/views/examplesSuccessful')
+      },
+      {
+        path: 'examples-record',
+        meta: {
+          title: '转赠记录',
+          showToBack: true
+        },
+        component: () => import('@/views/examplesRecord')
+      },
+      {
         path: 'verification-code-login',
         meta: {
           title: '登录',

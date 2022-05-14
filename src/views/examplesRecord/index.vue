@@ -1,0 +1,112 @@
+<template>
+  <div class="app-collection-examples-record">
+    <div class="examples-boby">
+        <div class="examples-boby-content">
+          <PullRefresh v-model="refreshing" @refresh="onRefresh">
+            <Empty v-if="!dataSource.length && !loading && finished && !varAwait" description="暂无数据 ~"
+                   image="/static/images/collection/not-data-slot.png"/>
+            <List
+                v-else
+                v-model="loading"
+                :offset="200"
+                :finished="finished"
+                finished-text="没有更多了"
+                @load="onLoadMore"
+            >
+              <!-- <home-card v-for="item of dataSource" :key="item.ID" :goods="item" @click="onToDetail(item)"/> -->
+              <home-card  />
+
+              <template #loading></template>
+              <template #error></template>
+              <template #finished>
+                <div class="finished">
+                  <img src="/static/images/home/cry-icon.png" alt="" class="icon">
+                  <span>已经到底啦 ~ ~</span>
+                </div>
+              </template>
+            </List>
+          </PullRefresh>
+        </div>
+    </div>
+  </div>
+</template>
+<script>
+import { PullRefresh, List, Empty } from 'vant'
+import HomeCard from './components/HomeCard'
+export default {
+  components: {
+    HomeCard,
+    PullRefresh,
+    Empty,
+    List
+  },
+  data () {
+    return {
+      loading: false,
+      refreshing: false,
+      varAwait: false,
+      finished: false,
+      dataSource:[],
+       pagination: {
+        PageIndex: 1,
+        PageSize: 10
+      }
+    }
+  },
+  methods:{
+    // 刷新
+    async onRefresh() {
+      this.pagination.PageSize = 10
+      this.pagination.PageIndex = 1
+      await this.getDataSource(true)
+      this.refreshing = false
+    },
+
+    // 加载更多
+    async onLoadMore() {
+      this.pagination.PageSize = 10
+      this.pagination.PageIndex++
+      await this.getDataSource()
+    },
+    // 获取数据
+    getDataSource(isClear = false) {
+      return new Promise((resolve) => {
+        if (this.varAwait) return resolve()
+        this.varAwait = true
+        const { pagination } = this
+        this.finished = true
+        // goodsApi
+        //     .getGoodsListByPage({
+        //       pageIndex: pagination.PageIndex,
+        //       pageSize: pagination.PageSize
+        //     })
+        //     .then(result => {
+        //       const data = result.Data || []
+        //       if (isClear) {
+        //         this.dataSource = data
+        //       } else {
+        //         this.dataSource.push(...data)
+        //       }
+
+        //       this.finished = result.TotalCount === 0 ? true : result.TotalCount < (result.PageIndex * result.PageSize)
+        //     })
+        //     .finally(() => {
+        //       this.finished = true
+        //       this.varAwait = false
+        //       this.loading = false
+        //       resolve()
+        //     })
+      })
+    },
+  }
+}
+</script>
+<style lang="less" scoped>
+  .app-collection-examples-record{
+     background: #0b0e15;
+     .examples-boby{
+       margin-top: 38px;
+       padding: 0px 16px 50px 16px;
+     }
+  }
+</style>

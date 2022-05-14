@@ -271,7 +271,8 @@ export default {
     },
     // 转赠藏品
     examplesCollection() {
-      underDevelopmentTip()
+      // underDevelopmentTip()
+      this.$router.push('collection-examples')
     },
     getImageSrc(path) {
       return getImageUrl(path)

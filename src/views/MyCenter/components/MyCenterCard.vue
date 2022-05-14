@@ -50,7 +50,7 @@
             <img class="user-card-grid-item-icon" src="/static/images/my-center/collection-synthetic.png" alt="">
           </template>
         </GridItem>
-        <GridItem text="转赠记录" @click="onShowUnderDevelopmentTip">
+        <GridItem text="转赠记录" @click="onShowUnderDevelopmentTip('examples')">
           <template #icon>
             <img class="user-card-grid-item-icon" src="/static/images/my-center/turn-records-icon.png" alt="">
           </template>
@@ -108,8 +108,12 @@ export default {
       this.$router.push('/city-meta/authentication')
     },
 
-    onShowUnderDevelopmentTip() {
-      underDevelopmentTip()
+    onShowUnderDevelopmentTip(v) {
+      if (v==='examples'){
+        this.$router.push('examples-record')
+      } else {
+        underDevelopmentTip()
+      }
     }
   }
 }
