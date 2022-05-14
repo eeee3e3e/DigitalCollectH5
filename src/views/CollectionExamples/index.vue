@@ -228,7 +228,7 @@ export default {
     &-explain{
       padding: 20px 24px;
       margin-top:40px;
-      height: 240px;
+      // height: 240px;
       background: #1e1e1e;
       border-radius: 8px;
       box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.13); 

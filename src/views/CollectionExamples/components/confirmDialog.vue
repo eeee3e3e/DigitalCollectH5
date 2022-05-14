@@ -433,11 +433,11 @@ export default {
             }
     }
         }
-    @media screen and (max-height:800px) and (min-height:700px) and (min-width:375px) {
+        @media screen and (max-height:736px) and (min-height:700px)  and (max-width:400px) {
           .footer{
             position: absolute;
             animation: myfirst 0.2s;
-            top:-100px;
+            top:-70px;
             left:46%;
             z-index: 9999;
             flex-direction: column;
@@ -451,11 +451,29 @@ export default {
             }
     }
         }
-        @media screen and (max-height:800px) and (min-height:700px) and (max-width:370px) {
+          @media screen and (max-height:736px) and (min-height:700px)  and (min-width:400px) {
           .footer{
             position: absolute;
             animation: myfirst 0.2s;
-            top:-40px;
+            top:-90px;
+            left:46%;
+            z-index: 9999;
+            flex-direction: column;
+            align-items: center;
+            #bj {
+                display: block;
+                width: 31px;
+                height: 31px;
+                opacity: 0.8;
+              
+            }
+    }
+        }
+    @media screen and (max-height:800px) and (min-height:737px) {
+          .footer{
+            position: absolute;
+            animation: myfirst 0.2s;
+            top:-60px;
             left:46%;
             z-index: 9999;
             flex-direction: column;
@@ -473,7 +491,7 @@ export default {
           .footer{
             position: absolute;
             animation: myfirst 0.2s;
-            top:-15px;
+            top:-25px;
             left:46%;
             z-index: 9999;
             flex-direction: column;
