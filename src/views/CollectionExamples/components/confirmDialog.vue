@@ -40,7 +40,7 @@
                 </div>
               </div>
           </div>
-          <div class="dialog-card-agreement-content" :class="active ? 'submit-active' : ''">
+          <div id="vat" class="dialog-card-agreement-content" :class="active ? 'submit-active' : ''">
               <vant-checkbox v-model="isCheck"/>
               <p>
                 本人承诺本次转赠仅用于好友之间交流分享
@@ -89,8 +89,14 @@ export default {
     // 确认转赠
     confirmgroom () {
       if (this.isCheck === false) {
-        this.active = !this.active
+        let odiv=document.getElementById("vat")
+        this.active = true
+       setTimeout(()=>{
+           odiv.classList.remove("submit-active")
+        this.active = false
+        },500)
       } else {
+         this.active = false
         this.$router.push('examples-successful')
       }
     }

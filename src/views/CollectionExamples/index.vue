@@ -1,5 +1,5 @@
 <template>
-  <div class="app-collection-examples">
+  <div id="parent" class="app-collection-examples">
     <div class="examples-boby">
       <div class="examples-boby-title">
         将下列数字藏品转赠给您的好友
@@ -82,9 +82,14 @@ export default {
   },
   methods:{
     onSave () {
-      document.querySelector('.app-collection-examples').scrollTop=document.documentElement.scrollTop = document.body.scrollTop = 0
-      document.body.scrollTop = 0;
-      this.diaolgShow = true
+      this.$nextTick(() => {
+    // 获取父盒子（肯定有滚动条）
+      var parent = document.getElementById('parent')
+      parent.scrollTop = 0 // 这个时候设置scrollTop的值绝对生效
+    })
+        setTimeout(()=>{
+          this.diaolgShow = true
+        },100)
     },
     closeQR (v) {
       this.diaolgShow = v
@@ -93,6 +98,10 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+#parent{
+  height: 99vh;
+  overflow:auto;
+}
   .app-collection-examples{
     background: #0b0e15;
     &-footer {
@@ -122,7 +131,7 @@ export default {
   }
   .examples-boby{
     margin-top:88px;
-     padding: 0px 16px 50px 16px;
+     padding: 0px 16px 90px 16px;
      overflow: scroll;
 
     &-title{
