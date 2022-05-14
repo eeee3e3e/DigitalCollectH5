@@ -58,11 +58,12 @@
           <p>5、与数字藏品相关的权利将会同步且毫无保留地转移至受赠人；</p>
         </div>
       </div>
+        <confirm-dialog :isShow="diaolgShow" @closeQR="closeQR"></confirm-dialog>
     </div>
      <div class="app-collection-examples-footer">
       <button class="save" @click="onSave">确认转赠</button>
     </div>
-    <confirm-dialog :isShow="diaolgShow" @closeQR="closeQR"></confirm-dialog>
+  
   </div>
 </template>
 <script>
@@ -81,6 +82,8 @@ export default {
   },
   methods:{
     onSave () {
+      document.querySelector('.app-collection-examples').scrollTop=document.documentElement.scrollTop = document.body.scrollTop = 0
+      document.body.scrollTop = 0;
       this.diaolgShow = true
     },
     closeQR (v) {
@@ -119,7 +122,8 @@ export default {
   }
   .examples-boby{
     margin-top:88px;
-     padding: 0px 16px 100px 16px;
+     padding: 0px 16px 50px 16px;
+     overflow: scroll;
 
     &-title{
       height: 14px;
@@ -318,38 +322,49 @@ export default {
 
             &-item {
               display: flex;
+              align-items: center;
               margin: 0 5px;
               border-radius: 4px;
               overflow: hidden;
 
               .unit {
-                background: #fed89b;
-                padding: 4px 8px;
-                font-size: 11px;
-                font-family: PingFangSC, PingFangSC-Regular;
-                font-size: 11px;
+                
+                
+               
+                >span{
+                  display: block;
+                  width:30px;
+                  padding: 4px 6px;
+                   font-family: PingFangSC, PingFangSC-Regular;
+                font-size: 9px;
                 font-weight: 400;
                 color: #333333;
+                background: #fed89b;
+                text-align: center;
+                }
               }
 
               .value {
                 flex: 1;
-                padding: 4px 8px;
+                padding: 4px 6px;
                 background: #282d38;
-                font-size: 11px;
+                font-size: 9px;
                 font-family: PingFangSC, PingFangSC-Regular;
-                text-align: justify;
+                text-align: center;
                 color: #ffffff;
               }
               .valueName {
-                flex: 1;
                 opacity: 0.4;
-                padding: 4px 8px;
+                padding: 4px 6px;
                 font-size: 12px;
                 font-weight: 400;
                 font-family: PingFangSC, PingFangSC-Regular;
                 text-align: justify;
                 color: #ffffff;
+                >span{
+                  display: block;
+                   width:85px;
+                }
               }
             }
           }

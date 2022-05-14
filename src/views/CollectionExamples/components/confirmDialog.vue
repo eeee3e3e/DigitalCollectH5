@@ -17,12 +17,15 @@
             </div>
             <div class="dialog-card-info-rightShop">
                 <div class="title">城市数藏 & Xmeta 联合勋章</div>
-                <div class="code">JISHADGIN #0001/1000</div>
+                <div class="code">
+                  <img src="/static/images/collection-examples/qkl.png" alt="">
+                  <span>JISHADGIN #0001/1000</span>
+                  </div>
             </div>
           </div>
           <div class="dialog-card-recipient">
               <div class="dialog-card-recipient-title">
-                 <img src="/static/images/authentication-result/idCard-icon.png" alt="">
+                 <img src="/static/images/collection-examples/zh.png" alt="">
                 <span>受赠方信息</span>
               </div>
               <div class="dialog-card-recipient-count">
@@ -192,7 +195,6 @@ export default {
             display: inline-block;
             width: 12px;
             height: 12px;
-            background: #999999;
              vertical-align:middle;
           }
          }
@@ -329,23 +331,34 @@ export default {
           line-height: 16px;
           }
           .code{
-            margin-top:14px;
-            width: 151px;
-            height: 16px;
-            background: #fed89b;
-            font-size: 12px;
+            >img{
+              display: inline-block;
+              vertical-align:middle;
+              width: 11px;
+              height: 12px;
+            }
+            >span{
+              vertical-align:middle;
+               padding-left:8px;
+                font-size: 12px;
             font-family: PingFangSC, PingFangSC-Regular;
             font-weight: 400;
-            padding-left:16px;
+            color: #666666;
+            }
+            margin-top:12px;
+            // height: 20px;
+            // background: #fed89b;
+           
+           
             text-align: justify;
             color: #666666;
-            line-height: 16px;
+            // line-height: 20px;
             border-radius: 10px;
-                background-image: url(/public/static/images/collection/card-info-text-background.png);
-                background-position: 0 0;
-                background-size: 100%;
-                text-align: center;
-                background-repeat: no-repeat;
+                // background-image: url(/public/static/images/collection/card-info-text-background.png);
+                // background-position: 0 0;
+                // background-size: 100%;
+                // text-align: center;
+                // background-repeat: no-repeat;
           }
         }
         }
@@ -381,8 +394,8 @@ export default {
         @media screen and (max-height: 700px){
           .footer{
             position: absolute;
-            animation: myfirst 0.3s;
-            top:-180px;
+            animation: myfirst 0.2s;
+            top:-100px;
             left:46%;
             z-index: 9999;
             flex-direction: column;
@@ -396,12 +409,65 @@ export default {
             }
     }
         }
-       
-    @media screen and (max-height:1300px) and (min-height:700px){
+        @media screen and (max-height:700px) and (max-width:280px){
           .footer{
             position: absolute;
-            animation: myfirst 0.3s;
-            top:-110px;
+            animation: myfirst 0.2s;
+            top:-50px;
+            left:46%;
+            z-index: 9999;
+            flex-direction: column;
+            align-items: center;
+            #bj {
+                display: block;
+                width: 31px;
+                height: 31px;
+                opacity: 0.8;
+              
+            }
+    }
+        }
+    @media screen and (max-height:800px) and (min-height:700px) and (min-width:375px) {
+          .footer{
+            position: absolute;
+            animation: myfirst 0.2s;
+            top:-100px;
+            left:46%;
+            z-index: 9999;
+            flex-direction: column;
+            align-items: center;
+            #bj {
+                display: block;
+                width: 31px;
+                height: 31px;
+                opacity: 0.8;
+              
+            }
+    }
+        }
+        @media screen and (max-height:800px) and (min-height:700px) and (max-width:370px) {
+          .footer{
+            position: absolute;
+            animation: myfirst 0.2s;
+            top:-40px;
+            left:46%;
+            z-index: 9999;
+            flex-direction: column;
+            align-items: center;
+            #bj {
+                display: block;
+                width: 31px;
+                height: 31px;
+                opacity: 0.8;
+              
+            }
+    }
+        }
+         @media screen and (max-height:1300px) and (min-height:800px){
+          .footer{
+            position: absolute;
+            animation: myfirst 0.2s;
+            top:-15px;
             left:46%;
             z-index: 9999;
             flex-direction: column;
@@ -419,11 +485,11 @@ export default {
           {
           0%   {
                   transform: scale(0);
-                  transform-origin: center -200px;
+                  transform-origin: center -100px;
               }
           10% {
                   transform: scale(0.6);
-                  transform: translateY(-200px);
+                  transform: translateY(-100px);
               }
           100% {
                   transform: scale(1);

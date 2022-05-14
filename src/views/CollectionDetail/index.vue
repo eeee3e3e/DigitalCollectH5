@@ -19,7 +19,7 @@
             <div class="tags">
               <div class="tags-item">
                 <div class="bg" v-if="collectStatus === '1'">
-                  <p>{{ collectionDetail.CommodityCode.substring(collectionDetail.CommodityCode.length - 12) }}</p>
+                  <p>{{ collectionDetail && collectionDetail.CommodityCode ? collectionDetail.CommodityCode.substring(collectionDetail.CommodityCode.length - 12):'' }}</p>
                   <p> #{{ collectionDetail.CommodityNo }}/{{ collectionDetail.LimitNum }}</p>
                 </div>
                 <div class="unit" v-if="collectStatus === '2'">

@@ -183,14 +183,15 @@ export default {
             justify-content: space-between;
             margin-top:14px;
             >p:nth-child(1){
-             width: 127px;
-              height: 12px;
+             width: 156px;
+              height: 16px;
               font-size: 10px;
               font-family: PingFangSC, PingFangSC-Regular;
               font-weight: 400;
               text-align: justify;
               color: #0b0e15;
-              line-height: 12px;
+              line-height: 16px;
+              padding-left:6px;
             border-radius: 10px;
                 background-image: url(/public/static/images/collection/card-info-text-background.png);
                 background-position: 0 0;
