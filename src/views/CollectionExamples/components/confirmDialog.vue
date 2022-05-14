@@ -47,7 +47,7 @@
               </p>
             </div>
             <div style="text-align:center;width:100%;">
-            <button class="form-submit"  @click="confirmgroom">
+            <button :class="!isCheck ? 'submit-disabled':'form-submit'"  @click="confirmgroom">
               <span>确认转赠</span>
             </button>
           </div>
@@ -387,14 +387,18 @@ export default {
         @keyframes mymove
             {
                 0% {left:0px;}
-                50%{left:60px;}
+                30%{left:80px;}
+                60%{left: 0px;}
+                80% {left:70px;}
                 100% {left:0px;}
             }
         @-webkit-keyframes mymove /*Safari and Chrome*/
         {
             0% {left:0px;}
-            50%{left:60px;}
-            100% {left:0px;}
+                30%{left:80px;}
+                60%{left: 0px;}
+                80% {left:70px;}
+                100% {left:0px;}
 
         }
         @media screen and (max-height: 700px){
@@ -513,10 +517,20 @@ export default {
               }
           10% {
                   transform: scale(0.6);
-                  transform: translateY(-100px);
+                  transform: translateY(-200px);
               }
           100% {
                   transform: scale(1);
               }
           }
+          .submit-disabled {
+          background: linear-gradient(270deg, #19191a, #23242b) !important;
+          color: #666666 !important;
+          margin-top:25px;
+          height: 50px;
+          width: 295px;
+          border: none;
+          border-radius: 25px;
+          box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.06);
+        }
 </style>
