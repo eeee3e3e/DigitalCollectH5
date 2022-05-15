@@ -74,13 +74,13 @@
             <div>收藏者</div>
             <div>
               <img
-                  v-if="collectionDetail.OwnerUserInfo.UserHead !==null && collectionDetail.OwnerUserInfo.UserHead !==''"
+                  v-if="collectionDetail.OwnerUserInfo && collectionDetail.OwnerUserInfo.UserHead !==null && collectionDetail.OwnerUserInfo.UserHead !==''"
                   style="display:inline-block;vertical-align: top;margin-right:8px;width:18px;height:18px;border-radius: 9px;object-fit: cover;"
                   :src="getImageSrc(collectionDetail.OwnerUserInfo.UserHead)" alt="">
               <img v-else
                    style="display:inline-block;vertical-align: top;margin-right:8px;width:18px;height:18px;border-radius: 9px;object-fit: cover;"
                    src="/static/images/avatar.png" alt="">
-              <span>{{ collectionDetail.OwnerUserInfo.NickName }}</span>
+              <span v-if="collectionDetail.OwnerUserInfo">{{ collectionDetail.OwnerUserInfo.NickName }}</span>
             </div>
           </div>
 
@@ -272,7 +272,19 @@ export default {
     // 转赠藏品
     examplesCollection() {
       // underDevelopmentTip()
-      this.$router.push('collection-examples')
+      // this.$router.push('collection-examples')
+      this.$router.push({
+        path:'collection-examples',
+        query:{
+          AttachmentList:JSON.stringify(this.collectionDetail.AttachmentList),
+          CommodityName:this.collectionDetail.CommodityName,
+          CommodityCode:this.collectionDetail.CommodityCode,
+          CommodityNo:this.collectionDetail.CommodityNo,
+          LimitNum:this.collectionDetail.LimitNum,
+          CommodityDetailsID:this.collectionDetail.CommodityDetailsID
+        }
+      }
+        )
     },
     getImageSrc(path) {
       return getImageUrl(path)

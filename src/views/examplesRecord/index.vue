@@ -13,8 +13,8 @@
                 finished-text="没有更多了"
                 @load="onLoadMore"
             >
-              <!-- <home-card v-for="item of dataSource" :key="item.ID" :goods="item" @click="onToDetail(item)"/> -->
-              <home-card  />
+              <home-card v-for="item of dataSource" :key="item.ID" :goods="item"/>
+              <!-- <home-card  /> -->
 
               <template #loading></template>
               <template #error></template>
@@ -33,6 +33,8 @@
 <script>
 import { PullRefresh, List, Empty } from 'vant'
 import HomeCard from './components/HomeCard'
+import {exaplesApi} from "@/api"
+import { mapGetters } from 'vuex'
 export default {
   components: {
     HomeCard,
@@ -52,6 +54,12 @@ export default {
         PageSize: 10
       }
     }
+  },
+  computed: {
+    ...mapGetters(['userInfo']),
+  },
+  created () {
+    this.getDataSource()
   },
   methods:{
     // 刷新
@@ -73,29 +81,29 @@ export default {
       return new Promise((resolve) => {
         if (this.varAwait) return resolve()
         this.varAwait = true
-        const { pagination } = this
-        this.finished = true
-        // goodsApi
-        //     .getGoodsListByPage({
-        //       pageIndex: pagination.PageIndex,
-        //       pageSize: pagination.PageSize
-        //     })
-        //     .then(result => {
-        //       const data = result.Data || []
-        //       if (isClear) {
-        //         this.dataSource = data
-        //       } else {
-        //         this.dataSource.push(...data)
-        //       }
-
-        //       this.finished = result.TotalCount === 0 ? true : result.TotalCount < (result.PageIndex * result.PageSize)
-        //     })
-        //     .finally(() => {
-        //       this.finished = true
-        //       this.varAwait = false
-        //       this.loading = false
-        //       resolve()
-        //     })
+        const { pagination, userInfo} = this
+        const params = {
+          pageIndex: pagination.PageIndex,
+                 pageSize: pagination.PageSize,
+                  userId:  userInfo.ID
+        }
+           exaplesApi
+               .getMyTurnCommodityLog(params)
+               .then(result => {
+                 const data = result.Data || []
+                 if (isClear) {
+                   this.dataSource = data
+                 } else {
+                   this.dataSource.push(...data)
+                  }
+                 this.finished = result.TotalCount === 0 ? true : result.TotalCount < (result.PageIndex * result.PageSize)
+               })
+               .finally(() => {
+                 this.finished = true
+                 this.varAwait = false
+                 this.loading = false
+                 resolve()
+               })
       })
     },
   }

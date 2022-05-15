@@ -13,13 +13,15 @@
             </div>
           <div class="dialog-card-info">
                <div class="dialog-card-info-leftShop">
-              <img src="/static/images/collection-examples/shop.png" alt="">
+              <img :src="getImageSrc(this.AttachmentListFile)" alt="">
             </div>
             <div class="dialog-card-info-rightShop">
-                <div class="title">城市数藏 & Xmeta 联合勋章</div>
+                <div class="title">{{this.shop.CommodityName}}</div>
                 <div class="code">
                   <img src="/static/images/collection-examples/qkl.png" alt="">
-                  <span>JISHADGIN #0001/1000</span>
+                  <!-- <span>JISHADGIN #0001/1000</span> -->
+                   <span>{{this.shop.CommodityCode ? this.shop.CommodityCode.substring(this.shop.CommodityCode.length - 12):'' }}</span>
+                  <span> #{{ this.shop.CommodityNo }}/{{ this.shop.LimitNum }}</span>
                   </div>
             </div>
           </div>
@@ -30,13 +32,14 @@
               </div>
               <div class="dialog-card-recipient-count">
                 <div class="dialog-card-recipient-count-left">
-                  <img src="/static/images/collection-examples/shop.png" alt="">
+                  <!-- <img src="/static/images/collection-examples/shop.png" alt=""> -->
+                  <img :src="getImageSrc(exaplesInfo.UserHead) || '/static/images/avatar.png'" alt="">
                 </div>
                 <div class="dialog-card-recipient-count-right">
                   <p>受赠方姓名</p>
-                  <p>孙**</p>
+                  <p>{{exaplesInfo.RealName}}</p>
                   <p>受赠方手机号</p>
-                  <p>18888888888</p>
+                  <p>{{exaplesInfo.MobileNo}}</p>
                 </div>
               </div>
           </div>
@@ -55,7 +58,7 @@
             <img src="/static/images/collection-examples/waring.png" alt="">
             <span>数字藏品仅用于个人鉴赏、分享，严禁以任何形式炒作藏品！</span>
           </div>
-        </div>
+          </div>
     </van-dialog>
     <div class="footer">
       <img id="bj" @click="close" style="" src="/static/images/collection-examples/close.png" alt="">
@@ -63,7 +66,10 @@
   </div>
 </template>
 <script>
+import getImageUrl from "@/utils/get-image-url";
 import { Dialog ,Checkbox } from 'vant'
+import {exaplesApi} from "@/api"
+import { mapGetters } from 'vuex'
 export default {
   components: {
     [Dialog.Component.name]: Dialog.Component,
@@ -73,15 +79,30 @@ export default {
     isShow:{
       type:Boolean,
       default:false
+    },
+    exaplesInfo:{
+      type:Object,
+      default:{}
+    },
+    shop:{
+      type:Object,
+      default:{}
     }
   },
   data () {
     return {
       isCheck: false,
-      active:false
+      active:false,
+      AttachmentListFile:''
     }
   },
+  created () {
+    this.AttachmentListFile = JSON.parse(this.shop.AttachmentList)[0]
+  },
   methods:{
+    getImageSrc(path) {
+      return getImageUrl(path)
+    },
     // 关闭弹窗
      close(){
            this.$emit('closeQR',false)
@@ -96,15 +117,35 @@ export default {
         this.active = false
         },500)
       } else {
+        const { userInfo } = this
+        console.log('发送用户',userInfo)
+        const params = {
+          
+          SendUserID:userInfo.ID,
+          ReceiveUserID:this.exaplesInfo.ID,
+          CommodityDetailsID:this.shop.CommodityDetailsID,
+          ReceiveMobileNo:this.exaplesInfo.MobileNo
+        }
+        exaplesApi
+        .getTurnCommodityToUser(params).then(res=>{
+          console.log(res)
+           this.$router.push({
+             path:'examples-successful',
+             query:{
+               name:this.exaplesInfo.RealName,
+               iphone:this.exaplesInfo.MobileNo
+             }
+           })
+        })
          this.active = false
-        this.$router.push('examples-successful')
       }
     }
   },
   computed: {
     isSend() {
       return this.isCheck 
-    }
+    },
+    ...mapGetters(['userInfo']),
   },
   watch:{
     isShow (news,old) {

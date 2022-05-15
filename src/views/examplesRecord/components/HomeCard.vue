@@ -6,113 +6,40 @@
               <img src="/static/images/collection-examples/shop.png" alt="">
             </div>
             <div class="home-card-info-rightShop">
-                <div class="title">城市数藏 & Xmeta 联合勋章</div>
+                <div class="title">{{goods.CommodityName}}</div>
                 <div class="code">
                   <p>JISHADGIN #0001/1000</p>
-                  <p>转入成功</p>
+                  <p>
+                    <span style="color: #7bf1a9;" v-if="goods.TurnDirection==='in' && goods.TurnStatus==='true' ">转入成功</span>
+                     <span style="color: #7bf1a9;" v-else-if="goods.TurnDirection==='in' && goods.TurnStatus==='false' ">转入失败</span>
+                     <span style="color: #9cb8ff;" v-else-if="goods.TurnDirection==='out' && goods.TurnStatus==='true' ">转出成功</span>
+                     <span style="color: #9cb8ff;" v-else-if="goods.TurnDirection==='out' && goods.TurnStatus==='false' ">转出失败</span>
+                  </p>
                   </div>
             </div>
         </div>
             <div class="home-card-info-line"></div>
             <div class="home-card-info-userInfo">
                 <div>
-                  <p>转出方</p>
-                  <p>孙**</p>
+                  <p>
+                    <span v-if="goods.TurnDirection==='in'">转出方</span>
+                     <span v-if="goods.TurnDirection==='out'">转入方</span>
+                  </p>
+                  <p>{{goods.OppositeUserName}}</p>
                 </div>
                 <div>
-                  <p>转出方手机号</p>
-                  <p>188***88888*</p>
+                  <p>
+                    <span v-if="goods.TurnDirection==='in'">转出方手机号</span>
+                     <span v-if="goods.TurnDirection==='out'">转入方手机号</span>
+                  </p>
+                  <p>{{goods.OppositeUserMobileNo}}</p>
                 </div>
                 <div>
-                  <p>转入时间</p>
-                  <p>2022-05-22 10:00:00</p>
-                </div>
-            </div>
-          </div>
-          <div class="home-card-info">
-        <div>
-            <div class="home-card-info-leftShop">
-              <img src="/static/images/collection-examples/shop.png" alt="">
-            </div>
-            <div class="home-card-info-rightShop">
-                <div class="title">城市数藏 & Xmeta 联合勋章</div>
-                <div class="code">
-                  <p>JISHADGIN #0001/1000</p>
-                  <p>转入成功</p>
-                  </div>
-            </div>
-        </div>
-            <div class="home-card-info-line"></div>
-            <div class="home-card-info-userInfo">
-                <div>
-                  <p>转出方</p>
-                  <p>孙**</p>
-                </div>
-                <div>
-                  <p>转出方手机号</p>
-                  <p>188***88888*</p>
-                </div>
-                <div>
-                  <p>转入时间</p>
-                  <p>2022-05-22 10:00:00</p>
-                </div>
-            </div>
-          </div>
-           <div class="home-card-info">
-        <div>
-            <div class="home-card-info-leftShop">
-              <img src="/static/images/collection-examples/shop.png" alt="">
-            </div>
-            <div class="home-card-info-rightShop">
-                <div class="title">城市数藏 & Xmeta 联合勋章</div>
-                <div class="code">
-                  <p>JISHADGIN #0001/1000</p>
-                  <p>转入成功</p>
-                  </div>
-            </div>
-        </div>
-            <div class="home-card-info-line"></div>
-            <div class="home-card-info-userInfo">
-                <div>
-                  <p>转出方</p>
-                  <p>孙**</p>
-                </div>
-                <div>
-                  <p>转出方手机号</p>
-                  <p>188***88888*</p>
-                </div>
-                <div>
-                  <p>转入时间</p>
-                  <p>2022-05-22 10:00:00</p>
-                </div>
-            </div>
-          </div>
-           <div class="home-card-info">
-        <div>
-            <div class="home-card-info-leftShop">
-              <img src="/static/images/collection-examples/shop.png" alt="">
-            </div>
-            <div class="home-card-info-rightShop">
-                <div class="title">城市数藏 & Xmeta 联合勋章</div>
-                <div class="code">
-                  <p>JISHADGIN #0001/1000</p>
-                  <p>转入成功</p>
-                  </div>
-            </div>
-        </div>
-            <div class="home-card-info-line"></div>
-            <div class="home-card-info-userInfo">
-                <div>
-                  <p>转出方</p>
-                  <p>孙**</p>
-                </div>
-                <div>
-                  <p>转出方手机号</p>
-                  <p>188***88888*</p>
-                </div>
-                <div>
-                  <p>转入时间</p>
-                  <p>2022-05-22 10:00:00</p>
+                  <p>
+                    <span v-if="goods.TurnDirection==='in'">转入时间</span>
+                     <span v-if="goods.TurnDirection==='out'">转出时间</span>
+                  </p>
+                  <p>{{goods.TurnDateTime}}</p>
                 </div>
             </div>
           </div>
@@ -200,14 +127,23 @@ export default {
                 background-repeat: no-repeat;
             }
             >p:nth-child(2){
-              width: 48px;
-              height: 12px;
-              font-size: 12px;
-              font-family: PingFangSC, PingFangSC-Regular;
-              font-weight: 400;
-              text-align: justify;
-              color: #7bf1a9;
-              line-height: 12px;
+                //  width: 48px;
+                // height: 12px;
+                font-size: 12px;
+                font-family: PingFangSC, PingFangSC-Regular;
+                font-weight: 400;
+                // text-align: justify;
+                color: #7bf1a9;
+              // .zc{
+              // //    width: 48px;
+              // // height: 12px;
+              // font-size: 12px;
+              // font-family: PingFangSC, PingFangSC-Regular;
+              // font-weight: 400;
+              // // text-align: justify;
+              // color: #9cb8ff;
+              // // line-height: 12px;
+              // }
             }
           }
         }

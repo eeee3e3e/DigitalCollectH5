@@ -21,7 +21,7 @@
           <CellGroup :border="false">
             <Cell>
               <template>
-                <span>常琪</span>
+                <span>{{name}}</span>
               </template>
               <template #title>
                 <span>受赠方姓名</span>
@@ -29,7 +29,7 @@
             </Cell>
             <Cell>
               <template>
-                <span>18888888888</span>
+                <span>{{iphone}}</span>
               </template>
               <template #title>
                 <span>受赠方手机号</span>
@@ -47,7 +47,6 @@
 
 <script>
 import { CellGroup, Cell } from 'vant'
-import { mapGetters } from "vuex";
 import { BaseToBack } from '@/components'
 
 export default {
@@ -56,8 +55,21 @@ export default {
     BaseToBack,
     Cell
   },
+  data () {
+    return {
+      name:'',
+      iphone:''
+    }
+  },
   computed: {
-    ...mapGetters(['auth', 'userInfo']),
+    routeParams() {
+      return this.$route.query
+    }
+  },
+  created () {
+    const { name,iphone } = this.routeParams
+    this.name = name
+    this.iphone = iphone
   },
   methods: {
     goBackHome() {

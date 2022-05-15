@@ -7,18 +7,22 @@
       <div class="examples-boby-card">
           <div class="examples-boby-card-details">
             <div class="examples-boby-card-details-leftShop">
-              <img src="/static/images/collection-examples/shop.png" alt="">
+              <img  v-if="this.AttachmentList && this.AttachmentList.length"
+               :src="getImageSrc(this.AttachmentList[0])" alt="">
             </div>
             <div class="examples-boby-card-details-rightShop">
-                <div class="title">城市数藏 & Xmeta 联合勋章</div>
-                <div class="code">JISHADGIN #0001/1000</div>
+                <div class="title">{{this.CommodityName}}</div>
+                <div class="code">
+                   <p>{{this.CommodityCode ? this.CommodityCode.substring(this.CommodityCode.length - 12):'' }}</p>
+                  <p> #{{ this.CommodityNo }}/{{ this.LimitNum }}</p>
+                  </div>
                 <div class="tags">
                 <div class="tags-item">
                 <div class="unit">
                   <span>限量</span>
                 </div>
                 <div class="value">
-                  <span>3000</span>
+                  <span>{{this.LimitNum}}</span>
                 </div>
               </div>
               <div class="tags-item">
@@ -38,7 +42,7 @@
           <CellGroup :border="false">
              <Cell is-link>
               <template>
-                <input class="input-user-nick-iphone" />
+                <input class="input-user-nick-iphone" v-model="MobileNo" />
               </template>
               <template #title>
                 <span>手机号</span>
@@ -58,7 +62,7 @@
           <p>5、与数字藏品相关的权利将会同步且毫无保留地转移至受赠人；</p>
         </div>
       </div>
-        <confirm-dialog :isShow="diaolgShow" @closeQR="closeQR"></confirm-dialog>
+        <confirm-dialog :isShow="diaolgShow" @closeQR="closeQR" :exaplesInfo="exaplesInfo" :shop="shop"></confirm-dialog>
     </div>
      <div class="app-collection-examples-footer">
       <button class="save" @click="onSave">确认转赠</button>
@@ -67,8 +71,13 @@
   </div>
 </template>
 <script>
+import getImageUrl from "@/utils/get-image-url";
 import { CellGroup, Cell } from 'vant'
 import confirmDialog from './components/confirmDialog.vue'
+import { verifyPhone } from '@/utils/regexp'
+import tip from "@/utils/tip";
+import {exaplesApi} from "@/api"
+import AppLoading from "@/utils/app-loading"
 export default {
   components: {
     CellGroup,
@@ -77,19 +86,84 @@ export default {
   },
   data () {
     return {
-      diaolgShow:false
+      diaolgShow:false,
+      AttachmentList:undefined,
+      CommodityName:undefined,
+      CommodityCode:undefined,
+      CommodityNo:undefined,
+      LimitNum:undefined,
+      MobileNo:undefined,
+      exaplesInfo:{},
+      shop:{
+        AttachmentList:[],
+        CommodityName:undefined,
+        CommodityCode:undefined,
+        CommodityNo:undefined,
+        LimitNum:undefined,
+        CommodityDetailsID:undefined
+      }
     }
   },
+  computed: {
+    routeParams() {
+      return this.$route.query
+    }
+  },
+  created () {
+    const { AttachmentList,CommodityName,CommodityCode,CommodityNo,LimitNum,CommodityDetailsID } = this.routeParams
+    this.AttachmentList = JSON.parse(AttachmentList)
+    this.CommodityName = CommodityName
+    this.CommodityCode = CommodityCode
+    this.CommodityNo = CommodityNo
+    this.LimitNum = LimitNum
+    for (let i in this.routeParams){
+      this.shop[i] = this.routeParams[i]
+      if (this.routeParams[i] === 'AttachmentList') {
+        this.shop.AttachmentList = JSON.parse(AttachmentList)
+      }
+    }
+    console.log('图片路径',this.AttachmentList[0],this.CommodityName)
+  },
   methods:{
+    getImageSrc(path) {
+      return getImageUrl(path)
+    },
     onSave () {
+      const { MobileNo } = this
+
+      if (!MobileNo) {
+        return tip.error({
+          message: '请填写手机号！'
+        })
+        return
+        }
+        if (!verifyPhone(MobileNo)) {
+        return tip.error({
+          message: '手机号码格式不正确！'
+        })
+        return
+      }
+      AppLoading.showAppLoading()
       this.$nextTick(() => {
     // 获取父盒子（肯定有滚动条）
       var parent = document.getElementById('parent')
       parent.scrollTop = 0 // 这个时候设置scrollTop的值绝对生效
     })
-        setTimeout(()=>{
+        const params = {
+        MobileNo: this.MobileNo
+      }
+        exaplesApi
+          .userTurnToUserInfo(params)
+          .then(res => {
+            console.log('获取转赠用户信息',res)
+            this.exaplesInfo = res.Data
+            setTimeout(()=>{
           this.diaolgShow = true
         },100)
+          })
+          .finally(() => {
+            AppLoading.closeAppLoading()
+          })
     },
     closeQR (v) {
       this.diaolgShow = v
@@ -307,6 +381,10 @@ export default {
             line-height: 16px;
           }
           .code{
+            padding-left: 25px;
+            padding-right: 10px;
+            display: flex;
+             justify-content: space-between;
             margin-top:14px;
             width: 180px;
             height: 20px;
@@ -316,13 +394,20 @@ export default {
             font-weight: 400;
             text-align: justify;
             color: #0b0e15;
-            line-height: 20px;
             border-radius: 10px;
                 background-image: url(/public/static/images/collection/card-info-text-background.png);
                 background-position: 0 0;
                 background-size: 100%;
                 text-align: center;
                 background-repeat: no-repeat;
+                > p {
+                  font-size: 11px;
+                  font-family: PingFangSC, PingFangSC-Regular;
+                  font-weight: 400;
+                  text-align: center;
+                  color: #0b0e15;
+                  line-height: 20px;
+                }
           }
           .tags {
             margin-top:14px;
