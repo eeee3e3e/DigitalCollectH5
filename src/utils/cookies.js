@@ -8,7 +8,7 @@ export function getAuthorization() {
 }
 
 export function setAuthorization(value) {
-  Cookies.set(AuthorizationKey, `authorization ${value}`)
+  Cookies.set(AuthorizationKey, `authorization ${value}`,{ expires: 7 })
 }
 
 export function clearAuthorization(value) {
@@ -21,7 +21,7 @@ export function getUserId() {
 
 export function setUserId(value) {
   if (!value) return
-  Cookies.set(UserIdKey, value)
+  Cookies.set(UserIdKey, value,{ expires: 7 })
 }
 
 export function clearUserId() {
