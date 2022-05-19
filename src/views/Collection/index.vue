@@ -28,10 +28,11 @@
                     </base-image>
 
 
-                    <div v-if="!item.DDCID" class="bg-icon await">
+                    <div v-if="item.CommodityStatus=== 'chaining'" class="bg-icon await">
                       <img src="/static/images/collection/await.png" alt="">
                     </div>
-                    <img v-else class="bg-icon ready" src="/static/images/collection/ready.png" alt="">
+                    <img v-if="item.CommodityStatus=== 'chained'" class="bg-icon ready" src="/static/images/collection/ready.png" alt="">
+                    <img v-if="item.CommodityStatus=== 'allow-give'" class="bg-icon ready" src="/static/images/collection/kzz.png" alt="">
                   </div>
                 </div>
                 <div class="card-item-info">
@@ -136,7 +137,8 @@ export default {
         query: {
           userId: this.userInfo.ID,
           commodityDetailsID: item.CommodityDetailsID,
-          collectStatus: '1' // 我的藏品明细标识
+          collectStatus: '1', // 我的藏品明细标识
+          CommodityStatus: item.CommodityStatus
         }
       })
     },

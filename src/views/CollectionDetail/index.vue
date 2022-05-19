@@ -135,7 +135,7 @@
         </div>
       </div>
       <div class="footer">
-        <button class="save" @click="examplesCollection">转赠藏品</button>
+        <button class="save" :disabled="this.btnStatus !== 'allow-give'" @click="examplesCollection" :class="this.btnStatus === 'allow-give' ? 'save':'zzBtn'" >转赠藏品</button>
       </div>
     </div>
     <!--藏品详情-->
@@ -222,7 +222,8 @@ export default {
       collectStatus: '', // 通过状态判断显示当前显示dom
       goodsDetail: {},
       collectionDetail: {},
-      HomeStatus: ''
+      HomeStatus: '',
+      btnStatus:'',
     }
   },
   computed: {
@@ -234,6 +235,7 @@ export default {
     // 读取路由[collectStatus]参数 ’1‘ || ’2‘
     const { collectStatus } = this.routeParams
     this.collectStatus = collectStatus
+    this.btnStatus = this.collectStatus && this.collectStatus.CommodityStatus ? this.collectStatus.CommodityStatus : ''
     if (this.collectStatus === '2') {
       this.getDetail()
     } else if (this.collectStatus === '1') {
@@ -740,6 +742,20 @@ export default {
       text-align: center;
       line-height: 50px;
       border: none;
+      outline: none;
+    }
+     .zzBtn {
+      width: 100%;
+      height: 50px;
+      background: #999999;
+      border-radius: 25px;
+      box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.06);;
+      font-size: 16px;
+      font-family: PingFangSC, PingFangSC-Medium;
+      font-weight: 500;
+      text-align: center;
+      color: #101012;
+     border: none;
       outline: none;
     }
   }

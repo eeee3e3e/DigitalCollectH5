@@ -399,13 +399,7 @@ export default {
            
             text-align: justify;
             color: #666666;
-            // line-height: 20px;
             border-radius: 10px;
-                // background-image: url(/public/static/images/collection/card-info-text-background.png);
-                // background-position: 0 0;
-                // background-size: 100%;
-                // text-align: center;
-                // background-repeat: no-repeat;
           }
         }
         }
@@ -428,17 +422,17 @@ export default {
         @keyframes mymove
             {
                 0% {left:0px;}
-                30%{left:80px;}
+                30%{left:30px;}
                 60%{left: 0px;}
-                80% {left:70px;}
+                80% {left:30px;}
                 100% {left:0px;}
             }
         @-webkit-keyframes mymove /*Safari and Chrome*/
         {
             0% {left:0px;}
-                30%{left:80px;}
+                30%{left:30px;}
                 60%{left: 0px;}
-                80% {left:70px;}
+                80% {left:30px;}
                 100% {left:0px;}
 
         }
