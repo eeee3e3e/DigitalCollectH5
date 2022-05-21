@@ -49,7 +49,7 @@ import { PullRefresh, List, Empty } from 'vant'
 import { goodsApi } from "@/api";
 import { mapGetters } from "vuex";
 import getImageUrl from "@/utils/get-image-url";
-
+import tip from "@/utils/tip";
 export default {
   components: {
     BaseReuseCard,
@@ -78,7 +78,8 @@ export default {
   methods: {
     getImageUrl: getImageUrl,
     onToConversion(item) {
-      this.$router.push({
+      if (item.IsOwn === true) {
+        this.$router.push({
         path: '/city-meta/collection_s',
         query: {
           userId: this.userInfo.ID,
@@ -86,6 +87,9 @@ export default {
           collectStatus: '1' // 我的藏品明细标识
         }
       })
+      } else {
+        tip.error('此商品已不存在')
+      }
     },
 
     // 获取数据

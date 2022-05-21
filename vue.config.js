@@ -12,16 +12,17 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       '/api': {
-        // target: 'http://api.csscmeta.com',
+        target: 'http://api.csscmeta.com',
         // http://121.196.44.29:8001
-        target: 'http://121.196.44.29:8001',
+        // target: 'http://121.196.44.29:8001',
         changOrigin: true,
         pathRewrite: {
           '^/api': '/api'
         }
       },
       '/static-proxy': {
-        target: 'http://121.196.44.29:8001',
+        target: 'http://api.csscmeta.com',
+        // target: 'http://121.196.44.29:8001',
         changOrigin: true,
         pathRewrite: {
           '^/static-proxy': ''

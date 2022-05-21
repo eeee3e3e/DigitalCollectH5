@@ -15,7 +15,7 @@ function filterIDCard(idCard) {
 function filterCommodityID(commodityID) {
   if (!commodityID) return ''
   if (typeof commodityID === 'number') commodityID = toString(commodityID)
-  return commodityID.slice(commodityID.length - 12)
+  return commodityID.slice(commodityID.length - 10)
 }
 
 export default function (Vue) {

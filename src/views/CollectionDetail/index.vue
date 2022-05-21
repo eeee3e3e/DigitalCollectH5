@@ -135,7 +135,7 @@
         </div>
       </div>
       <div class="footer">
-        <button class="save" :disabled="this.btnStatus !== 'allow-give'" @click="examplesCollection" :class="this.btnStatus === 'allow-give' ? 'save':'zzBtn'" >转赠藏品</button>
+        <button class="save" :disabled="this.collectionDetail.CommodityStatus !== 'allow-give'" @click="examplesCollection" :class="this.collectionDetail.CommodityStatus === 'allow-give' ? 'save':'zzBtn'" >转赠藏品</button>
       </div>
     </div>
     <!--藏品详情-->
@@ -283,7 +283,8 @@ export default {
           CommodityCode:this.collectionDetail.CommodityCode,
           CommodityNo:this.collectionDetail.CommodityNo,
           LimitNum:this.collectionDetail.LimitNum,
-          CommodityDetailsID:this.collectionDetail.CommodityDetailsID
+          CommodityDetailsID:this.collectionDetail.CommodityDetailsID,
+          ReleaseUserName:this.collectionDetail.ReleaseUserName
         }
       }
         )
@@ -629,11 +630,21 @@ export default {
           justify-content: space-between;
           padding: 5px 0;
 
-          > div {
+          > div:nth-child(1) {
+            width:85px;
             font-size: 16px;
             font-family: PingFangSC, PingFangSC-Regular;
             font-weight: 400;
             text-align: justify;
+            color: #aaaaaa;
+          }
+          > div:nth-child(2) {
+            text-align: right;
+            width: calc(100% - 85px);
+            flex-wrap: wrap;
+            font-size: 16px;
+            font-family: PingFangSC, PingFangSC-Regular;
+            font-weight: 400;
             color: #aaaaaa;
           }
 

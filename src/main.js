@@ -11,9 +11,9 @@ import './utils/flexible-rem'
 import './utils/tip'
 import './utils/ban-zoom'
 
-if (process.env.NODE_ENV === 'development') {
-  new VConsole();
-}
+// if (process.env.NODE_ENV === 'development') {
+  // new VConsole();
+// }
 // new VConsole();
 
 Vue.use(VueClipboard)

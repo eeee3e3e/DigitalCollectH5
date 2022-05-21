@@ -5,8 +5,8 @@ import { clearAuthorization, clearUserId, getAuthorization } from "@/utils/cooki
 import router from "@/router";
 
 const request = axios.create({
-  // baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'https://api.csscmeta.com:8443/api'
-  baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'http://121.196.44.29:8001/api'
+  baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'https://api.csscmeta.com:8443/api'
+  // baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'http://121.196.44.29:8001/api'
 })
 
 function useAuthorization(config) {

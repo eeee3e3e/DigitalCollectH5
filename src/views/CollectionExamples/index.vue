@@ -27,7 +27,7 @@
               </div>
               <div class="tags-item">
                 <div class="valueName">
-                  <span>城市数藏收藏馆</span>
+                  <span>{{this.ReleaseUserName}}</span>
                 </div>
               </div>
             </div>
@@ -39,7 +39,7 @@
         受赠方账户信息
       </div>
       <div class="examples-boby-info-card">
-          <CellGroup :border="false">
+          <!-- <CellGroup :border="false">
              <Cell is-link>
               <template>
                 <input class="input-user-nick-iphone" v-model="MobileNo" />
@@ -48,7 +48,12 @@
                 <span>手机号</span>
               </template>
             </Cell>
-          </CellGroup>
+          </CellGroup> -->
+          <Field
+              v-model="MobileNo"
+              label="手机号"
+              placeholder="请输入"
+            />
       </div>
       <div class="examples-boby-explain">
         <div class="title">转赠说明
@@ -72,7 +77,7 @@
 </template>
 <script>
 import getImageUrl from "@/utils/get-image-url";
-import { CellGroup, Cell } from 'vant'
+import { Field  } from 'vant'
 import confirmDialog from './components/confirmDialog.vue'
 import { verifyPhone } from '@/utils/regexp'
 import tip from "@/utils/tip";
@@ -80,8 +85,7 @@ import {exaplesApi} from "@/api"
 import AppLoading from "@/utils/app-loading"
 export default {
   components: {
-    CellGroup,
-    Cell,
+    Field,
     confirmDialog
   },
   data () {
@@ -93,6 +97,7 @@ export default {
       CommodityNo:undefined,
       LimitNum:undefined,
       MobileNo:undefined,
+      ReleaseUserName:undefined,
       exaplesInfo:{},
       shop:{
         AttachmentList:[],
@@ -110,12 +115,13 @@ export default {
     }
   },
   created () {
-    const { AttachmentList,CommodityName,CommodityCode,CommodityNo,LimitNum,CommodityDetailsID } = this.routeParams
+    const { AttachmentList,CommodityName,CommodityCode,CommodityNo,LimitNum,CommodityDetailsID,ReleaseUserName } = this.routeParams
     this.AttachmentList = JSON.parse(AttachmentList)
     this.CommodityName = CommodityName
     this.CommodityCode = CommodityCode
     this.CommodityNo = CommodityNo
     this.LimitNum = LimitNum
+    this.ReleaseUserName = ReleaseUserName
     for (let i in this.routeParams){
       this.shop[i] = this.routeParams[i]
       if (this.routeParams[i] === 'AttachmentList') {
@@ -176,6 +182,17 @@ export default {
   height: 99vh;
   overflow:auto;
 }
+ /deep/ .van-field__control{
+   color:#ffffff;
+   text-align: right;
+   
+ }
+ /deep/ .van-cell{
+   line-height:37px;
+ }
+ /deep/ .van-field__label{
+     color:#aaaaaa;
+   }
   .app-collection-examples{
     background: #0b0e15;
     &-footer {
@@ -368,15 +385,18 @@ export default {
           }
         }
         &-rightShop{
-          flex: 1;
-          padding-left:12px;
+          width:calc(100% -  100px);
+          padding-left:10px;
           .title{
-            // width: 192px;
+            width:100%;
             height: 16px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
             font-size: 15px;
             font-family: PingFangSC, PingFangSC-Medium;
             font-weight: 500;
-            text-align: justify;
+            // text-align: justify;
             color: #ffffff;
             line-height: 16px;
           }

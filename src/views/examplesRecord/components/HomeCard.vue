@@ -8,7 +8,7 @@
             <div class="home-card-info-rightShop">
                 <div class="title">{{goods.CommodityName}}</div>
                 <div class="code">
-                  <p>JISHADGIN #0001/1000</p>
+                  <p>{{goods && goods.CommodityCode ? goods.CommodityCode.substring(goods.CommodityCode.length - 10) : ''}} #{{goods.CommodityNo}}/{{goods.LimitNum}}</p>
                   <p>
                     <span style="color: #7bf1a9;" v-if="goods.TurnDirection==='in' && goods.TurnStatus==='true' ">转入成功</span>
                      <span style="color: #7bf1a9;" v-else-if="goods.TurnDirection==='in' && goods.TurnStatus==='false' ">转入失败</span>
@@ -110,7 +110,7 @@ export default {
             justify-content: space-between;
             margin-top:14px;
             >p:nth-child(1){
-             width: 156px;
+             width: 158px;
               height: 16px;
               font-size: 10px;
               font-family: PingFangSC, PingFangSC-Regular;
@@ -118,7 +118,7 @@ export default {
               text-align: justify;
               color: #0b0e15;
               line-height: 16px;
-              padding-left:6px;
+              padding-left:10px;
             border-radius: 10px;
                 background-image: url(/public/static/images/collection/card-info-text-background.png);
                 background-position: 0 0;
