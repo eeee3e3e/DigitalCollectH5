@@ -11,7 +11,7 @@
                :src="getImageSrc(this.AttachmentList[0])" alt="">
             </div>
             <div class="examples-boby-card-details-rightShop">
-                <div class="title">{{this.CommodityName}}</div>
+                <div class="title_s">{{this.CommodityName}}</div>
                 <div class="code">
                    <p>{{this.CommodityCode ? this.CommodityCode.substring(this.CommodityCode.length - 12):'' }}</p>
                   <p> #{{ this.CommodityNo }}/{{ this.LimitNum }}</p>
@@ -369,7 +369,7 @@ export default {
         justify-content: space-between;
         background: #1e1e1e;
         border-radius: 8px;
-        box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.13);
+        // box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.13);
         &-leftShop{
           background-image: url(/public/static/images/collection-examples/shopImage.png);
           background-size: 100%;
@@ -385,10 +385,10 @@ export default {
           }
         }
         &-rightShop{
-          width:calc(100% -  100px);
-          padding-left:10px;
-          .title{
-            width:100%;
+          width:calc(100% -  110px);
+          margin-left:10px;
+          .title_s{
+            width: 100%;
             height: 16px;
             white-space: nowrap;
             overflow: hidden;
@@ -401,6 +401,7 @@ export default {
             line-height: 16px;
           }
           .code{
+            width:100%;
             padding-left: 25px;
             padding-right: 10px;
             display: flex;
