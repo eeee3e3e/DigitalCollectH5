@@ -58,11 +58,14 @@
             <img src="/static/images/collection-examples/waring.png" alt="">
             <span>数字藏品仅用于个人鉴赏、分享，严禁以任何形式炒作藏品！</span>
           </div>
+           <div style="margin-top:24px;text-align:center;width:100%;color: #777;font-size:12px;margin-bottom:10px">
+            <span  @click="close">取消</span>
+          </div>
           </div>
     </van-dialog>
-    <div class="footer">
+    <!-- <div class="footer">
       <img id="bj" @click="close" style="" src="/static/images/collection-examples/close.png" alt="">
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -195,8 +198,7 @@ export default {
         }
         padding: 24px 16px 10px 16px;
         &-agreement-content{
-          margin-top: 16px;
-
+          margin-top: 0px;
           padding: 10px 0;
             font-size: 12px;
             font-family: PingFangSC, PingFangSC-Regular;
@@ -366,11 +368,15 @@ export default {
           }
         }
         &-rightShop{
-          flex: 1;
+          width:calc(100% -  60px);
           padding-left:12px;
           .title{
+            width:100%;
           height: 16px;
           font-size: 16px;
+           white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           font-family: PingFangSC, PingFangSC-Medium;
           font-weight: 500;
           text-align: justify;
@@ -406,10 +412,11 @@ export default {
       }
     }
         .form-submit{
-          margin-top:25px;
+          margin-top:10px;
           height: 50px;
           width: 295px;
           border: none;
+          color:#FFFFFF;
           background: linear-gradient(90deg,#8334ed, #548dff);
           border-radius: 25px;
           box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.06); 
@@ -436,114 +443,6 @@ export default {
                 100% {left:0px;}
 
         }
-        @media screen and (max-height: 700px){
-          .footer{
-            position: absolute;
-            animation: myfirst 0.2s;
-            top:-100px;
-            left:46%;
-            z-index: 9999;
-            flex-direction: column;
-            align-items: center;
-            #bj {
-                display: block;
-                width: 31px;
-                height: 31px;
-                opacity: 0.8;
-              
-            }
-    }
-        }
-        @media screen and (max-height:700px) and (max-width:280px){
-          .footer{
-            position: absolute;
-            animation: myfirst 0.2s;
-            top:-50px;
-            left:46%;
-            z-index: 9999;
-            flex-direction: column;
-            align-items: center;
-            #bj {
-                display: block;
-                width: 31px;
-                height: 31px;
-                opacity: 0.8;
-              
-            }
-    }
-        }
-        @media screen and (max-height:736px) and (min-height:700px)  and (max-width:400px) {
-          .footer{
-            position: absolute;
-            animation: myfirst 0.2s;
-            top:-70px;
-            left:46%;
-            z-index: 9999;
-            flex-direction: column;
-            align-items: center;
-            #bj {
-                display: block;
-                width: 31px;
-                height: 31px;
-                opacity: 0.8;
-              
-            }
-    }
-        }
-          @media screen and (max-height:736px) and (min-height:700px)  and (min-width:400px) {
-          .footer{
-            position: absolute;
-            animation: myfirst 0.2s;
-            top:-90px;
-            left:46%;
-            z-index: 9999;
-            flex-direction: column;
-            align-items: center;
-            #bj {
-                display: block;
-                width: 31px;
-                height: 31px;
-                opacity: 0.8;
-              
-            }
-    }
-        }
-    @media screen and (max-height:800px) and (min-height:737px) {
-          .footer{
-            position: absolute;
-            animation: myfirst 0.2s;
-            top:-60px;
-            left:46%;
-            z-index: 9999;
-            flex-direction: column;
-            align-items: center;
-            #bj {
-                display: block;
-                width: 31px;
-                height: 31px;
-                opacity: 0.8;
-              
-            }
-    }
-        }
-         @media screen and (max-height:1300px) and (min-height:800px){
-          .footer{
-            position: absolute;
-            animation: myfirst 0.2s;
-            top:-25px;
-            left:46%;
-            z-index: 9999;
-            flex-direction: column;
-            align-items: center;
-            #bj {
-                display: block;
-                width: 31px;
-                height: 31px;
-                opacity: 0.8;
-              
-            }
-    }
-        }
     @keyframes myfirst
           {
           0%   {
@@ -561,7 +460,7 @@ export default {
           .submit-disabled {
           background: linear-gradient(270deg, #19191a, #23242b) !important;
           color: #666666 !important;
-          margin-top:25px;
+          margin-top:10px;
           height: 50px;
           width: 295px;
           border: none;
