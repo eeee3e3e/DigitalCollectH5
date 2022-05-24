@@ -37,23 +37,31 @@
         </button>
       </div>
     </div>
+     <van-dialog v-model="isShow" :show-confirm-button="false">
+        <div style="text-align:center;">
+          <SlideVerify ref="slideblock" @success="sendSmsCode"></SlideVerify>
+        </div>
+     </van-dialog>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import { Field } from 'vant'
+import { Field,Dialog } from 'vant'
 import { BaseActionSheet } from '@/components'
 import { userApi } from '@/api'
 import AppLoading from "@/utils/app-loading";
-
+import SlideVerify from "@/components/check/SlideVerify.vue" // 图片验证
 export default {
   components: {
+    [Dialog.Component.name]: Dialog.Component,
     Field,
-    BaseActionSheet
+    BaseActionSheet,
+    SlideVerify
   },
   data() {
     return {
+      isShow:false,
       code: undefined,
       showHistory: false,
       loading: false,
@@ -82,9 +90,29 @@ export default {
     onToAuthenticationResult() {
       if (this.loading) return
 
-      AppLoading.showAppLoading()
+      // AppLoading.showAppLoading()
+      this.isShow = true
+      // const data = {
+      //   ...this.formData,
+      //   UserId: this.userInfo.ID
+      // }
 
-      const data = {
+      // userApi
+      //     .userVerifyIDCard(data)
+      //     .then(async () => {
+      //       await this.REFRESH_USER_INFO()
+      //       this.SET_AUTH(data)
+      //       await this.$router.push('/city-meta/authentication-result')
+      //     })
+      //     .finally(() => {
+      //       AppLoading.closeAppLoading()
+      //     })
+    },
+    sendSmsCode() {
+      const { userPhone } = this
+	  //此处的处理是：图片验证通过后，发送短信验证码，这个要根据具体情况单独处理
+      setTimeout(() => {
+       const data = {
         ...this.formData,
         UserId: this.userInfo.ID
       }
@@ -97,9 +125,11 @@ export default {
             await this.$router.push('/city-meta/authentication-result')
           })
           .finally(() => {
+            this.isShow = false
             AppLoading.closeAppLoading()
           })
-    }
+      }, 500);
+    },
   }
 }
 </script>
