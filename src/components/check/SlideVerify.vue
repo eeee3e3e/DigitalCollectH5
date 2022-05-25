@@ -22,7 +22,9 @@ export default {
     return {
       //在data中引入`assets`中的图片可以通过`require`的方式来引入
       picArray: [
-        require("@/assets/verify/1.png")
+        require("@/assets/verify/1.png"),
+        require("@/assets/verify/2.png"),
+        require("@/assets/verify/3.png")
       ],
     };
   },
