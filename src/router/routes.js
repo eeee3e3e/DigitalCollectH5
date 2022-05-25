@@ -155,6 +155,14 @@ const routes = [
         component: () => import('@/views/HelpDocument')
       },
       {
+        path: 'invite-friends',
+        meta: {
+          title: '邀请好友',
+          showToBack: true,
+        },
+        component: () => import('@/views/inviteFriends')
+      },
+      {
         path: '*',
         redirect: '/city-meta/home'
       }

@@ -1,6 +1,12 @@
 <template>
   <div class="app-my-center-cell">
     <CellGroup :border="false">
+      <Cell is-link to="/city-meta/invite-friends">
+        <template #title>
+          <img class="app-my-center-cell-icon" src="/static/images/my-center/about-us-icon.png" alt="">
+          <span>邀请好友</span>
+        </template>
+      </Cell>
       <Cell is-link to="/city-meta/about-us">
         <template #title>
           <img class="app-my-center-cell-icon" src="/static/images/my-center/about-us-icon.png" alt="">
