@@ -139,6 +139,38 @@ const routes = [
         component: () => import('@/views/SecuritySettings')
       },
       {
+        path: 'pay-password',
+        meta: {
+          title: '设置支付密码',
+          showToBack: true,
+        },
+        component: () => import('@/views/PayPassword')
+      },
+      {
+        path: 'set-password',
+        meta: {
+          title: '设置支付密码',
+          showToBack: true,
+        },
+        component: () => import('@/views/SetPassword')
+      },
+      {
+        path: 'again-password',
+        meta: {
+          title: '设置支付密码',
+          showToBack: true,
+        },
+        component: () => import('@/views/AgainPassword')
+      },
+      {
+        path: 'set-results',
+        meta: {
+          title: '设置结果',
+          showToBack: true,
+        },
+        component: () => import('@/views/SetResults')
+      },
+      {
         path: 'about-us',
         meta: {
           title: '关于我们',

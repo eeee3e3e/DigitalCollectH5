@@ -52,6 +52,11 @@
                 <span>修改手机号</span>
               </template>
             </Cell>
+            <!-- <Cell is-link to="/city-meta/pay-password">
+              <template #title>
+                <span>设置支付密码</span>
+              </template>
+            </Cell> -->
             <Cell is-link>
               <template #title>
                 <span>修改登录密码</span>
