@@ -7,6 +7,7 @@
     :h="155"
     :imgs="picArray"
     :show="true"
+    :accuracy="accuracy"
     slider-text="向右滑动完成验证"
     ref="slideverify"
     @success="onSuccess"
@@ -20,6 +21,8 @@ export default {
   name: "SliderVerify",
   data() {
     return {
+      // 误差
+      accuracy: 30,
       //在data中引入`assets`中的图片可以通过`require`的方式来引入
       picArray: [
         require("@/assets/verify/1.png"),
