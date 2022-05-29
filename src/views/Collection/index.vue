@@ -31,7 +31,7 @@
                     <!-- <div v-if="item.CommodityStatus=== 'chaining'" class="bg-icon await">
                       <img src="/static/images/collection/await.png" alt="">
                     </div> -->
-                    <img v-if="item.CommodityStatus=== 'chaining'" class="bg-icon ready" src="/static/images/collection/slz.png" alt=""></img>
+                    <img v-if="item.CommodityStatus=== 'chaining'" class="bg-icon ready" src="/static/images/collection/slz.png" alt="">
                     <img v-if="item.CommodityStatus=== 'chained'" class="bg-icon ready" src="/static/images/collection/ready.png" alt="">
                     <img v-if="item.CommodityStatus=== 'allow-give'" class="bg-icon ready" src="/static/images/collection/kzz.png" alt="">
                   </div>
@@ -109,6 +109,7 @@ export default {
       const { pagination, userInfo } = this
       if (this.varAwait) return
       this.varAwait = true
+      this.loading = true
       const params = {
         userId: userInfo.ID,
         pageIndex: pagination.PageIndex,
@@ -125,9 +126,11 @@ export default {
             }
             this.pagination.TotalCount = result.TotalCount
             this.finished = result.TotalCount === 0 ? true : result.TotalCount < (result.PageIndex * result.PageSize)
+            // this.loading = false
+            // this.varAwait = false
           })
           .finally(() => {
-            this.finished = true
+            // this.finished = true
             this.varAwait = false
             this.loading = false
           })
@@ -155,6 +158,7 @@ export default {
 
     // 加载更多
     async onLoadMore() {
+      console.log('当前分页',this.pagination.PageIndex)
       this.pagination.PageSize = 10
       this.pagination.PageIndex++
       await this.getDataSource()
@@ -226,7 +230,7 @@ export default {
                 position: absolute;
                 top: 0;
                 left: 0;
-                z-index: 10;
+                // z-index: 10;
               }
 
               .await {
