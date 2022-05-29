@@ -3,7 +3,9 @@
       <div class="home-card-info">
         <div>
             <div class="home-card-info-leftShop">
-             <img  :src="getImageSrc(goods.CommodityFrontImage)" alt="">
+              <div>
+                 <img  :src="getImageSrc(goods.CommodityFrontImage)" alt=""></img>
+              </div>
             </div>
             <div class="home-card-info-rightShop">
                 <div class="title">{{goods.CommodityName}}</div>
@@ -85,12 +87,19 @@ export default {
           background-position: 0 0;
           width: 52px;
           height: 52px;
-          >img{
+          
+          > div {
+            padding: 6px;
+            >img{
             display: inline-block;
-            width: 36px;
-            height: 28px;
-            padding: 7px;
+            // margin:6px;
+           width:auto;
+            height:auto;
+            max-width:100%;
+            max-height:100%;
           }
+          }
+          
         }
         .home-card-info-rightShop{
           flex: 1;
