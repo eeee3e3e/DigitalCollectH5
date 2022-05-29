@@ -82,7 +82,7 @@ export default {
 <style scoped lang="less">
 .app-authentication-result {
   padding-top: 87px;
-  padding-bottom: 20px;
+  padding-bottom: 100px;
 
   &-header {
     padding: 0 16px;
@@ -123,6 +123,7 @@ export default {
     padding: 0 16px;
     box-sizing: border-box;
     margin-top: 20px;
+    margin-bottom:30px;
   }
 
   &-card {
