@@ -3,7 +3,7 @@
       <div class="home-card-info">
         <div>
             <div class="home-card-info-leftShop">
-              <img src="/static/images/collection-examples/shop.png" alt="">
+             <img  :src="getImageSrc(goods.CommodityFrontImage)" alt="">
             </div>
             <div class="home-card-info-rightShop">
                 <div class="title">{{goods.CommodityName}}</div>

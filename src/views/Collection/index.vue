@@ -28,9 +28,10 @@
                     </base-image>
 
 
-                    <div v-if="item.CommodityStatus=== 'chaining'" class="bg-icon await">
+                    <!-- <div v-if="item.CommodityStatus=== 'chaining'" class="bg-icon await">
                       <img src="/static/images/collection/await.png" alt="">
-                    </div>
+                    </div> -->
+                    <img v-if="item.CommodityStatus=== 'chaining'" class="bg-icon ready" src="/static/images/collection/slz.png" alt=""></img>
                     <img v-if="item.CommodityStatus=== 'chained'" class="bg-icon ready" src="/static/images/collection/ready.png" alt="">
                     <img v-if="item.CommodityStatus=== 'allow-give'" class="bg-icon ready" src="/static/images/collection/kzz.png" alt="">
                   </div>
