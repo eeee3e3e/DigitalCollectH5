@@ -163,6 +163,22 @@ const routes = [
         component: () => import('@/views/inviteFriends')
       },
       {
+        path: 'invite-friends-placard',
+        meta: {
+          title: '邀请海报',
+          showToBack: true,
+        },
+        component: () => import('@/views/inviteFriendsPlacard')
+      },
+      {
+        path: 'register',
+        meta: {
+          title: '注册',
+          showToBack: true,
+        },
+        component: () => import('@/views/Register')
+      },
+      {
         path: '*',
         redirect: '/city-meta/home'
       }

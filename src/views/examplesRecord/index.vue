@@ -14,7 +14,7 @@
                 @load="onLoadMore"
             >
               <home-card v-for="item of dataSource" :key="item.ID" :goods="item"/>
-              <!-- <home-card  /> -->
+              <!-- <home-card  /> --> 
 
               <template #loading></template>
               <template #error></template>
