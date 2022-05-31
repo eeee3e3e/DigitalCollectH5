@@ -60,9 +60,10 @@
             <img class="user-card-grid-item-icon" src="/static/images/my-center/my-dream-icon.png" alt="">
           </template>
         </GridItem>
-        <GridItem text="我的消息" @click="onShowUnderDevelopmentTip">
+        <GridItem text="我的消息" @click="onShowUnderDevelopmentTip('myNews')">
           <template #icon>
             <img class="user-card-grid-item-icon" src="/static/images/my-center/my-message-icon.png" alt="">
+            <!-- <div class="infos">9</div> -->
           </template>
         </GridItem>
       </Grid>
@@ -111,9 +112,12 @@ export default {
     onShowUnderDevelopmentTip(v) {
       if (v==='examples'){
         this.$router.push('examples-record')
-      } else {
+      } else{
         underDevelopmentTip()
       }
+      // else if (v==='myNews') {
+      //   this.$router.push('my-news')
+      // } 
     }
   }
 }
@@ -220,12 +224,31 @@ export default {
 
       &-item {
         &-icon {
+
           width: 20px;
           object-fit: cover;
           margin-bottom: 12px;
+          position: relative;
         }
       }
     }
+  }
+  .infos {
+    position: absolute;
+    top: -10px;
+    right:-15px;
+        box-sizing: border-box;
+    min-width: 16px;
+    padding: 0 3px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 12px;
+    font-family: -apple-system-font, Helvetica Neue, Arial, sans-serif;
+    line-height: 13px;
+    text-align: center;
+    background-color: #ee0a24;
+    border: 1px solid #fff;
+    border-radius: 16px;
   }
 }
 </style>

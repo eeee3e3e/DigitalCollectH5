@@ -116,6 +116,14 @@ const routes = [
         component: () => import('@/views/examplesRecord')
       },
       {
+        path: 'my-news',
+        meta: {
+          title: '我的消息',
+          showToBack: true
+        },
+        component: () => import('@/views/MyNews')
+      },
+      {
         path: 'verification-code-login',
         meta: {
           title: '登录',
