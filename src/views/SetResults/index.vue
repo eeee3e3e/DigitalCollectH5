@@ -3,40 +3,9 @@
     <div class="app-authentication-result-header">
       <div class="app-authentication-result-header-body">
         <div class="icon">
-          <img src="/static/images/collection-examples/zcsucess.png" alt="">
+          <img src="/static/images/password/win.png" alt="">
         </div>
-        <p class="text">已成功转赠藏品，快去告诉好友吧！</p>
-      </div>
-    </div>
-
-    <div class="app-authentication-result-main">
-      <div class="app-authentication-result-card">
-        <div class="app-authentication-result-card-header">
-          <div class="icon">
-            <img src="/static/images/authentication-result/idCard-icon.png" alt="">
-          </div>
-          <span>受赠方账户信息</span>
-        </div>
-        <div class="app-authentication-result-card-body">
-          <CellGroup :border="false">
-            <Cell>
-              <template>
-                <span>{{name}}</span>
-              </template>
-              <template #title>
-                <span>受赠方姓名</span>
-              </template>
-            </Cell>
-            <Cell>
-              <template>
-                <span>{{iphone}}</span>
-              </template>
-              <template #title>
-                <span>受赠方手机号</span>
-              </template>
-            </Cell>
-          </CellGroup>
-        </div>
+        <p class="text">您已成功设置账户支付密码！</p>
       </div>
     </div>
      <div class="footer">
@@ -82,7 +51,7 @@ export default {
 <style scoped lang="less">
 .app-authentication-result {
   padding-top: 87px;
-  padding-bottom: 100px;
+  padding-bottom: 20px;
 
   &-header {
     padding: 0 16px;
@@ -123,7 +92,6 @@ export default {
     padding: 0 16px;
     box-sizing: border-box;
     margin-top: 20px;
-    margin-bottom:30px;
   }
 
   &-card {

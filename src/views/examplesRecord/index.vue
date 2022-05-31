@@ -64,6 +64,8 @@ export default {
   methods:{
     // 刷新
     async onRefresh() {
+      this.finished = false
+      this.loading = true
       this.pagination.PageSize = 10
       this.pagination.PageIndex = 1
       await this.getDataSource(true)
@@ -81,6 +83,7 @@ export default {
       return new Promise((resolve) => {
         if (this.varAwait) return resolve()
         this.varAwait = true
+        this.loading = true
         const { pagination, userInfo} = this
         const params = {
           pageIndex: pagination.PageIndex,
@@ -97,9 +100,11 @@ export default {
                    this.dataSource.push(...data)
                   }
                  this.finished = result.TotalCount === 0 ? true : result.TotalCount < (result.PageIndex * result.PageSize)
+                //  this.varAwait = false
+                //  this.loading = false
                })
                .finally(() => {
-                 this.finished = true
+                //  this.finished = true
                  this.varAwait = false
                  this.loading = false
                  resolve()

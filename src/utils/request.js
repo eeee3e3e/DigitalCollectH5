@@ -23,6 +23,10 @@ function useAuthorization(config) {
 
 request.interceptors.request.use(
   function (config) {
+    config.params = {
+      _t: Date.parse(new Date()) / 1000,
+      ...config.params
+    };
     useAuthorization(config)
     return config
   },

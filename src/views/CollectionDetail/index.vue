@@ -334,7 +334,7 @@ export default {
 
 .app-collection-detail {
   background: #0b0e15;
-  padding-bottom: 100px;
+  padding-bottom: 110px;
 
   .exhibition-hall {
     background-image: url(/public/static/images/collection-detail/background.png);

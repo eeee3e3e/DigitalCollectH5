@@ -1,13 +1,15 @@
 <template>
   <div class="app-invite-friends">
+
     <div class="title">
       邀请好友
     </div>
 
     <div class="content">
-      <div class="rule">
+      <div class="rule" @click="rule">
         <img src="/static/images/invite-friends/u11.png" alt="" width="12" height="12">
-        活动规则 <i> > </i> </div>
+        活动规则 <i> > </i> 
+      </div>
       <h2>城市数藏梦想邀约人  <span>第 <i>1</i> 期</span></h2>
       <img class="invite-text" src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E6%B5%B7%E6%8A%A5/u33.svg" alt="">
       <div class="panel-outer rights">
@@ -20,7 +22,7 @@
           <div class="left">
             <div class="friend">
               <img src='/static/images/avatar.png' alt="" class="avatar" width="22" height="22">
-              <span><b>user.xxx</b>  邀请您来城市数藏一起领神秘藏品</span>
+              <span><b>{{NickName}}</b>  邀请您来城市数藏一起领神秘藏品</span>
             </div>
 
             <div class="link">
@@ -28,9 +30,12 @@
               <span class="btn" @click="copyContentH5(`http://121.196.44.29:8002/#/city-meta/register?InviteCode=${recmmendationCode}`)">复制链接</span>
             </div>
           </div>
-
+<!-- <pre>
+  {{getImageUrl(RecmmendationCodeImage)}}
+</pre> -->
           <div class="right">
-            <img :src="getImageUrl(RecmmendationCodeImage)" alt="" width="60" height="60">
+            <img :src="getImageUrl(RecmmendationCodeImage)" alt="" width="60" height="60" id="qrcode" ref="qrcode">
+            <!-- <img src='/static/images/invite-friends/qr.jpg' alt="" class="avatar" width="60" height="60" id="qrcode" ref="qrcode"> -->
           </div>
           
         </div> 
@@ -46,7 +51,7 @@
           </div>
           <div class="item" style="">
             <span class="text">获得城市金</span>
-            <span> <i>1212121212</i> 人</span>
+            <span> <i>{{RecmmendationIntegral}}</i> 人</span>
           </div>
           <!-- <van-row>
             <van-col span="8">span: 8</van-col>
@@ -58,7 +63,7 @@
         <span class="saveBtn" @click="savePic">保存邀请图到本地</span>
 
         <!-- <van-count-down :time="time" format="DD 天 HH 时 mm 分 ss 秒"/> -->
-        <van-count-down :time="time" class='timer'>
+        <!-- <van-count-down :time="time" class='timer'>
           <template #default="timeData">
             <span class="block">{{ timeData.days }}</span>
             <span class="colon"> 天 </span>
@@ -69,7 +74,7 @@
             <span class="block">{{ timeData.seconds }}</span>
             <span> 后结束</span>
           </template>
-        </van-count-down>
+        </van-count-down> -->
 
       </div>
 
@@ -86,9 +91,9 @@
             <span class="item item3">注册+实名认证</span>
           </div>
           <div class="invited">
-            <img src="/static/images/invite-friends/3.png" alt="" width="56" height="7" style="transform: rotate(180deg);">
-            已邀请 <span class="num">31</span> 位好友
-            <img src="/static/images/invite-friends/3.png" alt="" width="56" height="7">
+            <img src="/static/images/invite-friends/left.png" alt="" style="padding-right: 11px">
+            已邀请 <span class="num">{{TotalCount}}</span> 位好友
+            <img src="/static/images/invite-friends/right.png" alt="">
           </div>
         </div>
         
@@ -97,11 +102,8 @@
                  image="/static/images/collection/not-data-slot.png"/>
           <List
                 v-else
-                v-model="loading"
                 :offset="200"
                 :finished="finished"
-                finished-text="没有更多了"
-                @load="onLoadMore"
             >
             <div class="wraper">
               <div class="row">
@@ -122,41 +124,89 @@
             
             <template #loading></template>
             <template #error></template>
-            <template #finished>
-              <div class="finished">
+            <!-- <template>
+              <div class="finished" v-show='finished==true'>
                 <img src="/static/images/home/cry-icon.png" alt="" class="icon">
                 <span>已经到底啦 ~ ~</span>
               </div>
-            </template>
+            </template> -->
 
-            <div class="more">查看更多 <img src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E5%A5%BD%E5%8F%8B/u112.svg" alt=""></div>
-            <div class="coming">一大波好友在来的路上</div>
+            <div class="finished" style="margin-top: 20px" v-show='finished==true'>
+              <img src="/static/images/home/cry-icon.png" alt="" class="icon"><span>已经到底啦 ~ ~</span>
+            </div>
+
+            <div class="more" @click="onLoadMore" v-show='finished==false'>查看更多 <img src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E5%A5%BD%E5%8F%8B/u112.svg" alt=""></div>
           </List>
         </PullRefresh>
-
-        <i class="reminder">好友注册后，需要实名认证成功后才算邀请成功哦~</i>
+        <div class="footer">
+          <div class="coming">一大波好友在来的路上</div>
+          <i class="reminder">好友注册后，需要实名认证成功后才算邀请成功哦~</i>
+        </div>
      </div>
 
     </div>
+
+    <van-overlay  :show="overlayShow" @click="overlayShow = false">
+      <div class="wrapper" @click.stop>
+
+        <div class="ruleTitle">
+          <div class="left">
+            <img src="/static/images/invite-friends/c4.png" alt="" width="16" height="18">
+            <span>活动规则</span>
+          </div>
+          <img src="/static/images/invite-friends/5.png" alt="" width="69" height="21">
+        </div>
+        <pre>
+          
+        0元购操作流程：活动有效期内，进入商城页面，右上角，点击分享到朋友圈或朋友，邀请朋友关注，成功关注后，粉丝数量累积+1，取消后粉丝数量-1，总数量达到 0 元购商品指定数量，即可 0 元支付，支付方式请选择余额支付。 
+
+        重要提示：双 11 活动期间，由于物流繁忙，到货时间可能延后； 
+
+        如有问题，请致电全国统一客服热线：400-999-0281 
+
+        活动规则
+
+        1、所有 0 元购商品，包邮，无需支付其它费用； 
+
+        2、所有 0 元购商品，不可重复领取； 3、所有 0 元购商品达成条件，根据活动期间粉丝新增数量判断；4、粉丝数量，重复取消关注无效。 
+
+        1、所有 0 元购商品，包邮，无需支付其它费用； 
+
+        2、所有 0 元购商品，不可重复领取；
+
+        3、所有 0 元购商品达成条件，根据活动期间，所有 0 元购商品，包元
+
+        </pre>
+        <img src="/static/images/invite-friends/close.png" alt="" class="close" width="31" height="31" @click="overlayShow = false">
+      </div>
+    </van-overlay>
   </div>
 </template>
 
 <script>
 import { CountDown, PullRefresh, List, Empty, Notify } from 'vant';
+import { Overlay } from 'vant';
 import {inviteApi} from "@/api"
-import Vue from 'vue';
 import getImageUrl from "@/utils/get-image-url";
+// import QRCode from 'qrcodejs2';
+
+import Vue from 'vue';
 Vue.use(CountDown, PullRefresh, List, Empty, Notify);
+Vue.use(Overlay);
 
 export default {
   components: { 
     PullRefresh,
     Empty,
     List,
-    Notify
+    Notify,
+    Overlay
   },
   data() {
     return {
+      overlayShow: false,
+      NickName: '',
+      RecmmendationIntegral: '',
       sumByReg: 0,
       sumByIdentity: 0,
       recmmendationCode: '',
@@ -174,16 +224,22 @@ export default {
       dataSource:[],
        pagination: {
         PageIndex: 1,
-        PageSize: 10
-      }
+        PageSize: 2
+      },
+      TotalCount: 0,
     }
   },
 
   created () {
     this.getDataSource()
     this.GetImageCodeUrl()
+    // this.qrcode()
   },
   methods:{
+    
+    rule(){
+      this.overlayShow = true
+    },
     // 加载图片资源
     getImageUrl(path) {
       return getImageUrl(path)
@@ -214,7 +270,7 @@ export default {
       }
     },
 
-    savePic(Url){
+    savePic1(Url){
       Url = getImageUrl(this.RecmmendationCodeImage) //图片路径，也可以传值进来
       var triggerEvent = "touchstart"; //指定下载方式
         var blob=new Blob([''], {type:'application/octet-stream'}); //二进制大型对象blob
@@ -246,9 +302,26 @@ export default {
       
     },
 
+    savePic(){
+      const params = {
+        sumByReg: this.sumByReg,
+        sumByIdentity: this.sumByIdentity,
+        recmmendationCode: this.recmmendationCode,
+        RecmmendationCodeImage: this.RecmmendationCodeImage,
+        NickName: this.NickName
+      }
+      this.$router.push({ path: '/city-meta/invite-friends-placard', query: params})
+
+        // debugger
+      // this.$router.push({
+      //     name:'/invite-friends-placard',
+      //     query: params
+      // })
+    },
+
     // 刷新
     async onRefresh() {
-      this.pagination.PageSize = 10
+      this.pagination.PageSize = 2
       this.pagination.PageIndex = 1
       await this.getDataSource(true)
       this.refreshing = false
@@ -256,7 +329,9 @@ export default {
 
     // 加载更多
     async onLoadMore() {
-      this.pagination.PageSize = 10
+      // debugger
+      // alert(this.pagination.PageIndex)
+      this.pagination.PageSize = 2
       this.pagination.PageIndex++
       await this.getDataSource()
     },
@@ -265,16 +340,17 @@ export default {
     getDataSource(isClear = false) {
       return new Promise((resolve) => {
         // userId=&pageIndex=1&pageSize=10
-        if (this.varAwait) return resolve()
+        // if (this.varAwait) return resolve()
         this.varAwait = true
         const { pagination, userInfo} = this
         const params = {
-          pageIndex: 1, //pagination.PageIndex,
-          pageSize: 10, //pagination.PageSize,
-          userId: 'f670cea1-11a4-45a5-a05e-9bb0de4607c2'
+          pageIndex: pagination.PageIndex,
+          pageSize: pagination.PageSize,
+          userId: '4e679f22-9bb8-4c3b-8de2-2448f4dbc077'
         }
         inviteApi.getMyRecmmendRecordList(params).then(result => {
           const data = result.Data || []
+          this.TotalCount = result.TotalCount || []
           // console.log(JSON.stringify(data, '', 4))
           if (isClear) {
            this.dataSource = data
@@ -282,9 +358,10 @@ export default {
            this.dataSource.push(...data)
           }
           this.finished = result.TotalCount === 0 ? true : result.TotalCount < (result.PageIndex * result.PageSize)
+          // alert(this.finished)
           }).finally(() => {
-            this.finished = true
-            this.varAwait = false
+            // this.finished = true
+            // this.varAwait = false
             this.loading = false
             resolve()
           })
@@ -298,9 +375,12 @@ export default {
         // const params = {
         //   userId: 'c60fd831-5117-4462-8be5-2409cd9786dd'
         // }
-        inviteApi.GetImageCodeUrl('c60fd831-5117-4462-8be5-2409cd9786dd').then(result => {
+        inviteApi.GetImageCodeUrl('4e679f22-9bb8-4c3b-8de2-2448f4dbc077').then(result => {
           const data = result.Data || []
-          console.log(JSON.stringify(data, '', 4))
+          // console.log(JSON.stringify(data, '', 4))
+          this.NickName = data.NickName
+          this.UserHead = data.UserHead
+          this.RecmmendationIntegral = data.RecmmendationIntegral
           this.sumByReg = data.RecmmendationSumByReg
           this.sumByIdentity = data.RecmmendationSumByIdentity 
           this.recmmendationCode = data.RecmmendationCode
@@ -317,7 +397,7 @@ export default {
     width: 90%;
     background: #fcfbf8;
     border-radius: 10px;
-    margin-top: 280px;  
+    margin-top: 300px;  
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -368,8 +448,9 @@ export default {
   }
 
   .content{
-    background-image: url(/public/static/images/invite-friends/bg.png);
+    background-image: url(/public/static/images/invite-friends/bg1.png);
     background-size: 100%;
+    background-repeat: no-repeat;
     width: 100%;
     padding-bottom: 20px;
     display: flex;
@@ -407,7 +488,14 @@ export default {
         font-size: 11px;
         background: #d07822;
         border-radius: 2px;
-        padding: 2px;
+        display: inline-block;
+        width: 52px;
+        height: 22px;
+        line-height: 21px;
+        text-align: center;
+        position: relative;
+        top: -2px;
+        margin-left: 10px
       }
     }
 
@@ -506,7 +594,7 @@ export default {
       }
 
       .saveBtn{
-        margin-top: 20px;
+        margin: 20px 0;
         width: 255px;
         height: 40px;
         line-height: 40px;
@@ -559,8 +647,10 @@ export default {
           }
         }
         .invited{
+          font-family: 'HYYaKuHeiW, HYYaKuHeiW-Regular';
           text-align: center;
           font-size: 12px;
+          text-shadow: 0px 1px 2px 0px rgba(0,0,0,0.10); 
           color: #287bd1;
           padding-top: 10px;
 
@@ -605,11 +695,19 @@ export default {
         font-weight: bold;
         color: #2b388f;
         text-align: center;
-        padding-top: 20px;
+        padding: 10px 0;
       }
 
     }
 
+    .footer{
+      margin-top: 20px;
+      background: #f3f5f8;
+      text-align: center;
+      width: 100%;
+      padding: 10px 0 20px 0;
+      border-radius: 0 0 15px 15px;
+    }
     .reminder{
       font-size: 11px;
       text-align: left;
@@ -617,6 +715,55 @@ export default {
       padding-bottom: 20px;
     }
 
+  }
+
+  .wrapper{
+    width: 90%;
+    background: #292929;
+    border-radius: 8px;
+    margin: 30px auto;
+    font-size: 12px;
+    margin-top: 20%;
+    padding-bottom: 15px;
+    position: relative;
+
+    .ruleTitle{
+      display: flex;
+      justify-content: space-between;
+      padding: 30px 20px 10px 20px;
+
+      .left{
+        display:flex;
+        span{
+          width: 72px;
+          height: 18px;
+          font-size: 18px;
+          font-family: PingFangSC, PingFangSC-Semibold;
+          font-weight: 600;
+          text-align: left;
+          color: #ffffff;
+          line-height: 18px;
+          padding-left: 6px;
+        }
+      }
+    }
+
+    pre{
+      word-break: break-word;
+      white-space: pre-line;
+      color: #fff;
+      line-height: 15px;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    img.close{
+      position: absolute;
+      margin: 0 auto;
+      left: 0;
+      right: 0;
+      bottom: -50px;
+    }
   }
 }
 </style>

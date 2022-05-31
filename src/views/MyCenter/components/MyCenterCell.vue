@@ -1,10 +1,12 @@
 <template>
   <div class="app-my-center-cell">
     <CellGroup :border="false">
-      <Cell is-link to="/city-meta/invite-friends-placard">
+      <Cell is-link to="/city-meta/invite-friends">
         <template #title>
-          <img class="app-my-center-cell-icon" src="/static/images/my-center/about-us-icon.png" alt="">
-          <span>邀请好友</span>
+          <img class="app-my-center-cell-icon" src="/static/images/my-center/invite.png" alt="" width="35" height="37">
+          <span style="width: 90%;display: flex;justify-content: space-between;align-items: center;">
+            <i>邀请好友</i><i style="font-size: 12px; color: #9bc4ff">已邀请 {{TotalCount}} 人</i>
+          </span>
         </template>
       </Cell>
       <Cell is-link to="/city-meta/about-us">
@@ -31,11 +33,43 @@
 
 <script>
 import { Cell, CellGroup } from 'vant'
-
+import {inviteApi} from "@/api"
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   components: {
     Cell,
     CellGroup
+  },
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
+  data() {
+    return {
+      TotalCount: 0,
+    }
+  },
+  mounted(){
+    this.getDataSource()
+  },
+  methods: {
+    // 获取数据
+    getDataSource() {
+      console.log(JSON.stringify(this.userInfo,'',4));
+      return new Promise((resolve) => {
+        
+        const params = {
+          pageIndex: 1,
+          pageSize: 2,
+          // userId: this.userInfo.ID
+          userId: '4e679f22-9bb8-4c3b-8de2-2448f4dbc077'
+        }
+        inviteApi.getMyRecmmendRecordList(params).then(result => {
+          const data = result.Data
+          this.TotalCount = result.TotalCount
+        })
+      })
+      
+    },
   }
 }
 </script>

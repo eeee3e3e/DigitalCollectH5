@@ -69,7 +69,7 @@
       </div>
         <confirm-dialog :isShow="diaolgShow" @closeQR="closeQR" :exaplesInfo="exaplesInfo" :shop="shop"></confirm-dialog>
     </div>
-     <div class="app-collection-examples-footer">
+     <div class="app-collection-examples-footer" v-show="hideshow">
       <button class="save" @click="onSave">确认转赠</button>
     </div>
   
@@ -90,6 +90,9 @@ export default {
   },
   data () {
     return {
+      docmHeight: window.innerHeight,  //默认屏幕高度
+      showHeight: window.innerHeight,   //实时屏幕高度
+      hideshow:true,  //显示或者隐藏footer
       diaolgShow:false,
       AttachmentList:undefined,
       CommodityName:undefined,
@@ -114,6 +117,25 @@ export default {
       return this.$route.query
     }
   },
+  mounted () {
+   window.onresize = ()=>{
+    return(()=>{
+      this.showHeight = document.body.clientHeight;
+    })()
+  }
+  },
+  watch:{
+  showHeight:function() {
+    if(this.docmHeight > this.showHeight){
+      this.hideshow=false
+    }else{
+      this.hideshow=true
+    }
+  }
+},
+beforeDestroy () {
+  window.onresize = null; //注销window.onresize事件
+},
   created () {
     const { AttachmentList,CommodityName,CommodityCode,CommodityNo,LimitNum,CommodityDetailsID,ReleaseUserName } = this.routeParams
     this.AttachmentList = JSON.parse(AttachmentList)
@@ -317,6 +339,7 @@ export default {
       }
     }
     &-explain{
+      margin-bottom:10px;
       padding: 20px 24px;
       margin-top:40px;
       // height: 240px;
