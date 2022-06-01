@@ -3,10 +3,14 @@
     <div class="exhibition-hall">
       <div class="exhibition-hall-show">
         <div class="exhibition-hall-show-body">
-          <img v-if="collectStatus === '2' && goodsDetail.AttachmentList && goodsDetail.AttachmentList.length"
+          <img v-if="collectStatus === '2' && goodsDetail.AttachmentList && goodsDetail.AttachmentList.length && goodsDetail.AttachmentList[0].split('.')[goodsDetail.AttachmentList[0].split('.').length-1] !== 'mp4'"
                :src="getImageSrc(goodsDetail.AttachmentList[0])" alt="">
-          <img v-if="collectStatus === '1' && collectionDetail.AttachmentList && collectionDetail.AttachmentList.length"
+          <img v-if="collectStatus === '1' && collectionDetail.AttachmentList && collectionDetail.AttachmentList.length && collectionDetail.AttachmentList[0].split('.')[collectionDetail.AttachmentList[0].split('.').length-1] !== 'mp4'"
                :src="getImageSrc(collectionDetail.AttachmentList[0])" alt="">
+               <!-- <video  v-if="collectStatus === '2' && goodsDetail.AttachmentList && goodsDetail.AttachmentList.length && goodsDetail.AttachmentList[0].split('.')[goodsDetail.AttachmentList[0].split('.').length-1] === 'mp4'"
+               :src="getImageSrc(goodsDetail.AttachmentList[0])"  loop="loop" autoplay="autoplay"></video>
+               <video  v-if="collectStatus === '1' && collectionDetail.AttachmentList && collectionDetail.AttachmentList.length && collectionDetail.AttachmentList[0].split('.')[collectionDetail.AttachmentList[0].split('.').length-1] === 'mp4'"
+               :src="getImageSrc(collectionDetail.AttachmentList[0])" loop="loop" autoplay="autoplay"></video> -->
         </div>
       </div>
       <div class="exhibition-hall-body">
@@ -359,7 +363,10 @@ export default {
         justify-content: center;
         padding: 15px;
         box-sizing: border-box;
-
+        video {
+           width: 315px;
+          height: 315px;
+        }
         img {
           width: 315px;
           height: 315px;

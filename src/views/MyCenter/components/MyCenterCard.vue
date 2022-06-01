@@ -63,7 +63,7 @@
         <GridItem text="我的消息" @click="onShowUnderDevelopmentTip('myNews')">
           <template #icon>
             <img class="user-card-grid-item-icon" src="/static/images/my-center/my-message-icon.png" alt="">
-            <!-- <div class="infos">9</div> -->
+            <!-- <div v-if="Number(TotalCount) > 0" class="infos">{{Number(TotalCount) >99 ?  '99+' : TotalCount}}</div> -->
           </template>
         </GridItem>
       </Grid>
@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import { userApi } from '@/api'
 import { Image, Grid, GridItem } from 'vant'
 import { mapGetters } from 'vuex'
 import getImageUrl from "@/utils/get-image-url";
@@ -83,6 +84,11 @@ export default {
     Grid,
     GridItem
   },
+  data () {
+    return {
+      TotalCount:''
+    }
+  },
   computed: {
     ...mapGetters(['hasUserInfo', 'userInfo']),
     userAvatar() {
@@ -93,7 +99,21 @@ export default {
       return value.slice(value.length - 4)
     }
   },
+  created () {
+    this.getuserInfo()
+  },
   methods: {
+    getuserInfo () {
+      const params = {
+        userID:this.userInfo.ID,
+        pageIndex:0,
+        pageSize:9999
+      }
+      userApi.getUnreadMessages(params).then(res=>{
+        console.log(res)
+        this.TotalCount = res.TotalCount
+      })
+    },
     // 编辑信息
     onToEditUserInfo() {
       this.$router.push('/city-meta/edit-userinfo')
@@ -115,11 +135,11 @@ export default {
       } else{
         underDevelopmentTip()
       }
-      // else if (v==='myNews') {
+      //  else if (v==='myNews') {
       //   this.$router.push('my-news')
       // } 
     }
-  }
+  },
 }
 </script>
 
