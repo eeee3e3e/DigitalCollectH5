@@ -34,7 +34,8 @@
 <script>
 import { Cell, CellGroup } from 'vant'
 import {inviteApi} from "@/api"
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters } from 'vuex'
+
 export default {
   components: {
     Cell,
@@ -52,23 +53,18 @@ export default {
     this.getDataSource()
   },
   methods: {
-    // 获取数据
+
     getDataSource() {
-      console.log(JSON.stringify(this.userInfo,'',4));
       return new Promise((resolve) => {
-        
         const params = {
           pageIndex: 1,
           pageSize: 2,
-          // userId: this.userInfo.ID
-          userId: '4e679f22-9bb8-4c3b-8de2-2448f4dbc077'
+          userId: this.userInfo.ID
         }
         inviteApi.getMyRecmmendRecordList(params).then(result => {
-          const data = result.Data
           this.TotalCount = result.TotalCount
         })
       })
-      
     },
   }
 }

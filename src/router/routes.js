@@ -116,6 +116,14 @@ const routes = [
         component: () => import('@/views/examplesRecord')
       },
       {
+        path: 'my-news',
+        meta: {
+          title: '我的消息',
+          showToBack: true
+        },
+        component: () => import('@/views/MyNews')
+      },
+      {
         path: 'verification-code-login',
         meta: {
           title: '登录',
@@ -209,6 +217,14 @@ const routes = [
           showToBack: true,
         },
         component: () => import('@/views/Register')
+      },
+      {
+        path: 'integral',
+        meta: {
+          title: '我的城市金',
+          showToBack: true,
+        },
+        component: () => import('@/views/integral')
       },
       {
         path: '*',

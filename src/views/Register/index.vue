@@ -20,9 +20,18 @@
       </div>
     </div>
 
-    <van-dialog v-model="isShow" :show-confirm-button="false">
+    <van-dialog v-model="isShowVerify" :show-confirm-button="false">
       <div style="text-align:center;">
         <!-- <SlideVerify ref="slideblock" @success="sendSmsCode"></SlideVerify> -->
+        <slide-verify :l="42"
+            :r="10"
+            :w="310"
+            :h="155"
+            @success="onSuccess"
+            @fail="onFail"
+            @refresh="onRefresh"
+            slider-text="向右滑动完成验证"
+            ></slide-verify>
       </div>
     </van-dialog>
 
@@ -32,7 +41,7 @@
         <span>请输入手机号</span>
       </div>
       <div class="content1">
-        <div class="text1">已发送验证码至手机尾号（8888）</div>
+        <div class="text1">已发送验证码至手机尾号（{{phoneNumber.substring(7)}}）</div>
         <div class="inputArea">
           <input type="text" placeholder="请输入验证码" v-model='VerifiCode'>
           <span><i>{{ stepTime }}</i>s后重发</span>
@@ -49,9 +58,12 @@ import { CellGroup, Cell, Dialog, Notify } from 'vant'
 import { BaseActionSheet, UserServiceAgreement, PrivacyAgreement } from '@/components'
 import { registerApi, userApi } from "@/api"
 // import { mapGetters } from 'vuex'
-import SlideVerify from "@/components/check/SlideVerify.vue" // 图片验证
+// import SlideVerify from "@/components/check/SlideVerify.vue" // 图片验证
+import SlideVerify from 'vue-monoplasty-slide-verify';
 import { mapGetters, mapMutations } from 'vuex'
-
+import { setAuthorization } from "@/utils/cookies";
+import axios from "axios";
+// Vue.use(SlideVerify);
 function formatVerificationCodeValue(value) {
   if (value && value !== '') {
     value = value.replace(/[^\d+]/ig, '')
@@ -71,15 +83,15 @@ export default {
   },
   data() {
     return {
-      isShow: false,
+      isShowVerify: false,
       isRegShow: false,
-      showUserServiceAgreement: false,
-      showPrivacyAgreement: false,
       phoneNumber: '',
       IsRegistered: false,
       stepTime: 60,
       isLost: false,
-      VerifiCode: ''
+      VerifiCode: '',
+      msg: '',
+      text: '向右滑',
     }
   },
   computed: {
@@ -89,22 +101,28 @@ export default {
   created () {
     // debugger
     // this.getDataSource()
+    // console.log(JSON.stringify(this.userInfo,'',4));
+    // console.log(JSON.stringify(this.loginPhone,'',4));
+    // this.getObjFromUrl('InviteCode')
+    // this.getDataSource()
   },
   beforeDestroy() {
     this.stopCountDown()
   },
   methods: {
-    sendSmsCode(){
-      alert()
+    ...mapMutations(['SET_USER_INFO', 'DEL_LOGIN_PHONE']),
+    onSuccess(){
+      Notify({ type: 'success', message: '右滑成功' });
+      this.isShowVerify = false
+    },
+    onFail(){
+      // Notify({ message: 'onFail' });
+    },
+    onRefresh(){
+      Notify({ type: 'success', message: 'onRefresh' });
     },
     goHome(){
       this.$router.push({ path: '/city-meta/home' })
-    },
-    onViewUserServiceAgreement() {
-      this.showUserServiceAgreement = true
-    },
-    onViewPrivacyAgreement() {
-      this.showPrivacyAgreement = true
     },
 
     // 发送验证码
@@ -118,6 +136,7 @@ export default {
         mobileNo: this.phoneNumber
       }
 
+      // userApi.verifyVerificationCode(params) .then(() => {
       userApi.getVerificationCode(params) .then(() => {
         Notify({ type: 'success', message: '验证码发送成功' });
         this.isRegShow = true
@@ -153,18 +172,49 @@ export default {
       console.log(value)
       this.verificationCode = value.length > 6 ? (value || '').slice(0, 6) : value
     },
-    // 获取数据getObjFromUrl
+
     getDataSource() {
-      // console.log(JSON.stringify(this.userInfo,'',4));
-      // console.log(this.getObjFromUrl('InviteCode'));
-      // const { pagination, userInfo } = this
-      // return;
-      return new Promise( resolve => {
+// this.isRegShow = true
+// debugger
+      const params = {
+        "MobileNo": this.phoneNumber,
+      // 120695
+      //   "MobileNo": '18768857720',
+      //   "MobileNo": '15901227160',
+        "Code": this.VerifiCode,
+      //   "Code": '843871',
+        "InviteCode": this.getObjFromUrl('InviteCode')
+      }
+      console.log('params: ', JSON.stringify(params,'',4))
+      let url = 'http://121.196.44.29:8999/api/UserInfo/VerifyVerificationCodeByRecommend'
+      axios({ 
+        method: 'post',
+        url: url,
+        data: params
+      }).then(res => {
+        // debugger
+          console.log(JSON.stringify(res, '', 4))
+          const { ReturnCode, ReturnMessage, Data } = res.data
+          const data = res.data.Data
+          setAuthorization(data.Ticket)
+          this.SET_USER_INFO(data)
+          if(ReturnCode == 200 && ReturnMessage == '获取用户成功') {
+            Notify({ type: 'success', message: '注冊成功' });
+            this.IsRegistered = true
+          }
+      }).catch(error => {
+        console.info(error);
+      });
+      return
+      
+      /*return new Promise( resolve => {
         const params = {
           "MobileNo": this.phoneNumber,
           "Code": this.VerifiCode,
-          "InviteCode": this.getObjFromUrl('InviteCode')
+        //   "InviteCode": this.getObjFromUrl('InviteCode')
+          "InviteCode": '8TsAAKeHMZ' 
         }
+        // debugger TeOxuTNpoC Tmak8kzQTC
         console.log(JSON.stringify(params,'',4))
         // return;
 
@@ -174,12 +224,12 @@ export default {
           const data = result || []
           console.log(JSON.stringify(data, '', 4))
           const { ReturnCode, ReturnMessage, Data } = result
-          if(ReturnCode == 200) {
+          if(ReturnCode == 200 && ReturnMessage == '获取用户成功') {
             this.IsRegistered == true
           }
         }).finally( () => { resolve() })
 
-      })
+      })*/
       
     },
 
@@ -197,6 +247,7 @@ export default {
   padding-bottom: 20px;
   box-sizing: border-box;
   color: #ccc;
+  height: 100%;
 
   .title{
     background: #1a1d31;
@@ -316,5 +367,13 @@ export default {
       border-bottom: 1px solid #eee; margin-top: 30px
     }
   }
+}
+
+.slide-verify{
+  width:100% !important;
+  padding: 0 !important;
+}
+.slide-verify-slider{
+  margin-top:0px !important;
 }
 </style>

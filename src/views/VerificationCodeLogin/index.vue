@@ -156,9 +156,9 @@ export default {
 
       // AppLoading.showAppLoading()
       this.isShow = true
-      // const params = {
-      //   mobileNo: userPhone
-      // }
+      const params = {
+        mobileNo: userPhone
+      }
       // userApi
       //     .getVerificationCode(params)
       //     .then(() => {

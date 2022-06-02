@@ -6,28 +6,32 @@
     </div>
 
     <div class="content">
-      <div class="rule" @click="rule">
+      <!-- <div class="rule" @click="rule">
         <img src="/static/images/invite-friends/u11.png" alt="" width="12" height="12">
         活动规则 <i> > </i> 
       </div>
       <h2>城市数藏梦想邀约人  <span>第 <i>1</i> 期</span></h2>
-      <img class="invite-text" src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E6%B5%B7%E6%8A%A5/u33.svg" alt="">
+      <img class="invite-text" src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E6%B5%B7%E6%8A%A5/u33.svg" alt=""> -->
       <div class="panel-outer rights">
         <img src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E5%A5%BD%E5%8F%8B/u83.svg" alt="">
         <img src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E5%A5%BD%E5%8F%8B/u84.svg" alt="">
-        <i class="text">我的邀请权益</i>
+        <img src="/static/images/invite-friends/quanyi.png" alt="" class="text" width="78" height="14" style="top:-2px">
 
         <div class="invite panel-inside">
 
           <div class="left">
             <div class="friend">
               <img src='/static/images/avatar.png' alt="" class="avatar" width="22" height="22">
-              <span><b>{{NickName}}</b>  邀请您来城市数藏一起领神秘藏品</span>
+              <span style="display: flex;align-items: center;">
+                <b>{{NickName}}</b>
+                <i>&nbsp;&nbsp;</i>
+                <i>邀请您来数藏领藏品！</i>
+              </span>
             </div>
 
             <div class="link">
-              <span class="text">http://121.196.44.29:8002/#/city-meta/register?InviteCode={{recmmendationCode}}</span>
-              <span class="btn" @click="copyContentH5(`http://121.196.44.29:8002/#/city-meta/register?InviteCode=${recmmendationCode}`)">复制链接</span>
+              <span class="text">{{origin}}/#/city-meta/register?InviteCode={{recmmendationCode}}</span>
+              <span class="btn" @click="copyContentH5(`${origin}/#/city-meta/register?InviteCode=${recmmendationCode}`)">复制链接</span>
             </div>
           </div>
 <!-- <pre>
@@ -51,7 +55,7 @@
           </div>
           <div class="item" style="">
             <span class="text">获得城市金</span>
-            <span> <i>{{RecmmendationIntegral}}</i> 人</span>
+            <span> <i>{{RecmmendationIntegral}}</i></span>
           </div>
           <!-- <van-row>
             <van-col span="8">span: 8</van-col>
@@ -81,19 +85,19 @@
      <div class="panel-outer gain">
        <img src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E5%A5%BD%E5%8F%8B/u83.svg" alt="">
         <img src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E5%A5%BD%E5%8F%8B/u84.svg" alt="">
-        <i class="text">简单3步赢奖励</i>
+        <img src="/static/images/invite-friends/3bu.png" alt="" class="text" width="78" height="14" style="top:-2px">
 
         <div class="imgWraper">
-          <img src="/static/images/invite-friends/2.png" alt="" width="90%">
-          <div class="text">
+          <img src="/static/images/invite-friends/step.png" alt="" class="step">
+          <!-- <div class="text">
             <span class="item item1">分享给好友</span>
             <span class="item item2">扫描进入页面</span>
             <span class="item item3">注册+实名认证</span>
-          </div>
+          </div> -->
           <div class="invited">
-            <img src="/static/images/invite-friends/left.png" alt="" style="padding-right: 11px">
-            已邀请 <span class="num">{{TotalCount}}</span> 位好友
-            <img src="/static/images/invite-friends/right.png" alt="">
+            <img src="/static/images/invite-friends/left.png" alt="" width="56" height="10">
+            <span>已邀请 <span class="num">{{TotalCount}}</span> 位好友</span>
+            <img src="/static/images/invite-friends/right.png" alt="" width="56" height="10">
           </div>
         </div>
         
@@ -117,8 +121,8 @@
                   <img src="/static/images/avatar.png" alt="" class="avatar" width="22" height="22">
                 </span>
                 <span class="item nickName">{{item.UserNickName}}</span>
-                <span class="item time">{{item.RecmmendationTime}}</span>
-                <span class="item status">{{item.StatusInfo}}</span>
+                <span class="item time">{{item.RecmmendationTime.substring(10, 0).replace(/-/g,'.')}}</span>
+                <span class="item status" :class="{'success':item.StatusInfo == '认证成功'}">{{item.StatusInfo}}</span>
               </div>
             </div>
             
@@ -189,7 +193,8 @@ import { Overlay } from 'vant';
 import {inviteApi} from "@/api"
 import getImageUrl from "@/utils/get-image-url";
 // import QRCode from 'qrcodejs2';
-
+import axios from "axios";
+import { mapGetters, mapMutations } from 'vuex'
 import Vue from 'vue';
 Vue.use(CountDown, PullRefresh, List, Empty, Notify);
 Vue.use(Overlay);
@@ -224,16 +229,22 @@ export default {
       dataSource:[],
        pagination: {
         PageIndex: 1,
-        PageSize: 2
+        PageSize: 10
       },
       TotalCount: 0,
+      origin: location.origin
     }
   },
-
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
   created () {
-    this.getDataSource()
+    // console.log(JSON.stringify(this.userInfo.ID,'',4));
+
+    // return
     this.GetImageCodeUrl()
-    // this.qrcode()
+    this.getDataSource()
+
   },
   methods:{
     
@@ -310,18 +321,37 @@ export default {
         RecmmendationCodeImage: this.RecmmendationCodeImage,
         NickName: this.NickName
       }
-      this.$router.push({ path: '/city-meta/invite-friends-placard', query: params})
-
-        // debugger
-      // this.$router.push({
-      //     name:'/invite-friends-placard',
-      //     query: params
-      // })
+      this.$router.push({ 
+        path: '/city-meta/invite-friends-placard', 
+        query: params
+      })
     },
 
+    GetImageCodeUrl(){
+      return new Promise((resolve) => {
+        // alert(this.userInfo.ID)
+        const { userInfo } = this
+        // inviteApi.GetImageCodeUrl('4e679f22-9bb8-4c3b-8de2-2448f4dbc077').then(result => {
+        // console.log(this.userInfo.ID)
+        // console.log(JSON.stringify(this.userInfo,'', 4))
+        // return;
+        // inviteApi.GetImageCodeUrl(this.userInfo.ID).then(result => {
+        inviteApi.GetImageCodeUrl(this.userInfo.ID).then(result => {
+          const data = result.Data || []
+          // console.log(JSON.stringify(data, '', 4))
+          this.NickName = data.NickName
+          this.UserHead = data.UserHead
+          this.RecmmendationIntegral = data.RecmmendationIntegral
+          this.sumByReg = data.RecmmendationSumByReg
+          this.sumByIdentity = data.RecmmendationSumByIdentity 
+          this.recmmendationCode = data.RecmmendationCode
+          this.RecmmendationCodeImage = data.RecmmendationCodeImage
+        }).finally(() => { resolve() })
+      })
+    },
     // 刷新
     async onRefresh() {
-      this.pagination.PageSize = 2
+      this.pagination.PageSize = 10
       this.pagination.PageIndex = 1
       await this.getDataSource(true)
       this.refreshing = false
@@ -331,7 +361,7 @@ export default {
     async onLoadMore() {
       // debugger
       // alert(this.pagination.PageIndex)
-      this.pagination.PageSize = 2
+      this.pagination.PageSize = 10
       this.pagination.PageIndex++
       await this.getDataSource()
     },
@@ -341,16 +371,19 @@ export default {
       return new Promise((resolve) => {
         // userId=&pageIndex=1&pageSize=10
         // if (this.varAwait) return resolve()
+
         this.varAwait = true
         const { pagination, userInfo} = this
         const params = {
           pageIndex: pagination.PageIndex,
           pageSize: pagination.PageSize,
-          userId: '4e679f22-9bb8-4c3b-8de2-2448f4dbc077'
-        }
+          // userId: JSON.stringify(this.userInfo.ID,'',4)
+          userId: this.userInfo.ID,
+          // userId: '4e679f22-9bb8-4c3b-8de2-2448f4dbc077'
+        } 
         inviteApi.getMyRecmmendRecordList(params).then(result => {
           const data = result.Data || []
-          this.TotalCount = result.TotalCount || []
+          this.TotalCount = result.TotalCount
           // console.log(JSON.stringify(data, '', 4))
           if (isClear) {
            this.dataSource = data
@@ -369,25 +402,6 @@ export default {
       
     },
 
-    GetImageCodeUrl(){
-      return new Promise((resolve) => {
-        const { userInfo } = this
-        // const params = {
-        //   userId: 'c60fd831-5117-4462-8be5-2409cd9786dd'
-        // }
-        inviteApi.GetImageCodeUrl('4e679f22-9bb8-4c3b-8de2-2448f4dbc077').then(result => {
-          const data = result.Data || []
-          // console.log(JSON.stringify(data, '', 4))
-          this.NickName = data.NickName
-          this.UserHead = data.UserHead
-          this.RecmmendationIntegral = data.RecmmendationIntegral
-          this.sumByReg = data.RecmmendationSumByReg
-          this.sumByIdentity = data.RecmmendationSumByIdentity 
-          this.recmmendationCode = data.RecmmendationCode
-          this.RecmmendationCodeImage = data.RecmmendationCodeImage
-        }).finally(() => { resolve() })
-      })
-    }
   }
 }
 </script>
@@ -405,11 +419,13 @@ export default {
 
     & > img, & > i.text{
       position: absolute;
-      top: -10px;
+      top: -9px;
     }
 
     i.text{
-      font-size: 14px;
+      font-size: 13px;
+      font-family: HYYaKuHeiW, HYYaKuHeiW-Regular;
+      text-shadow: 0px 1px 2px 0px rgba(0,0,0,0.10) inset; 
       height: 14px;
       color: #865e30;
       top: -2px
@@ -448,9 +464,10 @@ export default {
   }
 
   .content{
-    background-image: url(/public/static/images/invite-friends/bg1.png);
-    background-size: 100%;
+    background-image: url(/public/static/images/invite-friends/bg.png);
     background-repeat: no-repeat;
+    background-color: #12194B;
+    background-size: 100%;
     width: 100%;
     padding-bottom: 20px;
     display: flex;
@@ -517,8 +534,6 @@ export default {
         }
 
         .left{
-          display: flex;
-          flex-direction: column;
           width: 80%;
 
           .friend{
@@ -629,8 +644,8 @@ export default {
       .imgWraper{
         padding: 20px;
         position: relative;
-        img{
-          padding-left: 11px;
+        img.step{
+          padding: 20px 0;
         }
         .text{
           display: flex;
@@ -650,10 +665,9 @@ export default {
           font-family: 'HYYaKuHeiW, HYYaKuHeiW-Regular';
           text-align: center;
           font-size: 12px;
-          text-shadow: 0px 1px 2px 0px rgba(0,0,0,0.10); 
           color: #287bd1;
-          padding-top: 10px;
-
+          display: flex;
+          justify-content: space-between;
           .num{
             padding: 0 5px;
             background: #ff9923;
@@ -671,15 +685,28 @@ export default {
         .row{
           display: flex;
           align-items: center;
-          text-align: center;
-          padding: 5px 0;
+          text-align: left;
+          padding: 5px 0 5px 5px;
           font-size: 11px;
+          color: #aaa;
+
           .item{
             width: 25%;
             color: #666;
           }
           .item:first-child{
-            width: 10%
+            width: 15%
+          }
+          .item.nickName{
+            width: 28%;
+          }
+          .item.status.success{
+           color: #4d84fd;
+          }
+        }
+        .row ~ .row{
+          .item.nickName{
+            color: #333;
           }
         }
       }
@@ -735,7 +762,6 @@ export default {
       .left{
         display:flex;
         span{
-          width: 72px;
           height: 18px;
           font-size: 18px;
           font-family: PingFangSC, PingFangSC-Semibold;

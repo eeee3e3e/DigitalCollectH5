@@ -3,40 +3,39 @@
 
     <div id="capture" v-if="isShow"></div>
     <div class="app-invite-friends" id="app-invite-friends">
-      <div class="title">
-        <h6>数字藏品新时代</h6>
+      
+      <!-- <div class="title">
         <img src="/static/images/logo.png" alt="" width="94" height="24">
-      </div>
+        <h6>数字藏品新时代</h6>
+      </div> -->
 
+      <!-- <img src="/static/images/invite-friends/placard-header.png" alt="" width="100%" height=""> -->
       <div class="content">
-        <h2>城市数藏梦想邀约人  <span>第 <i>1</i> 期</span></h2>
-        <div>
-          
-        </div>
-        <img class="invite-text" src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E6%B5%B7%E6%8A%A5/u33.svg" alt="" style="position: relative;">
-        <i>加入城市数藏，未来近在咫尺！</i>
+        <!-- <h2>城市数藏梦想邀约人  <span>第 <i>1</i> 期</span></h2> -->
+        <!-- <img class="invite-text" src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E6%B5%B7%E6%8A%A5/u33.svg" alt="" style="position: relative;"> -->
+        <!-- <i class="joinTxet">加入城市数藏，未来近在咫尺！</i> -->
         <div class="QR-code-wraper">
           <div class="friend">
             <img src="/static/images/avatar.png" alt="" class="avatar" width="22" height="22">
-            <span><i>{{NickName}}</i>  邀请您来城市数藏一起领神秘藏品</span>
+            <span><i>{{NickName}}</i>  邀请您来城市数藏一起领神秘藏品!</span>
           </div>
-          <div class="qr-code">
-            <div class="left">
+          <div class="qr-code" style="position: relative;">
+            <!-- <div class="left">
               <img src="/static/images/invite-friends/u21.png" alt="" width="23" height="23">
-            </div>
+            </div> -->
             <div class="center">
               <!-- <img src="/static/images/invite-friends/1.png" alt="" width="117" height="117"> -->
-              <img :src="getImageUrl(RecmmendationCodeImage)" alt="" width="117" height="117">
+              <img :src="getImageUrl(RecmmendationCodeImage)" alt="" width="112" height="112">
             </div>
-            <div class="right">
+            <!-- <div class="right">
               <img src="/static/images/invite-friends/u21.png" alt="" width="23" height="23">
-            </div>
+            </div> -->
           </div>
-          <div class="identify">
+          <!-- <div class="identify">
             长按识别二维码注册城市数藏
-          </div>
+          </div> -->
           <div class="link">
-            http://121.196.44.29:8002/#/city-meta/register?={{recmmendationCode}}
+            {{origin}}/#/city-meta/register?={{recmmendationCode}}
           </div>
         </div>
       </div>
@@ -66,11 +65,13 @@ export default {
       isShow: true,
       RecmmendationCodeImage: '',
       recmmendationCode: '',
-      NickName: ''
+      NickName: '',
+      origin: location.origin
     }
   },
 
   mounted(){
+    // alert(/iPad|iPhone|iPod/.test(navigator.userAgent))
     console.log(JSON.stringify(this.$route.query,'',4))
     // debugger
     const { RecmmendationCodeImage, recmmendationCode, NickName} = this.$route.query
@@ -140,13 +141,17 @@ export default {
   }
 
   .content{
-    background-image: url(/public/static/images/invite-friends/bg1.png);
-    background-size: 100%;
+    background-image: url(/public/static/images/invite-friends/bg-placard.png);
+    background-repeat: no-repeat;
+    background-color: #12194B;
+    background-size: 375px 812px;
     height: 820px;
     width: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
+    position: relative;
+    top: -6px;
 
     h2{
       font-size: 18px;
@@ -170,27 +175,32 @@ export default {
       padding: 10px 0 30px 0
     }
 
-    i{
+    i.joinTxet{
       font-size: 11px;
     }
 
     .QR-code-wraper{
       width: 90%;
-      height: 270px;
+      height: 7.2rem;
       background: #fcfbf8;
-      border-radius: 10px;
-      margin-top: 280px;
+      border-radius: 0.26667rem;
+      margin-top: 13.4rem;
       display: flex;
       flex-direction: column;
       align-items: center;
+      background: transparent;
+
       .friend{
-        background: #285AC6;
+        background: #285ac6;
         font-size: 12px;
         color: #fff;
         border-radius: 13px;
-        text-align: center;
-        margin: 20px 0;
-        padding: 2px 10px 2px 1px;
+        margin: 0.41rem 0 0 0;
+        line-height: 0.6rem;
+        width: 91%;
+        box-sizing: border-box;
+        padding: 1px 0 1px 4px;
+
         img.avatar{
           margin-right: 8px
         }
@@ -208,6 +218,12 @@ export default {
         .left{
           padding-right: 40px;
         }
+        .center{
+          img{
+            position: relative;
+            margin: 0.83rem 0 0.88rem -0.06333rem;
+          }
+        }
         .right{
           padding-left: 40px;
         }
@@ -221,18 +237,21 @@ export default {
       }
 
       .link{
-        width: 80%;
-        background: #e5e8ef;
-        font-size: 12px;
-        color: #777;
-        border-radius: 13px;
+        width: 88%;
+        line-height: 28px;
+        background: #edeff3;
+        font-size: 0.32rem;
+        color: #8896b5;
+        margin-top: 0.46rem;
+        border-radius: 0.34667rem;
         text-align: center;
-        margin: 20px 0;
-        padding: 6px;
+        /* margin: 0.53333rem 0; */
+        padding: 0px 10px;
         word-wrap: break-word;
-        white-space: nowrap;  
-        overflow: hidden; 
+        white-space: nowrap;
+        overflow: hidden;
         text-overflow: ellipsis;
+        box-sizing: border-box;
       }
 
 
