@@ -2,38 +2,12 @@
 <div>
   <div class="home-card">
       <div class="home-card-title">
-        <div>2022-05-20</div>
+        <div>{{goods.CreateTime}}</div>
         <div>系统推送</div>
       </div>
       <div class="home-card-info">
-        <div>系统消息</div>
-        <div ref="infoItem" class="ellipsis" :class="{'more':showMore}">城市数藏藏品转赠功能重磅上线，如果您手里已经购买了部分藏品，欢迎转赠给您的亲朋好友！城市数藏藏品转赠功能重磅上线，如果您手里已经购买了部分藏品，欢迎转赠给您的亲朋好友！城市数藏藏品转赠功能重磅上线，如果您手里已经购买了部分藏品，欢迎转赠给您的亲朋好友！城市数藏藏品转赠功能重磅上线，如果您手里已经购买了部分藏品，欢迎转赠给您的亲朋好友！</div>
-           <div class="switch-arrow"
-        v-if="hasMoreArrow" 
-        @click="showMore=!showMore">{{this.showMore?'收起内容':'展开内容'}}</div>
-        </div>
-  </div>
-  <div class="home-card">
-      <div class="home-card-title">
-        <div>2022-05-20</div>
-        <div>系统推送</div>
-      </div>
-      <div class="home-card-info">
-        <div>系统消息</div>
-        <div ref="infoItem" class="ellipsis" :class="{'more':showMore}">城市数藏藏品转赠功能重磅上线，如果您手里已经购买了部分藏品，欢迎转赠给您的亲朋好友！城市数藏藏品转赠功能重磅上线，如果您手里已经购买了部分藏品，欢迎转赠给您的亲朋好友！城市数藏藏品转赠功能重磅上线，如果您手里已经购买了部分藏品，欢迎转赠给您的亲朋好友！城市数藏藏品转赠功能重磅上线，如果您手里已经购买了部分藏品，欢迎转赠给您的亲朋好友！</div>
-           <div class="switch-arrow"
-        v-if="hasMoreArrow" 
-        @click="showMore=!showMore">{{this.showMore?'收起内容':'展开内容'}}</div>
-        </div>
-  </div>
-  <div class="home-card">
-      <div class="home-card-title">
-        <div>2022-05-20</div>
-        <div>系统推送</div>
-      </div>
-      <div class="home-card-info">
-        <div>系统消息</div>
-        <div ref="infoItem" class="ellipsis" :class="{'more':showMore}">城市数藏藏品转赠功能重磅上线，如果您手里已经购买了部分藏品，欢迎转赠给您的亲朋好友！城市数藏藏品转赠功能重磅上线，如果您手里已经购买了部分藏品，欢迎转赠给您的亲朋好友！城市数藏藏品转赠功能重磅上线，如果您手里已经购买了部分藏品，欢迎转赠给您的亲朋好友！城市数藏藏品转赠功能重磅上线，如果您手里已经购买了部分藏品，欢迎转赠给您的亲朋好友！</div>
+        <div>{{goods.Title}}</div>
+        <div ref="infoItem" class="ellipsis" :class="{'more':showMore}">{{goods.Content}}</div>
            <div class="switch-arrow"
         v-if="hasMoreArrow" 
         @click="showMore=!showMore">{{this.showMore?'收起内容':'展开内容'}}</div>

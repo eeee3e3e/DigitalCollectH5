@@ -13,8 +13,7 @@
                 finished-text="没有更多了"
                 @load="onLoadMore"
             >
-              <!-- <home-card v-for="item of dataSource" :key="item.ID" :goods="item"/> -->
-              <home-card  />
+              <home-card v-for="item of dataSource" :key="item.ID" :goods="item"/>
 
               <template #loading></template>
               <template #error></template>
@@ -33,9 +32,17 @@
 <script>
 import { PullRefresh, List, Empty } from 'vant'
 import HomeCard from './components/HomeCard'
-import {exaplesApi} from "@/api"
+import { userApi } from '@/api'
 import { mapGetters } from 'vuex'
 export default {
+  beforeRouteLeave  (to, from, next) {
+       const params = {
+         id : this.userInfo.ID
+       }
+      userApi.getReadStationMessageById(params).then(res=>{
+          })
+    next()
+ },
   components: {
     HomeCard,
     PullRefresh,
@@ -88,10 +95,10 @@ export default {
         const params = {
           pageIndex: pagination.PageIndex,
                  pageSize: pagination.PageSize,
-                  userId:  userInfo.ID
+                  userID:  userInfo.ID
         }
-           exaplesApi
-               .getMyTurnCommodityLog(params)
+           userApi
+               .getUnreadMessages(params)
                .then(result => {
                  const data = result.Data || []
                  if (isClear) {
@@ -99,7 +106,7 @@ export default {
                  } else {
                    this.dataSource.push(...data)
                   }
-                 this.finished = result.TotalCount === 0 ? true : result.TotalCount < (result.PageIndex * result.PageSize)
+                 this.finished = result.TotalCount === 0 ? true : result.TotalCount < (result.PageIndex * 10)
                 //  this.varAwait = false
                 //  this.loading = false
                })

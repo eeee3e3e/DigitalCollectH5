@@ -16,13 +16,21 @@ import MyCenterCard from './components/MyCenterCard'
 import MyCenterCell from './components/MyCenterCell'
 import MyCenterOrderCard from './components/MyCenterOrderCard'
 import MyCenterBanner from './components/MyCenterBanner'
-
+import { userApi } from '@/api'
 export default {
+ data () {
+   return {
+     clearTotal:false
+   }
+ },
   components: {
     MyCenterCard,
     MyCenterCell,
     MyCenterBanner,
     MyCenterOrderCard
+  },
+  methods:{
+    
   }
 }
 </script>

@@ -1,7 +1,6 @@
 import request from "@/utils/request";
 
 const BASE_API = '/UserInfo'
-
 // 登陆验证码验证（手机端登陆）
 export function verifyVerificationCode(data = {}) {
   return request({
@@ -51,5 +50,23 @@ export function getUserInfoById(userId = undefined) {
     params: {
       userId
     }
+  })
+}
+// 未读消息,我的消息
+export function getUnreadMessages(params = {}) {
+  return request({
+    url: `/StationMessage/GetUnReadStationMessageByUserId`,
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    params
+  })
+}
+// 清空消息
+export function getReadStationMessageById(params = {}) {
+  return request({
+    url: `/StationMessage/ReadStationMessageByUserId`,
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    params
   })
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="app-to-back" @click="toBack">
+  <div class="app-to-back" @click="toBack()">
     <svg class="svg-icon" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1"
          width="9px"
          height="16px">
@@ -22,7 +22,7 @@ export default {
     goBackHandel: [Function]
   },
   methods: {
-    toBack() {
+    toBack(v) {
       if (this.goBackHandel) {
         return this.goBackHandel()
       }
