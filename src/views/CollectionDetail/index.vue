@@ -7,10 +7,12 @@
                :src="getImageSrc(goodsDetail.AttachmentList[0])" alt="">
           <img v-if="collectStatus === '1' && collectionDetail.AttachmentList && collectionDetail.AttachmentList.length && collectionDetail.AttachmentList[0].split('.')[collectionDetail.AttachmentList[0].split('.').length-1] !== 'mp4'"
                :src="getImageSrc(collectionDetail.AttachmentList[0])" alt="">
-               <video :poster="getImageSrc(goodsDetail.FrontImage)" muted v-if="collectStatus === '2' && goodsDetail.AttachmentList && goodsDetail.AttachmentList.length && goodsDetail.AttachmentList[0].split('.')[goodsDetail.AttachmentList[0].split('.').length-1] === 'mp4'"
-               :src="getImageSrc(goodsDetail.AttachmentList[0])"  loop="loop" autoplay="autoplay"></video>
-               <video :poster="getImageSrc(collectionDetail.FrontImage)" muted v-if="collectStatus === '1' && collectionDetail.AttachmentList && collectionDetail.AttachmentList.length && collectionDetail.AttachmentList[0].split('.')[collectionDetail.AttachmentList[0].split('.').length-1] === 'mp4'"
-               :src="getImageSrc(collectionDetail.AttachmentList[0])" loop="loop" autoplay="autoplay"></video>
+               <div @click="play">
+               <video id="videoid" :poster="getImageSrc(goodsDetail.FrontImage)" x5-video-player-type="h5"  webkit-playsinline playsinline muted v-if="collectStatus === '2' && goodsDetail.AttachmentList && goodsDetail.AttachmentList.length && goodsDetail.AttachmentList[0].split('.')[goodsDetail.AttachmentList[0].split('.').length-1] === 'mp4'"
+               :src="getImageSrc(goodsDetail.AttachmentList[0])"  loop="loop" ></video>
+               <video id="videoid" :poster="getImageSrc(collectionDetail.FrontImage)" x5-video-player-type="h5"  webkit-playsinline playsinline muted v-if="collectStatus === '1' && collectionDetail.AttachmentList && collectionDetail.AttachmentList.length && collectionDetail.AttachmentList[0].split('.')[collectionDetail.AttachmentList[0].split('.').length-1] === 'mp4'"
+               :src="getImageSrc(collectionDetail.AttachmentList[0])" loop="loop" a></video>
+               </div>
         </div>
       </div>
       <div class="exhibition-hall-body">
@@ -246,7 +248,15 @@ export default {
       this.getCollDetail()
     }
   },
+  mounted () {
+    setTimeout(()=>{
+      this.play()
+    },1000)
+  },
   methods: {
+     play() {
+	  document.getElementById("videoid").play()
+    },
     // 天 时 分 秒 格式化函数
     countDown() {
       let d = parseInt(this.seconds / (24 * 60 * 60))
@@ -357,22 +367,22 @@ export default {
 
       &-body {
         width: 100%;
-        height: 255px;
+        height: 265px;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 15px;
         box-sizing: border-box;
-        overflow: hidden;
+        // overflow: hidden;
         video {
           object-fit:cover;
            width: 315px;
-          height: 255px;
+          height: 265px;
         }
         img {
           display: inline-block;
           width: 315px;
-          height: 255px;
+          height: 265px;
         }
       }
     }
