@@ -405,7 +405,7 @@ export default {
            this.dataSource.push(...data)
           }
           this.finished = result.TotalCount === 0 ? true : result.TotalCount < (result.PageIndex * result.PageSize)
-          this.isTipShow = ((new Date('2022-6-5') * 1) > (new Date() * 1))
+          this.isTipShow = ((new Date('2022-6-11') * 1) > (new Date() * 1))
           if(this.isTipShow){
             if(result.TotalCount < 10) {
               this.isTipShowLock = true
