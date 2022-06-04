@@ -34,9 +34,7 @@
               <span class="btn" @click="copyContentH5(`${origin}/#/city-meta/register?InviteCode=${recmmendationCode}`)">复制链接</span>
             </div>
           </div>
-<!-- <pre>
-  {{getImageUrl(RecmmendationCodeImage)}}
-</pre> -->
+
           <div class="right">
             <img :src="getImageUrl(RecmmendationCodeImage)" alt="" width="60" height="60" id="qrcode" ref="qrcode">
             <!-- <img src='/static/images/invite-friends/qr.jpg' alt="" class="avatar" width="60" height="60" id="qrcode" ref="qrcode"> -->
@@ -65,6 +63,17 @@
         </div>
 
         <span class="saveBtn" @click="savePic">保存邀请图到本地</span>
+        <div class="tips" v-if="isTipShow">
+        <!-- <div class="tips"> -->
+          <div class="unlock" v-if="isTipShowLock">
+            <img src="/static/images/invite-friends/lock.png" alt="" width="10" height="12">
+            <span>邀请10人解锁抽奖资格</span>
+          </div>
+          <div class="gift" v-if="isTipShowGift">
+            <img src="/static/images/invite-friends/gift.png" alt="" width="10" height="10">
+            <span class="gift">已获得抽奖资格，待抽奖~</span>
+          </div>
+        </div>
 
         <!-- <van-count-down :time="time" format="DD 天 HH 时 mm 分 ss 秒"/> -->
         <!-- <van-count-down :time="time" class='timer'>
@@ -192,6 +201,7 @@ import { CountDown, PullRefresh, List, Empty, Notify } from 'vant';
 import { Overlay } from 'vant';
 import {inviteApi} from "@/api"
 import getImageUrl from "@/utils/get-image-url";
+
 // import QRCode from 'qrcodejs2';
 import axios from "axios";
 import { mapGetters, mapMutations } from 'vuex'
@@ -232,7 +242,11 @@ export default {
         PageSize: 10
       },
       TotalCount: 0,
-      origin: location.origin
+      origin: location.origin,
+      // currentDate: ''
+      isTipShow: false,
+      isTipShowLock: false,
+      isTipShowGift: false
     }
   },
   computed: {
@@ -240,17 +254,17 @@ export default {
   },
   created () {
     // console.log(JSON.stringify(this.userInfo.ID,'',4));
-
-    // return
+    // alert(getDate('2022-6-11'))
+    // console.log(this.currentDate(new Date()))
     this.GetImageCodeUrl()
     this.getDataSource()
 
   },
   methods:{
-    
     rule(){
       this.overlayShow = true
     },
+
     // 加载图片资源
     getImageUrl(path) {
       return getImageUrl(path)
@@ -391,13 +405,21 @@ export default {
            this.dataSource.push(...data)
           }
           this.finished = result.TotalCount === 0 ? true : result.TotalCount < (result.PageIndex * result.PageSize)
-          // alert(this.finished)
-          }).finally(() => {
-            // this.finished = true
-            // this.varAwait = false
-            this.loading = false
-            resolve()
-          })
+          this.isTipShow = ((new Date('2022-6-5') * 1) > (new Date() * 1))
+          if(this.isTipShow){
+            if(result.TotalCount < 10) {
+              this.isTipShowLock = true
+            }
+            if(result.TotalCount >= 10) {
+              this.isTipShowGift = true
+            }
+          }
+        }).finally(() => {
+          // this.finished = true
+          // this.varAwait = false
+          this.loading = false
+          resolve()
+        })
       })
       
     },
@@ -618,6 +640,19 @@ export default {
         color: #fff;
         font-size: 14px;
         text-align: center;
+      }
+
+      .tips{
+        div{
+          padding-bottom: 10px;
+        }
+        span{
+          font-size: 12px;
+          padding-left: 9px;
+        }
+        span.gift{
+          color: #3971e9;          
+        }
       }
 
       .timer{
