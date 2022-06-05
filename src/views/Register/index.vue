@@ -10,7 +10,7 @@
       <i>未来近在咫尺</i>
       <div class="QR-code-wraper">
         <div v-if='IsRegistered == false'>
-          <input type="number" placeholder="请输入您的手机号码" v-model='phoneNumber'>
+          <input type="number" placeholder="请输入您的手机号码" v-model='phoneNumber' style="color: #333">
           <span class="btn" @click="onSendVerificationCode">立即注册</span>
         </div>
         <div v-if='IsRegistered'>
@@ -101,10 +101,10 @@ export default {
   created () {
     // debugger
     // this.getDataSource()
-    // console.log(JSON.stringify(this.userInfo,'',4));
+    console.log("shuaxinuserInfo:", JSON.stringify(this.userInfo, null, 4));
     // console.log(JSON.stringify(this.loginPhone,'',4));
     // this.getObjFromUrl('InviteCode')
-    // this.getDataSource()
+    this.getDataSource()
   },
   beforeDestroy() {
     this.stopCountDown()
@@ -174,58 +174,55 @@ export default {
     },
 
     getDataSource() {
-// this.isRegShow = true
-// debugger
+
       const params = {
         "MobileNo": this.phoneNumber,
-      // 120695
-      //   "MobileNo": '18768857720',
-      //   "MobileNo": '15901227160',
         "Code": this.VerifiCode,
-      //   "Code": '843871',
         "InviteCode": this.getObjFromUrl('InviteCode')
       }
       console.log('params: ', JSON.stringify(params,'',4))
-      let url = 'http://121.196.44.29:8999/api/UserInfo/VerifyVerificationCodeByRecommend'
+
       axios({ 
         method: 'post',
-        url: url,
+        url: 'http://121.196.44.29:8001/api/UserInfo/VerifyVerificationCodeByRecommend',
         data: params
       }).then(res => {
-        // debugger
-          console.log(JSON.stringify(res, '', 4))
-          const { ReturnCode, ReturnMessage, Data } = res.data
-          const data = res.data.Data
-          setAuthorization(data.Ticket)
-          this.SET_USER_INFO(data)
-          if(ReturnCode == 200 && ReturnMessage == '获取用户成功') {
-            Notify({ type: 'success', message: '注冊成功' });
-            this.IsRegistered = true
-          }
+        console.log(JSON.stringify(res, '', 4))
+        const { ReturnCode, ReturnMessage, Data } = res.data
+        const data = res.data.Data
+        setAuthorization(data.Ticket)
+        this.SET_USER_INFO(data)
+        if(ReturnCode == 200 && ReturnMessage == '获取用户成功') {
+          Notify({ type: 'success', message: '注冊成功' });
+          this.IsRegistered = true
+        }
       }).catch(error => {
         console.info(error);
       });
-      return
       
       /*return new Promise( resolve => {
-        const params = {
-          "MobileNo": this.phoneNumber,
-          "Code": this.VerifiCode,
+        // const params = {
+        //   "MobileNo": this.phoneNumber,
+        //   "Code": this.VerifiCode,
         //   "InviteCode": this.getObjFromUrl('InviteCode')
-          "InviteCode": '8TsAAKeHMZ' 
+        // }
+        const params = {
+          "MobileNo": 15901227160,
+          "Code": '751779',
+          "InviteCode": this.getObjFromUrl('InviteCode')
         }
-        // debugger TeOxuTNpoC Tmak8kzQTC
-        console.log(JSON.stringify(params,'',4))
-        // return;
+        console.log('params: ', JSON.stringify(params,'',4))
 
-        const { userInfo } = this
-        registerApi.getRegister(params).then(result => {
-          // debugger
-          const data = result || []
-          console.log(JSON.stringify(data, '', 4))
-          const { ReturnCode, ReturnMessage, Data } = result
+        userApi.VerifyVerificationCodeByRecommend(params).then(res => {
+        // registerApi.VerifyVerificationCodeByRecommend(params).then(res => {
+          console.log("res: ", JSON.stringify(res, '', 4))
+
+          const { ReturnCode, ReturnMessage, Data } = res.data
+          setAuthorization(Data.Ticket)
+          this.SET_USER_INFO(Data)
           if(ReturnCode == 200 && ReturnMessage == '获取用户成功') {
-            this.IsRegistered == true
+            Notify({ type: 'success', message: '注冊成功' });
+            this.IsRegistered = true
           }
         }).finally( () => { resolve() })
 
@@ -238,6 +235,7 @@ export default {
       const pram = new URLSearchParams('?'+temp);
       return pram.get(name)
     }
+
   }
 }
 </script>

@@ -85,9 +85,10 @@ export default {
     ...mapGetters(['userInfo']),
   },
   methods: {
-    ...mapMutations(['SET_AUTH']),
+    ...mapMutations(['SET_AUTH', 'DEL_USER_INFO']),
     // 退出登录
     onLogout() {
+      this.DEL_USER_INFO()
       this.$router.replace('/city-meta/verification-code-login')
     },
     // 前往认证

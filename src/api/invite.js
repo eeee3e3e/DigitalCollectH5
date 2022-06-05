@@ -11,7 +11,7 @@ export function userTurnToUserInfo(data = {}) {
   })
 }
 export function GetImageCodeUrl(data = {}) {
-  console.log(data)
+  // console.log(data)
   return request({
     // url: `/UserInfo/GetImageCodeUrl?userId=c60fd831-5117-4462-8be5-2409cd9786dd`,
     url: `/UserInfo/GetImageCodeUrl?userId=${data}`,

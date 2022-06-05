@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import { isEmpty } from 'lodash'
 import { userApi } from "@/api";
 import { clearUserId, setUserId } from "@/utils/cookies";
-
+import axios from "axios";
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -55,6 +55,15 @@ const store = new Vuex.Store({
           })
           .catch(reject)
       })
+      /*axios({ 
+        method: 'get',
+        url: 'http://121.196.44.29:8999/api/UserInfo/GetUser?&userId=690461d5-746a-4136-a9fc-99d8fecd037d',
+        // data: params
+      }).then(res => {
+        console.log(res)
+      }).catch(error => {
+        console.info(error);
+      });*/
     },
   }
 })

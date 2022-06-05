@@ -1,6 +1,16 @@
 import request from "@/utils/request";
 
 const BASE_API = '/UserInfo'
+// 邀请注册
+export function VerifyVerificationCodeByRecommend(data = {}) {
+  return request({
+    url: `${BASE_API}/VerifyVerificationCodeByRecommend`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data
+  })
+}
+
 // 登陆验证码验证（手机端登陆）
 export function verifyVerificationCode(data = {}) {
   return request({

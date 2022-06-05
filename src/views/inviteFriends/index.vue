@@ -1,9 +1,7 @@
 <template>
   <div class="app-invite-friends">
 
-    <div class="title">
-      邀请好友
-    </div>
+    <!-- <div class="title">邀请好友</div> -->
 
     <div class="content">
       <!-- <div class="rule" @click="rule">
@@ -347,7 +345,7 @@ export default {
         const { userInfo } = this
         // inviteApi.GetImageCodeUrl('4e679f22-9bb8-4c3b-8de2-2448f4dbc077').then(result => {
         // console.log(this.userInfo.ID)
-        // console.log(JSON.stringify(this.userInfo,'', 4))
+        console.log(JSON.stringify(this.userInfo,'', 4))
         // return;
         // inviteApi.GetImageCodeUrl(this.userInfo.ID).then(result => {
         inviteApi.GetImageCodeUrl(this.userInfo.ID).then(result => {
