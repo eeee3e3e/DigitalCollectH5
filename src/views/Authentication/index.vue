@@ -39,7 +39,8 @@
     </div>
      <van-dialog v-model="isShow" :show-confirm-button="false">
         <div style="text-align:center;">
-          <SlideVerify ref="slideblock" @success="sendSmsCode"></SlideVerify>
+          <!-- <SlideVerify ref="slideblock" @success="sendSmsCode"></SlideVerify> -->
+          <Verify :type="2" @success="sendSmsCode" @error="error" width="100%"  ></Verify>
         </div>
      </van-dialog>
   </div>
@@ -57,7 +58,8 @@ export default {
     [Dialog.Component.name]: Dialog.Component,
     Field,
     BaseActionSheet,
-    SlideVerify
+    // SlideVerify
+    Verify
   },
   data() {
     return {
@@ -108,7 +110,11 @@ export default {
       //       AppLoading.closeAppLoading()
       //     })
     },
+    error () {
+      tip('验证失败，重新输入')
+    },
     sendSmsCode() {
+      tip('验证成功')
       const { userPhone } = this
 	  //此处的处理是：图片验证通过后，发送短信验证码，这个要根据具体情况单独处理
       setTimeout(() => {
