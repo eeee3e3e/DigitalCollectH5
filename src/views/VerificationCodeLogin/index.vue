@@ -41,8 +41,9 @@
       </div>
     </div>
      <van-dialog v-model="isShow" :show-confirm-button="false">
-        <div style="text-align:center;">
-          <SlideVerify ref="slideblock" @success="sendSmsCode"></SlideVerify>
+        <div style="text-align:center;padding-bottom:5px;">
+          <!-- <SlideVerify ref="slideblock" @success="sendSmsCode"></SlideVerify> -->
+          <Verify :type="2" @success="sendSmsCode" @error="error" width="100%"  ></Verify>
         </div>
      </van-dialog>
     <base-action-sheet title="用户服务协议" v-model="showUserServiceAgreement">
@@ -55,6 +56,7 @@
 </template>
 
 <script>
+import Verify from 'vue2-verify'
 import { BaseActionSheet, UserServiceAgreement, PrivacyAgreement } from '@/components'
 import { Checkbox,Dialog } from 'vant'
 import { userApi } from '@/api'
@@ -62,7 +64,7 @@ import { verifyPhone } from '@/utils/regexp'
 import tip from "@/utils/tip";
 import { mapMutations } from "vuex";
 import AppLoading from "@/utils/app-loading"
-import SlideVerify from "@/components/check/SlideVerify.vue" // 图片验证
+// import SlideVerify from "@/components/check/SlideVerify.vue" // 图片验证
 export default {
   components: {
     [Dialog.Component.name]: Dialog.Component,
@@ -70,7 +72,8 @@ export default {
     VantCheckbox: Checkbox,
     UserServiceAgreement,
     PrivacyAgreement,
-    SlideVerify
+    // SlideVerify,
+    Verify
   },
   data() {
     return {
@@ -95,7 +98,11 @@ export default {
         this.isShowSlide = false;
       }, 500);
     },
+    error () {
+      tip('验证失败，重新输入')
+    },
     sendSmsCode() {
+      tip('验证成功')
       const { userPhone } = this
 	  //此处的处理是：图片验证通过后，发送短信验证码，这个要根据具体情况单独处理
       setTimeout(() => {
@@ -175,7 +182,19 @@ export default {
 </script>
 
 <style scoped lang="less">
-
+/deep/ .verify-btn {
+  background-color: #1989fa;
+  border-radius: 20px;
+  width:70vw;
+  margin-left:30px;
+}
+/deep/ .verify-code-area{
+  padding:0px 33px 0px 36px;
+}
+/deep/ .van-dialog__content{
+  min-height:156px;
+  text-align: center;
+}
 @-webkit-keyframes shake {
   10% {
     transform: translateX(5px);

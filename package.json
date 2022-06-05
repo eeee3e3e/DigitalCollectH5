@@ -23,6 +23,7 @@
     "vue-monoplasty-slide-verify": "^1.1.4",
     "vue-qr": "^4.0.9",
     "vue-router": "^3.5.1",
+    "vue2-verify": "^1.1.5",
     "vuex": "^3.6.2",
     "yarn": "^1.22.18"
   },

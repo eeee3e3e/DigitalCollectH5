@@ -11,6 +11,8 @@ import './utils/flexible-rem'
 import './utils/tip'
 import './utils/ban-zoom'
 import SlideVerify from 'vue-monoplasty-slide-verify'
+import Verify from 'vue2-verify'
+Vue.use(Verify)
 Vue.use(SlideVerify)
 // if (process.env.NODE_ENV === 'development') {
   // new VConsole();
