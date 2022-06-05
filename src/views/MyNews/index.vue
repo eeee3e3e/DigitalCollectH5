@@ -63,10 +63,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['userInfo']),
+    ...mapGetters(['userInfo','hasUserInfo']),
   },
   created () {
-    this.getDataSource()
+    if (this.hasUserInfo) {
+      this.getDataSource()
+    }
+    
   },
   methods:{
     // 刷新
@@ -81,9 +84,16 @@ export default {
 
     // 加载更多
     async onLoadMore() {
-      this.pagination.PageSize = 10
+      if (this.hasUserInfo) {
+        this.pagination.PageSize = 10
       this.pagination.PageIndex++
       await this.getDataSource()
+      } else {
+         this.finished = true
+                 this.varAwait = false
+                 this.loading = false
+      }
+      
     },
     // 获取数据
     getDataSource(isClear = false) {

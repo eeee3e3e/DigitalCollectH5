@@ -98,10 +98,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['userInfo']),
+    ...mapGetters(['userInfo','hasUserInfo']),
   },
   created() {
-    this.getDataSource()
+    if (this.hasUserInfo) {
+       this.getDataSource()
+    }
+   
   },
   methods: {
     // 获取列表数据
@@ -158,10 +161,16 @@ export default {
 
     // 加载更多
     async onLoadMore() {
-      console.log('当前分页',this.pagination.PageIndex)
+      if (this.hasUserInfo) {
       this.pagination.PageSize = 10
       this.pagination.PageIndex++
       await this.getDataSource()
+      } else {
+          this.finished = true
+            this.varAwait = false
+            this.loading = false
+      }
+      
     },
 
     // 加载图片资源
