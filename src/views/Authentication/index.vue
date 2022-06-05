@@ -141,6 +141,19 @@ export default {
 </script>
 
 <style scoped lang="less">
+/deep/ .verify-btn {
+  background-color: #1989fa;
+  border-radius: 20px;
+  width:70vw;
+  margin-left:30px;
+}
+/deep/ .verify-code-area{
+  padding:0px 33px 0px 36px;
+}
+/deep/ .van-dialog__content{
+  min-height:156px;
+  text-align: center;
+}
 .app-authentication {
   &-header {
     padding: 102px 24px 0 24px;
