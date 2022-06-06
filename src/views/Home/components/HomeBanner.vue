@@ -3,7 +3,7 @@
     <Swipe :autoplay="4000" @change="bannerChange">
       <SwipeItem v-for="(bannerItem, index) of bannerImages" :key="index" @click="onToHelpDocument(bannerItem)">
         <div class="app-home-banner-item">
-          <base-image :src="bannerItem" alt=""/>
+          <base-image :src="getImageSrc(bannerItem.ImgUrl)" alt=""/>
         </div>
       </SwipeItem>
       <template #indicator>
@@ -41,9 +41,13 @@ export default {
     this.getDataSource()
   },
   methods: {
+    getImageSrc(path) {
+      return getImageUrl(path)
+    },
     onToHelpDocument(bannerItem) {
-      // const { LinkUrl } = bannerItem
-      const LinkUrl = '/city-meta/help-document'
+      const { LinkUrl } = bannerItem
+      // console.log(bannerItem)
+      // const LinkUrl = '/city-meta/help-document'
       // if (isExternal(LinkUrl)) {
       //   return window.location.href = LinkUrl
       // }
@@ -65,7 +69,7 @@ export default {
       dictionaryApi
           .getBannerListByCategory(params)
           .then(result => {
-            this.bannerImages = result.Data.map(item => getImageUrl(item.ImgUrl))
+            this.bannerImages = result.Data
           })
 
     }

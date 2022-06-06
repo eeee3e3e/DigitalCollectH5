@@ -40,7 +40,7 @@
      <van-dialog v-model="isShow" :show-confirm-button="false">
         <div style="text-align:center;">
           <!-- <SlideVerify ref="slideblock" @success="sendSmsCode"></SlideVerify> -->
-          <Verify :type="2" @success="sendSmsCode" @error="error" width="100%"  ></Verify>
+          <Verify :type="1" codeLength="2" @success="sendSmsCode" @error="error" width="100%"  ></Verify>
         </div>
      </van-dialog>
   </div>
@@ -53,6 +53,9 @@ import { BaseActionSheet } from '@/components'
 import { userApi } from '@/api'
 import AppLoading from "@/utils/app-loading";
 import SlideVerify from "@/components/check/SlideVerify.vue" // 图片验证
+import Verify from 'vue2-verify'
+import tip from "@/utils/tip";
+
 export default {
   components: {
     [Dialog.Component.name]: Dialog.Component,

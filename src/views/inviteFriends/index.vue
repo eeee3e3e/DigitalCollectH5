@@ -1,8 +1,6 @@
 <template>
   <div class="app-invite-friends">
 
-    <!-- <div class="title">邀请好友</div> -->
-
     <div class="content">
       <!-- <div class="rule" @click="rule">
         <img src="/static/images/invite-friends/u11.png" alt="" width="12" height="12">
@@ -10,7 +8,7 @@
       </div>
       <h2>城市数藏梦想邀约人  <span>第 <i>1</i> 期</span></h2>
       <img class="invite-text" src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E6%B5%B7%E6%8A%A5/u33.svg" alt=""> -->
-      <div class="panel-outer rights">
+      <div class="panel-outer rights" style="margin-top: 118%">
         <img src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E5%A5%BD%E5%8F%8B/u83.svg" alt="">
         <img src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E5%A5%BD%E5%8F%8B/u84.svg" alt="">
         <img src="/static/images/invite-friends/quanyi.png" alt="" class="text" width="78" height="14" style="top:-2px">
@@ -32,9 +30,6 @@
               <span class="btn" @click="copyContentH5(`${origin}/#/city-meta/register?InviteCode=${recmmendationCode}`)">复制链接</span>
             </div>
           </div>
-<!-- <pre>
-  {{getImageUrl(RecmmendationCodeImage)}}
-</pre> -->
           <div class="right">
             <img :src="getImageUrl(RecmmendationCodeImage)" alt="" width="60" height="60" id="qrcode" ref="qrcode">
             <!-- <img src='/static/images/invite-friends/qr.jpg' alt="" class="avatar" width="60" height="60" id="qrcode" ref="qrcode"> -->
@@ -209,7 +204,7 @@ export default {
     return {
       overlayShow: false,
       NickName: '',
-      RecmmendationIntegral: '',
+      RecmmendationIntegral: 0,
       sumByReg: 0,
       sumByIdentity: 0,
       recmmendationCode: '',
@@ -234,14 +229,19 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['userInfo'])
+    ...mapGetters(['userInfo', 'hasUserInfo'])
   },
   created () {
     // console.log(JSON.stringify(this.userInfo.ID,'',4));
 
     // return
-    this.GetImageCodeUrl()
-    this.getDataSource()
+    // debugger
+    if(this.hasUserInfo){
+      this.GetImageCodeUrl()
+      this.getDataSource()
+    } else {
+      Notify({ type: 'warning', message: '请先 登录' });
+    }
 
   },
   methods:{
@@ -331,7 +331,7 @@ export default {
         const { userInfo } = this
         // inviteApi.GetImageCodeUrl('4e679f22-9bb8-4c3b-8de2-2448f4dbc077').then(result => {
         // console.log(this.userInfo.ID)
-        console.log(JSON.stringify(this.userInfo,'', 4))
+        // console.log(JSON.stringify(this.userInfo,'', 4))
         // return;
         // inviteApi.GetImageCodeUrl(this.userInfo.ID).then(result => {
         inviteApi.GetImageCodeUrl(this.userInfo.ID).then(result => {

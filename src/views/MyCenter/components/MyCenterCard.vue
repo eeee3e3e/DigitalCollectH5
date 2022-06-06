@@ -100,7 +100,9 @@ export default {
     }
   },
   created () {
-    this.getuserInfo()
+    if (this.hasUserInfo) {
+      this.getuserInfo()
+    }
   },
   methods: {
     getuserInfo () {

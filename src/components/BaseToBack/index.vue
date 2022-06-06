@@ -23,6 +23,7 @@ export default {
   },
   methods: {
     toBack(v) {
+      // debugger
       if (this.goBackHandel) {
         return this.goBackHandel()
       }

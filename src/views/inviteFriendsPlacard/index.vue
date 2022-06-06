@@ -9,21 +9,22 @@
         <h6>数字藏品新时代</h6>
       </div> -->
 
-      <!-- <img src="/static/images/invite-friends/placard-header.png" alt="" width="100%" height=""> -->
+      <img src="/static/images/invite-friends/placard-header.png" alt="" width="100%" height="">
       <div class="content">
-        <!-- <h2>城市数藏梦想邀约人  <span>第 <i>1</i> 期</span></h2> -->
-        <!-- <img class="invite-text" src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E6%B5%B7%E6%8A%A5/u33.svg" alt="" style="position: relative;"> -->
-        <!-- <i class="joinTxet">加入城市数藏，未来近在咫尺！</i> -->
+        <h2>城市数藏梦想邀约人  <span>第 <i>1</i> 期</span></h2>
+        <img class="invite-text" src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E6%B5%B7%E6%8A%A5/u33.svg" alt="" style="position: relative;">
+        <i class="joinTxet">加入城市数藏，未来近在咫尺！</i>
         <div class="QR-code-wraper">
           <div class="friend">
             <img src="/static/images/avatar.png" alt="" class="avatar" width="22" height="22">
             <span><i>{{NickName}}</i>  邀请您来城市数藏一起领神秘藏品!</span>
           </div>
           <div class="qr-code" style="position: relative;">
+            <img src="/static/images/invite-friends/a.png" style="width: 80%;margin: 0 auto;padding: 30px 0 20px 0">
             <!-- <div class="left">
               <img src="/static/images/invite-friends/u21.png" alt="" width="23" height="23">
             </div> -->
-            <div class="center">
+            <div class="center" style="position: absolute;top: 9px; left: 121px">
               <!-- <img src="/static/images/invite-friends/1.png" alt="" width="117" height="117"> -->
               <img :src="getImageUrl(RecmmendationCodeImage)" alt="" width="112" height="112">
             </div>
@@ -31,9 +32,9 @@
               <img src="/static/images/invite-friends/u21.png" alt="" width="23" height="23">
             </div> -->
           </div>
-          <!-- <div class="identify">
-            长按识别二维码注册城市数藏
-          </div> -->
+          <div class="identify">
+            请截屏到相册并发给好友
+          </div>
           <div class="link">
             {{origin}}/#/city-meta/register?={{recmmendationCode}}
           </div>
@@ -45,10 +46,11 @@
 
 <script>
 
-import { CellGroup, Cell } from 'vant'
+import { CellGroup, Cell, Notify } from 'vant'
 import { BaseActionSheet, UserServiceAgreement, PrivacyAgreement } from '@/components'
 import html2canvas from 'html2canvas'
 import getImageUrl from "@/utils/get-image-url";
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   components: {
@@ -69,7 +71,17 @@ export default {
       origin: location.origin
     }
   },
+  computed: {
+    ...mapGetters(['userInfo', 'hasUserInfo'])
+  },
+  created () {
 
+    if(this.hasUserInfo){
+    } else {
+      Notify({ type: 'warning', message: '请先 登录' });
+    }
+
+  },
   mounted(){
     // alert(/iPad|iPhone|iPod/.test(navigator.userAgent))
     console.log(JSON.stringify(this.$route.query,'',4))
@@ -79,9 +91,9 @@ export default {
     this.recmmendationCode = recmmendationCode
     this.NickName = NickName
     // console.log(this.recmmendationCode)
-    setTimeout( () => {      
-      this.capture()
-    }, 1000)
+    // setTimeout( () => {    
+      // this.capture()
+    // }, 1000)
   },
 
   beforeRouteLeave(to, from, next) {
@@ -100,7 +112,34 @@ export default {
           // const pic = document.querySelector("#capture")
           const pic = document.getElementById("capture").appendChild(canvas)
           pic.setAttribute('id','pic')
-          pic.style.cssText = "width: 100%;position:absolute;top:0"
+          pic.style.cssText = "width: 100%;position:absolute;top:0; z-index:1;";
+          //获取年月日作为文件名
+          let timers=new Date();
+          let fullYear=timers.getFullYear();
+          let month=timers.getMonth()+1;
+          let date=timers.getDate();
+          let randoms=Math.random()+'';
+
+          //年月日加上随机数
+          let numberFileName=fullYear+''+month+date+randoms.slice(3,10);
+          let imgData=canvas.toDataURL();
+
+          //保存图片
+          let saveFile = function(data, filename){
+              let save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+              save_link.href = data;
+              save_link.download = filename;
+
+              let event = document.createEvent('MouseEvents');
+              event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+              save_link.dispatchEvent(event);
+          };
+
+          //最终文件名+文件格式
+          let filename = numberFileName + '.png';
+          saveFile(imgData,filename);
+          document.body.appendChild(canvas);  //把截的图显示在网页上
+            
       });
     },
     onViewUserServiceAgreement() {
@@ -114,6 +153,7 @@ export default {
 </script>
 
 <style scoped lang="less">
+
 .app-invite-friends {
   padding-bottom: 20px;
   box-sizing: border-box;
@@ -141,7 +181,7 @@ export default {
   }
 
   .content{
-    background-image: url(/public/static/images/invite-friends/bg-placard.png);
+    background-image: url(/public/static/images/invite-friends/bg2.png);
     background-repeat: no-repeat;
     background-color: #12194B;
     background-size: 375px 812px;
@@ -181,14 +221,13 @@ export default {
 
     .QR-code-wraper{
       width: 90%;
-      height: 7.2rem;
       background: #fcfbf8;
       border-radius: 0.26667rem;
-      margin-top: 13.4rem;
+      margin-top: 8.3rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      background: transparent;
+      background: #fff;
 
       .friend{
         background: #285ac6;
@@ -220,8 +259,9 @@ export default {
         }
         .center{
           img{
-            position: relative;
+            position: absolute;
             margin: 0.83rem 0 0.88rem -0.06333rem;
+            z-index: 111;
           }
         }
         .right{
@@ -233,7 +273,6 @@ export default {
         font-size: 12px;
         font-weight: bold;
         color: #000;
-        padding-top: 20px
       }
 
       .link{
@@ -242,7 +281,7 @@ export default {
         background: #edeff3;
         font-size: 0.32rem;
         color: #8896b5;
-        margin-top: 0.46rem;
+        margin: 20px 0 20px 0;
         border-radius: 0.34667rem;
         text-align: center;
         /* margin: 0.53333rem 0; */

@@ -1,16 +1,6 @@
 import request from "@/utils/request";
 
 const BASE_API = '/UserInfo'
-// 邀请注册
-export function VerifyVerificationCodeByRecommend(data = {}) {
-  return request({
-    url: `${BASE_API}/VerifyVerificationCodeByRecommend`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data
-  })
-}
-
 // 登陆验证码验证（手机端登陆）
 export function verifyVerificationCode(data = {}) {
   return request({
@@ -62,6 +52,17 @@ export function getUserInfoById(userId = undefined) {
     }
   })
 }
+
+// 用户是否已经注册
+export function IsRegByMobileNo(params = {}) {
+  return request({
+    url: `${BASE_API}/IsRegByMobileNo`,
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    params
+  })
+}
+
 // 未读消息,我的消息
 export function getUnreadMessages(params = {}) {
   return request({

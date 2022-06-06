@@ -1,8 +1,8 @@
 <template>
   <div class="app-invite-friends">
-    <div class="title">
+    <!-- <div class="title">
       <h6>城市数藏</h6>
-    </div>
+    </div> -->
 
     <div class="content">
       <img class="invite-text" src="/static/images/register/u32.png" width="91" height="91" alt="">
@@ -11,7 +11,7 @@
       <div class="QR-code-wraper">
         <div v-if='IsRegistered == false'>
           <input type="number" placeholder="请输入您的手机号码" v-model='phoneNumber' style="color: #333">
-          <span class="btn" @click="onSendVerificationCode">立即注册</span>
+          <span class="btn" @click="isRegByMobileNo">立即注册</span>
         </div>
         <div v-if='IsRegistered'>
           <i style="font-size: 17px;">恭喜您成功加入城市数藏，快去实名认证吧！</i>
@@ -22,23 +22,14 @@
 
     <van-dialog v-model="isShowVerify" :show-confirm-button="false">
       <div style="text-align:center;">
-        <!-- <SlideVerify ref="slideblock" @success="sendSmsCode"></SlideVerify> -->
-        <slide-verify :l="42"
-            :r="10"
-            :w="310"
-            :h="155"
-            @success="onSuccess"
-            @fail="onFail"
-            @refresh="onRefresh"
-            slider-text="向右滑动完成验证"
-            ></slide-verify>
+        <Verify :type="1" :codeLength=2 @success="onSendVerificationCode" @error="error" width="100%"></Verify>
       </div>
     </van-dialog>
 
     <van-dialog v-model="isRegShow" showConfirmButton showCancelButton confirm-button-color="#285AC6" class='resShow' @confirm="getDataSource">
       <div class="header">
         <img src="/static/images/register/1.png" alt="" width="11" height="14">
-        <span>请输入手机号</span>
+        <span>请输入验证码</span>
       </div>
       <div class="content1">
         <div class="text1">已发送验证码至手机尾号（{{phoneNumber.substring(7)}}）</div>
@@ -59,11 +50,14 @@ import { BaseActionSheet, UserServiceAgreement, PrivacyAgreement } from '@/compo
 import { registerApi, userApi } from "@/api"
 // import { mapGetters } from 'vuex'
 // import SlideVerify from "@/components/check/SlideVerify.vue" // 图片验证
-import SlideVerify from 'vue-monoplasty-slide-verify';
+// import SlideVerify from 'vue-monoplasty-slide-verify';
 import { mapGetters, mapMutations } from 'vuex'
 import { setAuthorization } from "@/utils/cookies";
+import { verifyPhone } from '@/utils/regexp'
+import tip from '@/utils/tip'
+import Verify from 'vue2-verify'
 import axios from "axios";
-// Vue.use(SlideVerify);
+
 function formatVerificationCodeValue(value) {
   if (value && value !== '') {
     value = value.replace(/[^\d+]/ig, '')
@@ -79,7 +73,8 @@ export default {
     UserServiceAgreement,
     PrivacyAgreement,
     [Dialog.Component.name]: Dialog.Component,
-    Notify
+    Notify,
+    Verify,
   },
   data() {
     return {
@@ -91,7 +86,6 @@ export default {
       isLost: false,
       VerifiCode: '',
       msg: '',
-      text: '向右滑',
     }
   },
   computed: {
@@ -101,45 +95,108 @@ export default {
   created () {
     // debugger
     // this.getDataSource()
-    console.log("shuaxinuserInfo:", JSON.stringify(this.userInfo, null, 4));
+    // setTimeout(()=> {
+      // this.isShowVerify = true
+    // },1000)
+    // console.log("shuaxinuserInfo:", JSON.stringify(this.userInfo, null, 4));
     // console.log(JSON.stringify(this.loginPhone,'',4));
     // this.getObjFromUrl('InviteCode')
-    this.getDataSource()
+    // this.isRegByMobileNo()
+    // this.onSendVerificationCode()
+    // Notify({ type: 'warning', message: 'ReturnMessage' });
   },
   beforeDestroy() {
     this.stopCountDown()
   },
   methods: {
     ...mapMutations(['SET_USER_INFO', 'DEL_LOGIN_PHONE']),
-    onSuccess(){
-      Notify({ type: 'success', message: '右滑成功' });
-      this.isShowVerify = false
+    error() {
+      tip('验证失败，重新输入')
+      return tip.error({
+        message: '验证失败，重新输入'
+      })
     },
-    onFail(){
-      // Notify({ message: 'onFail' });
-    },
-    onRefresh(){
-      Notify({ type: 'success', message: 'onRefresh' });
-    },
+
     goHome(){
       this.$router.push({ path: '/city-meta/home' })
     },
 
-    // 发送验证码
-    onSendVerificationCode() {
-      const { loginPhone } = this
+    // 是否已注册
+    isRegByMobileNo(){
+      // const params = {
+      //   // mobileNo: this.phoneNumber
+      //   mobileNo: 13485508100
+      // }
+      // debugger
+      /*userApi.IsRegByMobileNo(params) .then((res) => {
+        const { ReturnCode, ReturnMessage } = res
+        if(ReturnCode == 200 && ReturnMessage == '该用户未被注册'){
+          // Notify({ type: 'success', message: '该用户未被注册' });
+          this.onSendVerificationCode()
+        } else {
+          // this.IsRegistered = true
+          Notify({ type: 'success', message: '该用户已注册' });
+        }
+
+      }).finally(() => {})*/
       if(this.phoneNumber == ''){
         Notify({ type: 'warn', message: '手机号不能为空' });
         return
       }
+      if (!verifyPhone(this.phoneNumber)) {
+        return tip.error({
+          message: '手机号码格式不正确！'
+        })
+      }
+      axios({ 
+        method: 'get',
+        url: `http://121.196.44.29:8001/api/UserInfo/IsRegByMobileNo?mobileNo=${this.phoneNumber}`,
+        // url: `https://api.csscmeta.com:8443/api/UserInfo/IsRegByMobileNo?mobileNo=${this.phoneNumber}`,
+      })
+      // const params = {
+      //   // mobileNo: this.phoneNumber
+      //   mobileNo: 13485508100
+      // }
+      // axios({ 
+      //   method: 'POST',
+      //   url: 'http://121.196.44.29:8001/api/UserInfo/IsRegByMobileNo',
+      //   data: params
+      // })
+
+      .then(res => {
+        // debugger;
+        const { ReturnCode, ReturnMessage, Data } = res.data
+        if(ReturnCode == 200 && Data == false){
+          // Notify({ type: 'success', message: '该用户未被注册' });
+          // debugger
+          this.isShowVerify = true
+          // this.showVerify()
+          // this.onSendVerificationCode()
+        } else {
+          Notify({ type: 'success', message: '该用户已注册' });
+        }
+      }).catch(error => {
+        console.info(error);
+      });
+
+    },
+
+    // showVerify(){
+    //   this.isShowVerify = true
+    // },
+    // 发送验证码
+    onSendVerificationCode() {
+      // this.isShowVerify = false
       const params = {
         mobileNo: this.phoneNumber
+        // mobileNo: '15901227160'
       }
-
+      // this.startCountDown()
       // userApi.verifyVerificationCode(params) .then(() => {
       userApi.getVerificationCode(params) .then(() => {
         Notify({ type: 'success', message: '验证码发送成功' });
         this.isRegShow = true
+        this.isShowVerify = false
         this.startCountDown()
       }).finally(() => {})
 
@@ -175,6 +232,11 @@ export default {
 
     getDataSource() {
 
+      // const params = {
+      //   "MobileNo": 18411012586,
+      //   "Code": '279383',
+      //   "InviteCode": this.getObjFromUrl('InviteCode')
+      // }
       const params = {
         "MobileNo": this.phoneNumber,
         "Code": this.VerifiCode,
@@ -185,16 +247,21 @@ export default {
       axios({ 
         method: 'post',
         url: 'http://121.196.44.29:8001/api/UserInfo/VerifyVerificationCodeByRecommend',
+        // url: `https://api.csscmeta.com:8443/api/UserInfo/VerifyVerificationCodeByRecommend`,
         data: params
       }).then(res => {
         console.log(JSON.stringify(res, '', 4))
         const { ReturnCode, ReturnMessage, Data } = res.data
-        const data = res.data.Data
-        setAuthorization(data.Ticket)
-        this.SET_USER_INFO(data)
         if(ReturnCode == 200 && ReturnMessage == '获取用户成功') {
-          Notify({ type: 'success', message: '注冊成功' });
+          setAuthorization(Data.Ticket)
+          this.SET_USER_INFO(Data)
           this.IsRegistered = true
+          this.isRegShow = false
+          Notify({ type: 'success', message: '注冊成功' });
+        } else {
+          console.log(ReturnMessage)
+          Notify({ type: 'warning', message: ReturnMessage });
+          // Notify({ type: 'success', message: '注冊成功' });
         }
       }).catch(error => {
         console.info(error);
@@ -212,8 +279,8 @@ export default {
           "InviteCode": this.getObjFromUrl('InviteCode')
         }
         console.log('params: ', JSON.stringify(params,'',4))
-
-        userApi.VerifyVerificationCodeByRecommend(params).then(res => {
+        debugger
+        registerApi.VerifyVerificationCodeByRecommend(params).then(res => {
         // registerApi.VerifyVerificationCodeByRecommend(params).then(res => {
           console.log("res: ", JSON.stringify(res, '', 4))
 
@@ -241,7 +308,41 @@ export default {
 </script>
 
 <style scoped lang="less">
+/deep/ .verify-btn {
+  background-color: #1989fa;
+  border-radius: 20px;
+  width:70vw;
+  margin-left:30px;
+}
+/deep/ .verify-code-area{
+  padding:0px 33px 0px 36px;
+  .verify-input-area{
+    padding-left:10px
+  }
+  .verify-change-code{
+    padding-left: 0.3rem
+  }
+}
+/deep/ .van-dialog__content{
+  min-height:156px;
+  text-align: center;
+}
+
 .app-invite-friends {
+  padding-bottom: 0;
+  .verify-code-area {
+    float: left;
+    width: 100%;
+    height: 50px;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-around;
+    .verify-change-area {
+      position: relative;
+      left: 30px;
+      top: 10px;
+    }
+  }
   padding-bottom: 20px;
   box-sizing: border-box;
   color: #ccc;

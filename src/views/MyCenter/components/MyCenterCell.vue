@@ -1,11 +1,11 @@
 <template>
   <div class="app-my-center-cell">
     <CellGroup :border="false">
-      <Cell is-link to="/city-meta/invite-friends">
+      <Cell @click="isLogined">
         <template #title>
           <img class="app-my-center-cell-icon" src="/static/images/my-center/invite.png" alt="" width="35" height="37">
           <span style="width: 90%;display: flex;justify-content: space-between;align-items: center;">
-            <i>邀请好友</i><i style="font-size: 12px; color: #9bc4ff" v-if="isLogin">已邀请 {{TotalCount}} 人</i>
+            <i>邀请好友</i><i style="font-size: 12px; color: #9bc4ff">已邀请 {{TotalCount}} 人</i>
           </span>
         </template>
       </Cell>
@@ -36,36 +36,48 @@ import { Cell, CellGroup } from 'vant'
 import { inviteApi } from "@/api"
 import { mapGetters } from 'vuex'
 import tip from '@/utils/tip'
-
+import { Dialog } from 'vant'
 export default {
   components: {
     Cell,
     CellGroup
   },
   computed: {
-    ...mapGetters(['userInfo'])
+    ...mapGetters(['hasUserInfo', 'userInfo'])
   },
   data() {
     return {
       TotalCount: 0,
-      isLogin: false
     }
   },
   mounted(){
-    debugger
+    // debugger
     // console.log(this.userInfo);
     // console.log(JSON.stringify(this.userInfo))
-    this.isLogin = !JSON.stringify(this.userInfo) == '{}'
-    if(JSON.stringify(this.userInfo) == '{}'){
-      tip('请登录后再邀请')
-      this.isLogin = false
-    } else {
-      console.log('已登录')
+    // this.isLogin = !JSON.stringify(this.userInfo) == '{}'
+    // debugger
+    if(this.hasUserInfo){
       this.isLogin = true
+      console.log('已登录')
+      this.getDataSource()
+    } else {
+      this.isLogin = false
     }
   },
   methods: {
-
+    isLogined(){
+      console.log(this.hasUserInfo)
+        if (!this.hasUserInfo) {
+          Dialog.confirm({
+            message: '请登录后再邀请',
+          }).then(() => {
+            this.$router.push('/city-meta/verification-code-login')
+          }).catch(() => {});
+        } else {
+          this.isLogin = true
+          this.$router.push('/city-meta/invite-friends')
+        }
+    },
     getDataSource() {
       return new Promise((resolve) => {
         const params = {

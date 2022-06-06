@@ -43,7 +43,7 @@
      <van-dialog v-model="isShow" :show-confirm-button="false">
         <div style="text-align:center;padding-bottom:5px;">
           <!-- <SlideVerify ref="slideblock" @success="sendSmsCode"></SlideVerify> -->
-          <Verify :type="2" @success="sendSmsCode" @error="error" width="100%"  ></Verify>
+          <Verify :type="1" codeLength="2" @success="sendSmsCode" @error="error" width="100%"  ></Verify>
         </div>
      </van-dialog>
     <base-action-sheet title="用户服务协议" v-model="showUserServiceAgreement">
@@ -86,6 +86,9 @@ export default {
       agreementIsNotCheckError: false
     }
   },
+  // mounted() {
+  //   this.isShow = true
+  // },
   computed: {
     isSend() {
       return this.isCheck && this.userPhone && this.userPhone.length === 11 // verifyPhone(this.userPhone)
@@ -186,10 +189,13 @@ export default {
   background-color: #1989fa;
   border-radius: 20px;
   width:70vw;
-  margin-left:30px;
+  margin-left: 30px;
 }
 /deep/ .verify-code-area{
   padding:0px 33px 0px 36px;
+  .verify-change-code{
+    padding-left: 0.3rem
+  }
 }
 /deep/ .van-dialog__content{
   min-height:156px;

@@ -18,4 +18,8 @@ export default {
 #app {
   height: 100%;
 }
+.svg-icon{
+	position: relative;
+	z-index: 10000
+}
 </style>
