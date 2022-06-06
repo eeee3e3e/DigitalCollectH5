@@ -198,7 +198,7 @@ const routes = [
         path: 'invite-friends',
         meta: {
           title: '邀请好友',
-          showToBack: true,
+          // showToBack: true,
         },
         component: () => import('@/views/inviteFriends')
       },
@@ -206,7 +206,7 @@ const routes = [
         path: 'invite-friends-placard',
         meta: {
           title: '邀请海报',
-          showToBack: true,
+          // showToBack: true,
         },
         component: () => import('@/views/inviteFriendsPlacard')
       },
@@ -214,7 +214,7 @@ const routes = [
         path: 'register',
         meta: {
           title: '注册',
-          showToBack: true,
+          // showToBack: true,
         },
         component: () => import('@/views/Register')
       },
