@@ -6,10 +6,10 @@ import router from "@/router";
 
 const request = axios.create({
   // baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'https://api.csscmeta.com:8443/api'
-  // baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'https://apitest.csscmeta.com/api'
+  baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'https://apitest.csscmeta.com/api'
   // baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'http://121.196.44.29:8001/api'
   // baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'http://121.196.44.29:8002/api'
-  baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'http://121.196.44.29:8999/api'
+  // baseURL: process.env.NODE_ENV === 'development' ? '/api' : 'http://121.196.44.29:8999/api'
 })
 
 function useAuthorization(config) {
