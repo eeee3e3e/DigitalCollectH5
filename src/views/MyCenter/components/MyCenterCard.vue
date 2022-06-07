@@ -47,22 +47,22 @@
       <Grid :column-num="4" :border="false">
         <GridItem text="藏品合成" @click="onShowUnderDevelopmentTip">
           <template #icon>
-            <img class="user-card-grid-item-icon" src="/static/images/my-center/collection-synthetic.png" alt="">
+            <img class="user-card-grid-item-icon" :src="`${staticPath}/static/images/my-center/collection-synthetic.png`" alt="">
           </template>
         </GridItem>
         <GridItem text="转赠记录" @click="onShowUnderDevelopmentTip('examples')">
           <template #icon>
-            <img class="user-card-grid-item-icon" src="/static/images/my-center/turn-records-icon.png" alt="">
+            <img class="user-card-grid-item-icon" :src="`${staticPath}/static/images/my-center/turn-records-icon.png`" alt="">
           </template>
         </GridItem>
         <GridItem text="我的权益" @click="onShowUnderDevelopmentTip">
           <template #icon>
-            <img class="user-card-grid-item-icon" src="/static/images/my-center/my-dream-icon.png" alt="">
+            <img class="user-card-grid-item-icon" :src="`${staticPath}/static/images/my-center/my-dream-icon.png`" alt="">
           </template>
         </GridItem>
         <GridItem text="我的消息" @click="onShowUnderDevelopmentTip('myNews')">
           <template #icon>
-            <img class="user-card-grid-item-icon" src="/static/images/my-center/my-message-icon.png" alt="">
+            <img class="user-card-grid-item-icon" :src="`${staticPath}/static/images/my-center/my-message-icon.png`" alt="">
             <!-- <div v-if="Number(TotalCount) > 0" class="infos">{{Number(TotalCount) >99 ?  '99+' : TotalCount}}</div> -->
           </template>
         </GridItem>

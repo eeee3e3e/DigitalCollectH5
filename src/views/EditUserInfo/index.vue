@@ -41,7 +41,7 @@
             <Cell is-link>
               <template>
                 <div class="user-phone-content">
-                  <img class="icon" src="/static/images/edit-userinfo/user-phone-icon.png" alt="">
+                  <img class="icon" :src="`${staticPath}/static/images/edit-userinfo/user-phone-icon.png`" alt="">
                   <span>{{ userInfo.MobileNo | filterMobileNo }}</span>
                 </div>
               </template>
@@ -71,13 +71,13 @@
             <Cell>
               <template>
                 <div class="chain-account">
-                  <img class="icon" src="/static/images/edit-userinfo/chain-account-icon.png" alt="">
+                  <img class="icon" :src="`${staticPath}/static/images/edit-userinfo/chain-account-icon.png`" alt="">
                   <p class="OpbChainClientAddress" v-html="userInfo.OpbChainClientAddress"></p>
                 </div>
               </template>
               <template #extra>
                 <div class="copy-icon" @click="doCopy(userInfo.OpbChainClientAddress)">
-                  <img class="icon" src="/static/images/copy-icon.png" alt="">
+                  <img class="icon" :src="`${staticPath}/static/images/copy-icon.png`" alt="">
                 </div>
               </template>
               <template #title>
@@ -92,7 +92,7 @@
               </template>
               <template #extra>
                 <div class="copy-icon" @click="doCopy(userInfo.ID)">
-                  <img class="icon" src="/static/images/copy-icon.png" alt="">
+                  <img class="icon" :src="`${staticPath}/static/images/copy-icon.png`" alt="">
                 </div>
               </template>
               <template #title>

@@ -5,31 +5,31 @@
     <div class="app-invite-friends" id="app-invite-friends">
       
       <!-- <div class="title">
-        <img src="/static/images/logo.png" alt="" width="94" height="24">
+        <img :src="`${staticPath}/static/images/logo.png`" alt="" width="94" height="24">
         <h6>数字藏品新时代</h6>
       </div> -->
 
-      <img src="/static/images/invite-friends/placard-header.png" alt="" width="100%" height="">
+      <img :src="`${staticPath}/static/images/invite-friends/placard-header.png`" alt="" width="100%" height="">
       <div class="content">
         <h2>城市数藏梦想邀约人  <span>第 <i>1</i> 期</span></h2>
         <img class="invite-text" src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E6%B5%B7%E6%8A%A5/u33.svg" alt="" style="position: relative;">
         <i class="joinTxet">加入城市数藏，未来近在咫尺！</i>
         <div class="QR-code-wraper">
           <div class="friend">
-            <img src="/static/images/avatar.png" alt="" class="avatar" width="22" height="22">
+            <img :src="`${staticPath}/static/images/avatar.png`" alt="" class="avatar" width="22" height="22">
             <span><i>{{NickName}}</i>  邀请您来城市数藏一起领神秘藏品!</span>
           </div>
           <div class="qr-code" style="position: relative;">
-            <img src="/static/images/invite-friends/a.png" style="width: 80%;margin: 0 auto;padding: 30px 0 20px 0">
+            <img :src="`${staticPath}/static/images/invite-friends/a.png`" style="width: 80%;margin: 0 auto;padding: 30px 0 20px 0">
             <!-- <div class="left">
-              <img src="/static/images/invite-friends/u21.png" alt="" width="23" height="23">
+              <img :src="`${staticPath}/static/images/invite-friends/u21.png`" alt="" width="23" height="23">
             </div> -->
             <div class="center" style="position: absolute;top: 9px; left: 121px">
-              <!-- <img src="/static/images/invite-friends/1.png" alt="" width="117" height="117"> -->
+              <!-- <img :src="`${staticPath}/static/images/invite-friends/1.png`" alt="" width="117" height="117"> -->
               <img :src="getImageUrl(RecmmendationCodeImage)" alt="" width="112" height="112">
             </div>
             <!-- <div class="right">
-              <img src="/static/images/invite-friends/u21.png" alt="" width="23" height="23">
+              <img :src="`${staticPath}/static/images/invite-friends/u21.png`" alt="" width="23" height="23">
             </div> -->
           </div>
           <div class="identify">

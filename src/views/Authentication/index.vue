@@ -2,7 +2,7 @@
   <div class="app-authentication">
     <div class="app-authentication-header">
       <div class="icon">
-        <img src="/static/images/authentication/header-icon.png.png" alt="">
+        <img :src="`${staticPath}/static/images/authentication/header-icon.png.png`" alt="">
       </div>
       <div class="text">
         <p>填写的实名信息须与登录手机号持有人相符。 </p>
@@ -14,18 +14,18 @@
         <div class="form-item">
           <Field v-model="formData.Name" placeholder="请输入您的姓名">
             <template #label>
-              <img class="code-input-icon" src="/static/images/authentication/user-icon.png" alt="">
+              <img class="code-input-icon" :src="`${staticPath}/static/images/authentication/user-icon.png`" alt="">
             </template>
           </Field>
         </div>
         <div class="form-item">
           <Field v-model="formData.IDCard" placeholder="请输入您的身份证号码">
             <template #label>
-              <img class="code-input-icon" src="/static/images/authentication/idCard-icon.png" alt="">
+              <img class="code-input-icon" :src="`${staticPath}/static/images/authentication/idCard-icon.png`" alt="">
             </template>
           </Field>
           <div class="form-item-tips">
-            <img class="icon" src="/static/images/authentication/safety-icon.png" alt="">
+            <img class="icon" :src="`${staticPath}/static/images/authentication/safety-icon.png`" alt="">
             <span>安全保障中，输入信息仅用于身份确认</span>
           </div>
         </div>

@@ -5,7 +5,7 @@
     </div> -->
 
     <div class="content">
-      <img class="invite-text" src="/static/images/register/u32.png" width="91" height="91" alt="">
+      <img class="invite-text" :src="`${staticPath}/static/images/register/u32.png`" width="91" height="91" alt="">
       <i style="padding-bottom: 10px">登陆城市数藏</i>
       <i>未来近在咫尺</i>
       <div class="QR-code-wraper">
@@ -28,7 +28,7 @@
 
     <van-dialog v-model="isRegShow" showConfirmButton showCancelButton confirm-button-color="#285AC6" class='resShow' @confirm="getDataSource">
       <div class="header">
-        <img src="/static/images/register/1.png" alt="" width="11" height="14">
+        <img :src="`${staticPath}/static/images/register/1.png`" alt="" width="11" height="14">
         <span>请输入验证码</span>
       </div>
       <div class="content1">

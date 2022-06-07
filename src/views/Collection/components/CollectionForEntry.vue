@@ -2,14 +2,14 @@
   <div class="app-collection-for-entry" @click="onToConversion">
     <div class="app-collection-for-entry-body">
       <div class="icon">
-        <img src="/static/images/collection/for-entry-icon.png" alt="">
+        <img :src="`${staticPath}/static/images/collection/for-entry-icon.png`" alt="">
       </div>
       <div class="into">
         <p>会员 · 空投兑换</p>
         <p class="desc">输入兑换码兑换您的藏品</p>
       </div>
       <div class="right">
-        <img src="/static/images/right-icon.png" alt="">
+        <img :src="`${staticPath}/static/images/right-icon.png`" alt="">
       </div>
     </div>
   </div>

@@ -3,7 +3,7 @@
     <CellGroup :border="false">
       <Cell @click="isLogined">
         <template #title>
-          <img class="app-my-center-cell-icon" src="/static/images/my-center/invite.png" alt="" width="35" height="37">
+          <img class="app-my-center-cell-icon" :src="`${staticPath}/static/images/my-center/invite.png`" alt="" width="35" height="37">
           <span style="width: 90%;display: flex;justify-content: space-between;align-items: center;">
             <i>邀请好友</i><i style="font-size: 12px; color: #9bc4ff">已邀请 {{TotalCount}} 人</i>
           </span>
@@ -11,19 +11,19 @@
       </Cell>
       <Cell is-link to="/city-meta/about-us">
         <template #title>
-          <img class="app-my-center-cell-icon" src="/static/images/my-center/about-us-icon.png" alt="">
+          <img class="app-my-center-cell-icon" :src="`${staticPath}/static/images/my-center/about-us-icon.png`" alt="">
           <span>关于我们</span>
         </template>
       </Cell>
       <Cell is-link to="/city-meta/contact-us">
         <template #title>
-          <img class="app-my-center-cell-icon" src="/static/images/my-center/customer-service-icon.png" alt="">
+          <img class="app-my-center-cell-icon" :src="`${staticPath}/static/images/my-center/customer-service-icon.png`" alt="">
           <span>联系我们</span>
         </template>
       </Cell>
       <Cell is-link to="/city-meta/security-settings">
         <template #title>
-          <img class="app-my-center-cell-icon" src="/static/images/my-center/security-settings-icon.png" alt="">
+          <img class="app-my-center-cell-icon" :src="`${staticPath}/static/images/my-center/security-settings-icon.png`" alt="">
           <span>安全设置</span>
         </template>
       </Cell>

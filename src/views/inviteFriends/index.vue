@@ -3,7 +3,7 @@
 
     <div class="content">
       <!-- <div class="rule" @click="rule">
-        <img src="/static/images/invite-friends/u11.png" alt="" width="12" height="12">
+        <img :src="`${staticPath}/static/images/invite-friends/u11.png`" alt="" width="12" height="12">
         活动规则 <i> > </i> 
       </div>
       <h2>城市数藏梦想邀约人  <span>第 <i>1</i> 期</span></h2>
@@ -11,7 +11,7 @@
       <div class="panel-outer rights" style="margin-top: 118%">
         <img src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E5%A5%BD%E5%8F%8B/u83.svg" alt="">
         <img src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E5%A5%BD%E5%8F%8B/u84.svg" alt="">
-        <img src="/static/images/invite-friends/quanyi.png" alt="" class="text" width="78" height="14" style="top:-2px">
+        <img :src="`${staticPath}/static/images/invite-friends/quanyi.png`" alt="" class="text" width="78" height="14" style="top:-2px">
 
         <div class="invite panel-inside">
 
@@ -78,25 +78,25 @@
      <div class="panel-outer gain">
        <img src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E5%A5%BD%E5%8F%8B/u83.svg" alt="">
         <img src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E5%A5%BD%E5%8F%8B/u84.svg" alt="">
-        <img src="/static/images/invite-friends/3bu.png" alt="" class="text" width="78" height="14" style="top:-2px">
+        <img :src="`${staticPath}/static/images/invite-friends/3bu.png`" alt="" class="text" width="78" height="14" style="top:-2px">
 
         <div class="imgWraper">
-          <img src="/static/images/invite-friends/step.png" alt="" class="step">
+          <img :src="`${staticPath}/static/images/invite-friends/step.png`" alt="" class="step">
           <!-- <div class="text">
             <span class="item item1">分享给好友</span>
             <span class="item item2">扫描进入页面</span>
             <span class="item item3">注册+实名认证</span>
           </div> -->
           <div class="invited">
-            <img src="/static/images/invite-friends/left.png" alt="" width="56" height="10">
+            <img :src="`${staticPath}/static/images/invite-friends/left.png`" alt="" width="56" height="10">
             <span>已邀请 <span class="num">{{TotalCount}}</span> 位好友</span>
-            <img src="/static/images/invite-friends/right.png" alt="" width="56" height="10">
+            <img :src="`${staticPath}/static/images/invite-friends/right.png`" alt="" width="56" height="10">
           </div>
         </div>
         
         <PullRefresh v-model="refreshing" @refresh="onRefresh">
           <Empty v-if="!dataSource.length && !loading && finished && !varAwait" description="暂无数据 ~"
-                 image="/static/images/collection/not-data-slot.png"/>
+                 :image="`${staticPath}/static/images/collection/not-data-slot.png`"/>
           <List
                 v-else
                 :offset="200"
@@ -111,7 +111,7 @@
               </div>
               <div class="row" v-for="item of dataSource">
                 <span class="item name">
-                  <img src="/static/images/avatar.png" alt="" class="avatar" width="22" height="22">
+                  <img :src="`${staticPath}/static/images/avatar.png`" alt="" class="avatar" width="22" height="22">
                 </span>
                 <span class="item nickName">{{item.UserNickName}}</span>
                 <span class="item time">{{item.RecmmendationTime.substring(10, 0).replace(/-/g,'.')}}</span>
@@ -123,13 +123,13 @@
             <template #error></template>
             <!-- <template>
               <div class="finished" v-show='finished==true'>
-                <img src="/static/images/home/cry-icon.png" alt="" class="icon">
+                <img :src="`${staticPath}/static/images/home/cry-icon.png`" alt="" class="icon">
                 <span>已经到底啦 ~ ~</span>
               </div>
             </template> -->
 
             <div class="finished" style="margin-top: 20px" v-show='finished==true'>
-              <img src="/static/images/home/cry-icon.png" alt="" class="icon"><span>已经到底啦 ~ ~</span>
+              <img :src="`${staticPath}/static/images/home/cry-icon.png`" alt="" class="icon"><span>已经到底啦 ~ ~</span>
             </div>
 
             <div class="more" @click="onLoadMore" v-show='finished==false'>查看更多 <img src="https://img02.mockplus.cn/preview/2022-05-24/3f16f198-614f-4b3d-9102-c5214f34e007/images/%E9%82%80%E8%AF%B7%E5%A5%BD%E5%8F%8B/u112.svg" alt=""></div>
@@ -148,10 +148,10 @@
 
         <div class="ruleTitle">
           <div class="left">
-            <img src="/static/images/invite-friends/c4.png" alt="" width="16" height="18">
+            <img :src="`${staticPath}/static/images/invite-friends/c4.png`" alt="" width="16" height="18">
             <span>活动规则</span>
           </div>
-          <img src="/static/images/invite-friends/5.png" alt="" width="69" height="21">
+          <img :src="`${staticPath}/static/images/invite-friends/5.png`" alt="" width="69" height="21">
         </div>
         <pre>
           
@@ -174,7 +174,7 @@
         3、所有 0 元购商品达成条件，根据活动期间，所有 0 元购商品，包元
 
         </pre>
-        <img src="/static/images/invite-friends/close.png" alt="" class="close" width="31" height="31" @click="overlayShow = false">
+        <img :src="`${staticPath}/static/images/invite-friends/close.png`" alt="" class="close" width="31" height="31" @click="overlayShow = false">
       </div>
     </van-overlay>
   </div>

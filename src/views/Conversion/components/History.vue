@@ -2,7 +2,7 @@
   <div>
     <PullRefresh v-model="refreshing" @refresh="onRefresh" style="min-height: 20vh;">
       <Empty v-if="!dataSource.length && !loading && finished" description="您还没有历史兑换记录 ~"
-             image="/static/images/collection/not-data-slot.png"/>
+             :image="`${staticPath}/static/images/collection/not-data-slot.png`"/>
       <List
           v-else
           v-model="loading"
@@ -24,7 +24,7 @@
                 <p class="desc" v-html="item.CommodityExchangesDateTime"></p>
               </div>
               <div class="right">
-                <img src="/static/images/right-icon.png" alt="">
+                <img :src="`${staticPath}/static/images/right-icon.png`" alt="">
               </div>
             </div>
           </div>
@@ -34,7 +34,7 @@
         <template #error></template>
         <template #finished>
           <div class="finished">
-            <img src="/static/images/home/cry-icon.png" alt="" class="icon">
+            <img :src="`${staticPath}/static/images/home/cry-icon.png`" alt="" class="icon">
             <span>已经到底啦 ~ ~</span>
           </div>
         </template>

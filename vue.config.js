@@ -6,6 +6,7 @@ const NODE_ENV = process.env.NODE_ENV
 module.exports = defineConfig({
   publicPath: NODE_ENV === 'development' ? '/' : './',
   outputDir: 'dist',
+  assetsDir: './',
   // pages: {},
   productionSourceMap: false,
   transpileDependencies: true,
@@ -45,19 +46,20 @@ module.exports = defineConfig({
     }
   },
   chainWebpack(config) {
-    // config
-    //   .module
-    //   .rule('images')
-    //   .use('url-loader')
-    //   .loader('url-loader')
-    //   .tap(options => {
-    //     return Object.assign(options || {}, {
-    //       limit: 8 * 1024,
-    //       esModule: false,
-    //       encoding: true,
-    //       name: '[hash:10].[ext]'
-    //     })
-    //   })
+//      config
+//         .module
+//         .rule("images")
+//         .test(/\.(jpg|png|gif)$/)
+//         .use("url-loader")
+//         .loader("url-loader")
+//         .options({
+//             limit:10,
+//             outputPath: 'images',
+//             publicPath:  './' ,
+//             name: `[name].[ext]`,
+//             esModule: false
+//         })
+//         .end()
     return config
   }
 })

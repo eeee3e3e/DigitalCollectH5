@@ -2,7 +2,7 @@
   <div class="app-under-development-tip">
     <div class="body">
       <div class="icon">
-        <img src="/static/images/under-development.png" alt="">
+        <img :src="`${staticPath}/static/images/under-development.png`" alt="">
       </div>
       <p class="text">功能正在开发中，近期上线！</p>
     </div>
