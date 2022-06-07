@@ -239,8 +239,8 @@ export default {
       },
       TotalCount: 0,
       origin: location.origin,
-      lockShow: true,
-      giftShow: true,
+      lockShow: false,
+      giftShow: false,
     }
   },
   computed: {
