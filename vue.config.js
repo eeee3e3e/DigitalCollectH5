@@ -14,8 +14,8 @@ module.exports = defineConfig({
       '/api': {
         // target: 'http://api.csscmeta.com',
         target: 'https://apitest.csscmeta.com',
-        // http://121.196.44.29:8001
         // target: 'http://121.196.44.29:8001',
+        // target: 'http://121.196.44.29:8002',
         // target: 'http://121.196.44.29:8999',
         changOrigin: true,
         pathRewrite: {
@@ -26,6 +26,7 @@ module.exports = defineConfig({
         // target: 'http://api.csscmeta.com',
         target: 'https://apitest.csscmeta.com',
         // target: 'http://121.196.44.29:8001',
+        // target: 'http://121.196.44.29:8002',
         // target: 'http://121.196.44.29:8999',
         changOrigin: true,
         pathRewrite: {

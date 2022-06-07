@@ -68,7 +68,10 @@
         </div>
 
         <span class="saveBtn" @click="savePic">保存邀请图到本地</span>
-
+        <div class="tips" style="font-size: 12px;">
+          <div class="inveted" v-if="lockShow" style="padding-bottom: 20px"><img src="/static/images/invite-friends/lock.png" alt="" style="padding-right: 9px" width="10" height="10">邀请10人解锁抽奖资格</div>
+          <div class="gift" v-if="giftShow" style="color: #3971e9; padding-bottom: 20px"><img src="/static/images/invite-friends/gift.png" alt="" style="padding-right: 9px" width="10" height="10">已获得抽奖资格，待抽奖~</div>
+        </div>
         <!-- <van-count-down :time="time" format="DD 天 HH 时 mm 分 ss 秒"/> -->
         <!-- <van-count-down :time="time" class='timer'>
           <template #default="timeData">
@@ -235,7 +238,9 @@ export default {
         PageSize: 10
       },
       TotalCount: 0,
-      origin: location.origin
+      origin: location.origin,
+      lockShow: true,
+      giftShow: true,
     }
   },
   computed: {
@@ -354,6 +359,16 @@ export default {
           this.sumByIdentity = data.RecmmendationSumByIdentity 
           this.recmmendationCode = data.RecmmendationCode
           this.RecmmendationCodeImage = data.RecmmendationCodeImage
+
+          if((new Date('2022-6-11') - new Date()) > 0){
+            if(this.sumByIdentity <= 10) {
+              this.lockShow = true;
+            } 
+            if(this.sumByIdentity > 10) {
+              this.giftShow = true;
+            }
+          }
+
         }).finally(() => { resolve() })
       })
     },
