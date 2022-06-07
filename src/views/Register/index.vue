@@ -162,7 +162,8 @@ export default {
       axios({ 
         method: 'get',
         // url: `http://121.196.44.29:8001/api/UserInfo/IsRegByMobileNo?mobileNo=${this.phoneNumber}`,
-        url: `https://api.csscmeta.com:8443/api/UserInfo/IsRegByMobileNo?mobileNo=${this.phoneNumber}`,
+        // url: `https://api.csscmeta.com:8443/api/UserInfo/IsRegByMobileNo?mobileNo=${this.phoneNumber}`,
+        url: `https://apitest.csscmeta.com:8443/api/UserInfo/IsRegByMobileNo?mobileNo=${this.phoneNumber}`,
       })
       // const params = {
       //   // mobileNo: this.phoneNumber
@@ -258,7 +259,8 @@ export default {
       axios({ 
         method: 'post',
         // url: 'http://121.196.44.29:8001/api/UserInfo/VerifyVerificationCodeByRecommend',
-        url: `https://api.csscmeta.com:8443/api/UserInfo/VerifyVerificationCodeByRecommend`,
+        // url: `https://api.csscmeta.com:8443/api/UserInfo/VerifyVerificationCodeByRecommend`,
+        url: `https://apitest.csscmeta.com:8443/api/UserInfo/VerifyVerificationCodeByRecommend`,
         data: params
       }).then(res => {
         console.log(JSON.stringify(res, '', 4))
