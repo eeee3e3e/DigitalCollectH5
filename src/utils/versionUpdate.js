@@ -10,6 +10,9 @@ const isNewVersion = () => {
       let localVueVersion = localStorage.getItem('vueVersion');
       if (localVueVersion && localVueVersion != vueVersion) {
         localStorage.setItem('vueVersion', vueVersion);
+        let url = window.location.href
+        url = url.split('#')
+        window.location.replace(url[0])
         window.location.reload();
         return;
       } else {
