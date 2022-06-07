@@ -1,7 +1,7 @@
 <template>
   <div class="app-verification-code-login">
     <div class="app-verification-code-login-header">
-      <img class="icon" :src="`${staticPath}/static/images/login/background.png`" alt="">
+      <img class="icon" src="/static/images/login/background.png" alt="">
     </div>
     <div class="app-verification-code-login-main">
       <div class="form">

@@ -2,7 +2,7 @@
   <div class="app-verification-code-input">
     <div class="app-verification-code-input-header">
       <div class="icon-wrapper">
-        <img class="icon" :src="`${staticPath}/static/images/login/input-icon.png`" alt="">
+        <img class="icon" src="/static/images/login/input-icon.png" alt="">
       </div>
       <div class="text-wrapper">
         <p>验证码已发送至 {{ loginPhone | filterMobileNo }}，</p>

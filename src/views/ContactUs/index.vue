@@ -5,28 +5,28 @@
         <div class="app-contact-us-card">
           <div class="app-contact-us-card-body">
             <div class="icon">
-              <img :src="`${staticPath}/static/images/contact-us/contact-us-card-slot.png`" alt="">
+              <img src="/static/images/contact-us/contact-us-card-slot.png" alt="">
             </div>
             <div class="into">
               <p>客服邮箱</p>
               <p class="desc">BD@citymeta.mobi</p>
             </div>
             <div class="right" @click="doCopy('BD@citymeta.mobi')">
-              <img :src="`${staticPath}/static/images/copy-icon.png`" alt="">
+              <img src="/static/images/copy-icon.png" alt="">
             </div>
           </div>
         </div>
         <div class="app-contact-us-card">
           <div class="app-contact-us-card-body">
             <div class="icon">
-              <img :src="`${staticPath}/static/images/contact-us/contact-us-card-slot.png`" alt="">
+              <img src="/static/images/contact-us/contact-us-card-slot.png" alt="">
             </div>
             <div class="into">
               <p>商务合作</p>
               <p class="desc">wangjingfei@bjcitymeta.com</p>
             </div>
             <div class="right" @click="doCopy('wangjingfei@bjcitymeta.com')">
-              <img :src="`${staticPath}/static/images/copy-icon.png`" alt="">
+              <img src="/static/images/copy-icon.png" alt="">
             </div>
           </div>
         </div>

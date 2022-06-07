@@ -46,14 +46,14 @@
       </div>
     </div>
     <div class="hr">
-      <img class="icon" :src="`${staticPath}/static/images/collection-detail/hr-icon.png`" alt="">
+      <img class="icon" src="/static/images/collection-detail/hr-icon.png" alt="">
       <p>官方授权 · 限量发行 · BSN链技术</p>
     </div>
     <div class="brand-party">
       <div class="brand-party-card">
         <div class="brand-party-card-body" @click="(event) => $emit('click', event)">
           <div class="icon">
-            <img :src="`${staticPath}/static/images/collection-detail/brand-party-icon.png`" alt="">
+            <img src="/static/images/collection-detail/brand-party-icon.png" alt="">
           </div>
           <div class="into">
             <!--            <p>藏品品牌方</p>-->
@@ -62,7 +62,7 @@
             <p class="desc">藏品品牌方</p>
           </div>
           <div class="right">
-            <img :src="`${staticPath}/static/images/right-icon.png`" alt="">
+            <img src="/static/images/right-icon.png" alt="">
           </div>
         </div>
       </div>
@@ -85,7 +85,7 @@
                   :src="getImageSrc(collectionDetail.OwnerUserInfo.UserHead)" alt="">
               <img v-else
                    style="display:inline-block;vertical-align: top;margin-right:8px;width:18px;height:18px;border-radius: 9px;object-fit: cover;"
-                   :src="`${staticPath}/static/images/avatar.png`" alt="">
+                   src="/static/images/avatar.png" alt="">
               <span v-if="collectionDetail.OwnerUserInfo">{{ collectionDetail.OwnerUserInfo.NickName }}</span>
             </div>
           </div>
@@ -117,7 +117,7 @@
           </p>
         </div>
         <img v-if="collectionDetail.DDCID !==null && collectionDetail.DDCID !=='' " class="ddcid"
-             :src="`${staticPath}/static/images/collection-detail/sl-logo.png`" alt="">
+             src="/static/images/collection-detail/sl-logo.png" alt="">
       </div>
       <div class="work-information">
         <div class="work-information-card">

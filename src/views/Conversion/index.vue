@@ -2,7 +2,7 @@
   <div class="app-conversion">
     <div class="app-conversion-header">
       <div class="icon">
-        <img :src="`${staticPath}/static/images/conversion/header-icon.png`" alt="">
+        <img src="/static/images/conversion/header-icon.png" alt="">
       </div>
       <div class="text">
         <p>藏品兑换完成后自动与登录手机号持有人绑定。 </p>
@@ -10,7 +10,7 @@
       </div>
       <div class="history" @click="onShowHistory">
         <p>兑换记录</p>
-        <img class="icon" :src="`${staticPath}/static/images/conversion/right-fill.png`" alt="">
+        <img class="icon" src="/static/images/conversion/right-fill.png" alt="">
       </div>
     </div>
     <div class="app-conversion-main">
@@ -18,11 +18,11 @@
         <div class="form-item">
           <Field v-model="code" placeholder="请输入您的兑换码">
             <template #label>
-              <img class="code-input-icon" :src="`${staticPath}/static/images/conversion/input-icon.png`" alt="">
+              <img class="code-input-icon" src="/static/images/conversion/input-icon.png" alt="">
             </template>
           </Field>
           <div class="form-item-tips">
-            <img class="icon" :src="`${staticPath}/static/images/conversion/attention-icon.png`" alt="">
+            <img class="icon" src="/static/images/conversion/attention-icon.png" alt="">
             <span>兑换码核对完成后无法取消，请谨慎操作</span>
           </div>
         </div>

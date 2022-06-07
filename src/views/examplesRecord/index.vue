@@ -4,7 +4,7 @@
         <div class="examples-boby-content">
           <PullRefresh v-model="refreshing" @refresh="onRefresh">
             <Empty v-if="!dataSource.length && !loading && finished && !varAwait" description="暂无数据 ~"
-                   :image="`${staticPath}/static/images/collection/not-data-slot.png`"/>
+                   image="/static/images/collection/not-data-slot.png"/>
             <List
                 v-else
                 v-model="loading"
@@ -20,7 +20,7 @@
               <template #error></template>
               <template #finished>
                 <div class="finished">
-                  <img :src="`${staticPath}/static/images/home/cry-icon.png`" alt="" class="icon">
+                  <img src="/static/images/home/cry-icon.png" alt="" class="icon">
                   <span>已经到底啦 ~ ~</span>
                 </div>
               </template>

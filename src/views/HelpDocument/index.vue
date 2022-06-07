@@ -1,6 +1,6 @@
 <template>
   <div class="app-help-document">
-    <base-image :src="`${staticPath}/static/images/help.png`"/>
+    <base-image src="/static/images/help.png"/>
   </div>
 </template>
 

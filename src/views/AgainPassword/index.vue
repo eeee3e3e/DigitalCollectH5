@@ -2,7 +2,7 @@
   <div class="app-verification-code-input">
     <div class="app-verification-code-input-header">
       <div class="icon-wrapper">
-        <img class="icon" :src="`${staticPath}/static/images/password/aginPay.png`" alt="">
+        <img class="icon" src="/static/images/password/aginPay.png" alt="">
       </div>
       <div class="text-wrapper">
         <p>请设置您的账户支付密码，为了保障您的账户安全， 建议避免设置生日、连续数字等</p>

@@ -24,10 +24,6 @@ Vue.use(GlobalFilters)
 
 Vue.config.productionTip = false
 
-console.log(process.env.BASE_URL)
-
-Vue.prototype.staticPath = '.'
-
 new Vue({
   router,
   store,

@@ -6,7 +6,7 @@
     <div class="app-authentication-result-header">
       <div class="app-authentication-result-header-body">
         <div class="icon">
-          <img :src="`${staticPath}/static/images/authentication-result/header-icon.png`" alt="">
+          <img src="/static/images/authentication-result/header-icon.png" alt="">
         </div>
         <p class="text">您已通过实名认证，感谢您的支持！</p>
       </div>
@@ -16,7 +16,7 @@
       <div class="app-authentication-result-card">
         <div class="app-authentication-result-card-header">
           <div class="icon">
-            <img :src="`${staticPath}/static/images/authentication-result/idCard-icon.png`" alt="">
+            <img src="/static/images/authentication-result/idCard-icon.png" alt="">
           </div>
           <span>认证信息</span>
         </div>

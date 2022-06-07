@@ -16,7 +16,7 @@
     </div> -->
 
     <div class="content">
-      <img class="invite-text" :src="`${staticPath}/static/images/register/u32.png`" width="91" height="91" alt="">
+      <img class="invite-text" src="/static/images/register/u32.png" width="91" height="91" alt="">
       <i style="padding-bottom: 10px">登陆城市数藏</i>
       <i>未来近在咫尺</i>
       <div class="QR-code-wraper">
@@ -39,7 +39,7 @@
 
     <van-dialog v-model="isRegShow" showConfirmButton showCancelButton confirm-button-color="#285AC6" class='resShow' @confirm="getDataSource">
       <div class="header">
-        <img :src="`${staticPath}/static/images/register/1.png`" alt="" width="11" height="14">
+        <img src="/static/images/register/1.png" alt="" width="11" height="14">
         <span>请输入验证码</span>
       </div>
       <div class="content1">
@@ -163,7 +163,7 @@ export default {
         method: 'get',
         // url: `http://121.196.44.29:8001/api/UserInfo/IsRegByMobileNo?mobileNo=${this.phoneNumber}`,
         // url: `https://api.csscmeta.com:8443/api/UserInfo/IsRegByMobileNo?mobileNo=${this.phoneNumber}`,
-        url: `https://apitest.csscmeta.com:8443/api/UserInfo/IsRegByMobileNo?mobileNo=${this.phoneNumber}`,
+        url: `https://apitest.csscmeta.com/api/UserInfo/IsRegByMobileNo?mobileNo=${this.phoneNumber}`,
       })
       // const params = {
       //   // mobileNo: this.phoneNumber
@@ -260,7 +260,7 @@ export default {
         method: 'post',
         // url: 'http://121.196.44.29:8001/api/UserInfo/VerifyVerificationCodeByRecommend',
         // url: `https://api.csscmeta.com:8443/api/UserInfo/VerifyVerificationCodeByRecommend`,
-        url: `https://apitest.csscmeta.com:8443/api/UserInfo/VerifyVerificationCodeByRecommend`,
+        url: `https://apitest.csscmeta.com/api/UserInfo/VerifyVerificationCodeByRecommend`,
         data: params
       }).then(res => {
         console.log(JSON.stringify(res, '', 4))

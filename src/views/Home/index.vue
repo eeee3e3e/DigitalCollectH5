@@ -6,17 +6,17 @@
       <div class="app-home-main-body">
         <div class="app-home-main-body-header">
           <div class="left">
-            <img class="icon" :src="`${staticPath}/static/images/home/social-metasverse.png`" alt="">
+            <img class="icon" src="/static/images/home/social-metasverse.png" alt="">
             <p>发售藏品</p>
           </div>
           <div class="right">
-            <img :src="`${staticPath}/static/images/home/sale-collection.png`" alt="">
+            <img src="/static/images/home/sale-collection.png" alt="">
           </div>
         </div>
         <div class="app-home-main-body-content">
           <PullRefresh v-model="refreshing" @refresh="onRefresh">
             <Empty v-if="!dataSource.length && !loading && finished && !varAwait" description="暂无数据 ~"
-                   :image="`${staticPath}/static/images/collection/not-data-slot.png`"/>
+                   image="/static/images/collection/not-data-slot.png"/>
             <List
                 v-else
                 v-model="loading"
@@ -31,7 +31,7 @@
               <template #error></template>
               <template #finished>
                 <div class="finished">
-                  <img :src="`${staticPath}/static/images/home/cry-icon.png`" alt="" class="icon">
+                  <img src="/static/images/home/cry-icon.png" alt="" class="icon">
                   <span>已经到底啦 ~ ~</span>
                 </div>
               </template>
@@ -75,7 +75,6 @@ export default {
   },
 
   created() {
-    console.log(this)
     this.getDataSource()
   },
 

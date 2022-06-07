@@ -4,7 +4,7 @@
     <div class="app-conversion-result-header">
       <div class="app-conversion-result-header-body">
         <div class="icon">
-          <img :src="`${staticPath}/static/images/conversion-result/header-icon.png`" alt="">
+          <img src="/static/images/conversion-result/header-icon.png" alt="">
         </div>
         <p class="text">恭喜您成功兑换藏品！</p>
       </div>
@@ -14,7 +14,7 @@
       <div class="app-conversion-result-card">
         <div class="app-conversion-result-card-header">
           <div class="icon">
-            <img :src="`${staticPath}/static/images/authentication-result/idCard-icon.png`" alt="">
+            <img src="/static/images/authentication-result/idCard-icon.png" alt="">
           </div>
           <span>藏品信息</span>
         </div>

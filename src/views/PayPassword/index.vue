@@ -2,7 +2,7 @@
   <div class="app-authentication">
     <div class="app-authentication-header">
       <div class="icon">
-        <img :src="`${staticPath}/static/images/password/header-icon.png`" alt="">
+        <img src="/static/images/password/header-icon.png" alt="">
       </div>
       <div class="text">
         <p>账户密码将最大化保护您的财产安全， </p>
@@ -11,7 +11,7 @@
     </div>
     <div class="app-authentication-main">
         <div></div>
-         <img class="img" :src="`${staticPath}/static/images/password/lock.png`" alt="">
+         <img class="img" src="/static/images/password/lock.png" alt="">
     </div>
     <div class="app-authentication-footer">
       <div class="app-authentication-footer-content">

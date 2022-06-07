@@ -20,7 +20,7 @@
             <Cell is-link @click="onToAuthentication">
               <template v-if="userInfo.IsIdentityVerify">
                 <div class="certified">
-                  <img class="icon" :src="`${staticPath}/static/images/security-settings/certified.png`" alt="">
+                  <img class="icon" src="/static/images/security-settings/certified.png" alt="">
                   <span>已认证</span>
                 </div>
               </template>

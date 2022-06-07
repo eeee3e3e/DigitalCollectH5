@@ -4,11 +4,11 @@
         <div class="dialog-card">
           <div class="dialog-card-title">
             <div>
-              <img :src="`${staticPath}/static/images/collection-examples/zcIcon.png`" alt="">
+              <img src="/static/images/collection-examples/zcIcon.png" alt="">
             <span>转赠确认</span>
             </div>
               <div>
-                <img :src="`${staticPath}/static/images/collection-examples/titleBj.png`" alt="">
+                <img src="/static/images/collection-examples/titleBj.png" alt="">
               </div>
             </div>
           <div class="dialog-card-info">
@@ -18,7 +18,7 @@
             <div class="dialog-card-info-rightShop">
                 <div class="title">{{this.shop.CommodityName}}</div>
                 <div class="code">
-                  <img :src="`${staticPath}/static/images/collection-examples/qkl.png`" alt="">
+                  <img src="/static/images/collection-examples/qkl.png" alt="">
                   <!-- <span>JISHADGIN #0001/1000</span> -->
                    <span>{{this.shop.CommodityCode ? this.shop.CommodityCode.substring(this.shop.CommodityCode.length - 12):'' }}</span>
                   <span> #{{ this.shop.CommodityNo }}/{{ this.shop.LimitNum }}</span>
@@ -27,12 +27,12 @@
           </div>
           <div class="dialog-card-recipient">
               <div class="dialog-card-recipient-title">
-                 <img :src="`${staticPath}/static/images/collection-examples/zh.png`" alt="">
+                 <img src="/static/images/collection-examples/zh.png" alt="">
                 <span>受赠方信息</span>
               </div>
               <div class="dialog-card-recipient-count">
                 <div class="dialog-card-recipient-count-left">
-                  <!-- <img :src="`${staticPath}/static/images/collection-examples/shop.png`" alt=""> -->
+                  <!-- <img src="/static/images/collection-examples/shop.png" alt=""> -->
                   <img :src="getImageSrc(exaplesInfo.UserHead) || '/static/images/avatar.png'" alt="">
                 </div>
                 <div class="dialog-card-recipient-count-right">
@@ -55,7 +55,7 @@
             </button>
           </div>
           <div class="dialog-waring">
-            <img :src="`${staticPath}/static/images/collection-examples/waring.png`" alt="">
+            <img src="/static/images/collection-examples/waring.png" alt="">
             <span>数字藏品仅用于个人鉴赏、分享，严禁以任何形式炒作藏品！</span>
           </div>
            <div style="margin-top:24px;text-align:center;width:100%;color: #777;font-size:12px;margin-bottom:10px">
@@ -64,7 +64,7 @@
           </div>
     </van-dialog>
     <!-- <div class="footer">
-      <img id="bj" @click="close" style="" :src="`${staticPath}/static/images/collection-examples/close.png`" alt="">
+      <img id="bj" @click="close" style="" src="/static/images/collection-examples/close.png" alt="">
     </div> -->
   </div>
 </template>

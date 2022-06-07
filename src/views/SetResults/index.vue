@@ -3,7 +3,7 @@
     <div class="app-authentication-result-header">
       <div class="app-authentication-result-header-body">
         <div class="icon">
-          <img :src="`${staticPath}/static/images/password/win.png`" alt="">
+          <img src="/static/images/password/win.png" alt="">
         </div>
         <p class="text">您已成功设置账户支付密码！</p>
       </div>

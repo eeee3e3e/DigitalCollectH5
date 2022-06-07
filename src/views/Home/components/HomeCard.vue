@@ -2,7 +2,7 @@
   <div class="app-home-card">
     <div class="app-home-card-header">
       <div class="app-home-card-header-left">
-        <img class="icon" :src="`${staticPath}/static/images/home/timer-icon.png`" alt="">
+        <img class="icon" src="/static/images/home/timer-icon.png" alt="">
         <span v-html="goods.StartDateTime"></span>
       </div>
       <div class="app-home-card-header-right">
@@ -21,17 +21,17 @@
           </base-image>
         </div>
         <div v-if="goods.HomeStatus === '2'" class="time-end">
-          <img class="icon" :src="`${staticPath}/static/images/home/time-end.png`" alt="">
-          <!--            <img class="icon" :src="`${staticPath}/static/images/home/have-not-started-icon.png`" alt="">-->
+          <img class="icon" src="/static/images/home/time-end.png" alt="">
+          <!--            <img class="icon" src="/static/images/home/have-not-started-icon.png" alt="">-->
           <!--            <span v-html="goods.HomeStatusName"></span>-->
         </div>
         <div v-else class="card-view-tag">
           <div v-if="goods.HomeStatus === '1'" class="card-view-tag-body is-hot-sale">
-            <img class="icon" :src="`${staticPath}/static/images/home/is-hot-sale-icon.png`" alt="">
+            <img class="icon" src="/static/images/home/is-hot-sale-icon.png" alt="">
             <span v-html="goods.HomeStatusName"></span>
           </div>
           <div v-if="goods.HomeStatus === '0'" class="card-view-tag-body have-not-started">
-            <img class="icon" :src="`${staticPath}/static/images/home/have-not-started-icon.png`" alt="">
+            <img class="icon" src="/static/images/home/have-not-started-icon.png" alt="">
             <span v-html="goods.HomeStatusName"></span>
           </div>
         </div>

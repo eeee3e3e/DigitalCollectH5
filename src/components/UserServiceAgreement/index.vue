@@ -22,7 +22,7 @@ export default {
       request({
         method: 'get',
         responseType: 'blob',
-        url: './static/files/user-service-agreement.docx'
+        url: '/static/files/user-service-agreement.docx'
       })
           .then(result => {
             console.log(result)
