@@ -22,7 +22,7 @@ export default {
       request({
         method: 'get',
         responseType: 'blob',
-        url: '/static/files/privacy-agreement.docx'
+        url: './static/files/privacy-agreement.docx'
       })
           .then(result => {
             console.log(result)

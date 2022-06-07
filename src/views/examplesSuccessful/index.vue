@@ -3,7 +3,7 @@
     <div class="app-authentication-result-header">
       <div class="app-authentication-result-header-body">
         <div class="icon">
-          <img src="/static/images/collection-examples/zcsucess.png" alt="">
+          <img :src="`${staticPath}/static/images/collection-examples/zcsucess.png`" alt="">
         </div>
         <p class="text">已成功转赠藏品，快去告诉好友吧！</p>
       </div>
@@ -13,7 +13,7 @@
       <div class="app-authentication-result-card">
         <div class="app-authentication-result-card-header">
           <div class="icon">
-            <img src="/static/images/authentication-result/idCard-icon.png" alt="">
+            <img :src="`${staticPath}/static/images/authentication-result/idCard-icon.png`" alt="">
           </div>
           <span>受赠方账户信息</span>
         </div>

@@ -20,7 +20,7 @@
         </div>
       </template>
       <div class="right">
-        <img src="/static/images/right-icon.png" alt="">
+        <img :src="`${staticPath}/static/images/right-icon.png`" alt="">
       </div>
     </div>
   </div>

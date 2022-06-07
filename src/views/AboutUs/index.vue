@@ -4,7 +4,7 @@
       <div class="app-about-us-card">
         <div class="app-about-us-card-body">
           <div class="logo">
-            <img src="/static/images/about-us/logo.png" alt="">
+            <img :src="`${staticPath}/static/images/about-us/logo.png`" alt="">
           </div>
           <div class="hr">
             <span>版本号 v1.0.0</span>

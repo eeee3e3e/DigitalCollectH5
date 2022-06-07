@@ -1,6 +1,6 @@
 <template>
   <div class="app-home-header">
-    <img src="/static/images/home/background.png" alt="">
+    <img :src="`${staticPath}/static/images/home/background.png`" alt="">
   </div>
 </template>
 

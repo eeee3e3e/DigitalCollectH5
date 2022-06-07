@@ -6,7 +6,7 @@
       <div class="app-collection-main-body">
         <PullRefresh v-model="refreshing" @refresh="onRefresh">
           <Empty v-if="!dataSource.length && !loading && finished && !varAwait" description="您还没获得数字藏品 ~"
-                 image="/static/images/collection/not-data-slot.png"/>
+                 :image="`${staticPath}/static/images/collection/not-data-slot.png`"/>
           <List v-else
                 v-model="loading"
                 :offset="200"
@@ -29,11 +29,11 @@
 
 
                     <!-- <div v-if="item.CommodityStatus=== 'chaining'" class="bg-icon await">
-                      <img src="/static/images/collection/await.png" alt="">
+                      <img :src="`${staticPath}/static/images/collection/await.png`" alt="">
                     </div> -->
-                    <img v-if="item.CommodityStatus=== 'chaining'" class="bg-icon ready" src="/static/images/collection/slz.png" alt="">
-                    <img v-if="item.CommodityStatus=== 'chained'" class="bg-icon ready" src="/static/images/collection/ready.png" alt="">
-                    <img v-if="item.CommodityStatus=== 'allow-give'" class="bg-icon ready" src="/static/images/collection/kzz.png" alt="">
+                    <img v-if="item.CommodityStatus=== 'chaining'" class="bg-icon ready" :src="`${staticPath}/static/images/collection/slz.png`" alt="">
+                    <img v-if="item.CommodityStatus=== 'chained'" class="bg-icon ready" :src="`${staticPath}/static/images/collection/ready.png`" alt="">
+                    <img v-if="item.CommodityStatus=== 'allow-give'" class="bg-icon ready" :src="`${staticPath}/static/images/collection/kzz.png`" alt="">
                   </div>
                 </div>
                 <div class="card-item-info">
@@ -54,7 +54,7 @@
             <template #error></template>
             <template #finished>
               <div class="finished">
-                <img src="/static/images/home/cry-icon.png" alt="" class="icon">
+                <img :src="`${staticPath}/static/images/home/cry-icon.png`" alt="" class="icon">
                 <span>已经到底啦 ~ ~</span>
               </div>
             </template>

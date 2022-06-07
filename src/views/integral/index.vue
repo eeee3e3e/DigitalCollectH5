@@ -8,12 +8,12 @@
       <div class="current">
         <div class="title">
           <div class="left">
-            <img src="/static/images/integral/4.png" alt="" width="12" height="12">
+            <img :src="`${staticPath}/static/images/integral/4.png`" alt="" width="12" height="12">
             <span>当前城市金</span>
           </div>
           <div class="right">
             <span>城市金规则</span>
-            <img src="/static/images/integral/5.png" alt="" width="10" height="10">
+            <img :src="`${staticPath}/static/images/integral/5.png`" alt="" width="10" height="10">
           </div>
         </div>
       </div>

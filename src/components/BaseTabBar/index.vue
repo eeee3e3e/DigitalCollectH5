@@ -27,20 +27,20 @@ export default {
         {
           key: '/city-meta/home',
           title: '首页',
-          icon: '/static/images/tab-bar/home.png',
-          activeIcon: '/static/images/tab-bar/home-active.png'
+          icon: './static/images/tab-bar/home.png',
+          activeIcon: './static/images/tab-bar/home-active.png'
         },
         {
           key: '/city-meta/collection',
           title: '藏品',
-          icon: '/static/images/tab-bar/collection.png',
-          activeIcon: '/static/images/tab-bar/collection-active.png'
+          icon: './static/images/tab-bar/collection.png',
+          activeIcon: './static/images/tab-bar/collection-active.png'
         },
         {
           key: '/city-meta/my-center',
           title: '我的',
-          icon: '/static/images/tab-bar/my-center.png',
-          activeIcon: '/static/images/tab-bar/my-center-active.png'
+          icon: './static/images/tab-bar/my-center.png',
+          activeIcon: './static/images/tab-bar/my-center-active.png'
         }
       ])
     }
