@@ -41,8 +41,10 @@
             </div>
           </div>
           <div class="right">
-            <img :src="getImageUrl(RecmmendationCodeImage)" alt="" width="60" height="60" id="qrcode" ref="qrcode">
-            <!-- <img src='/static/images/invite-friends/qr.jpg' alt="" class="avatar" width="60" height="60" id="qrcode" ref="qrcode"> -->
+            <!-- <img :src="getImageUrl(RecmmendationCodeImage)" alt="" width="60" height="60" id="qrcode" ref="qrcode"> -->
+            <div class="qrCode" ref="qc">
+               <div id="qrcode"  ></div>
+            </div>
           </div>
           
         </div> 
@@ -198,7 +200,7 @@ import { CountDown, PullRefresh, List, Empty, Notify } from 'vant';
 import { Overlay } from 'vant';
 import {inviteApi} from "@/api"
 import getImageUrl from "@/utils/get-image-url";
-// import QRCode from 'qrcodejs2';
+import QRCode from 'qrcodejs2';
 import axios from "axios";
 import { mapGetters, mapMutations } from 'vuex'
 import Vue from 'vue';
@@ -211,10 +213,12 @@ export default {
     Empty,
     List,
     Notify,
-    Overlay
+    Overlay,
+    QRCode 
   },
   data() {
     return {
+      link: 'https://baidu.com',
       overlayShow: false,
       NickName: '',
       RecmmendationIntegral: 0,
@@ -247,20 +251,27 @@ export default {
     ...mapGetters(['userInfo', 'hasUserInfo'])
   },
   created () {
-    // console.log(JSON.stringify(this.userInfo.ID,'',4));
 
-    // return
-    // debugger
-    if(this.hasUserInfo){
+  },
+  mounted () {
+      if(this.hasUserInfo){
       this.GetImageCodeUrl()
       this.getDataSource()
     } else {
       Notify({ type: 'warning', message: '请先 登录' });
     }
-
   },
   methods:{
-    
+    qrcode (recmmendationCode) {
+       let that = this;
+        let long = that.$refs.qc.clientWidth * 0.9
+       let qrcode = new QRCode('qrcode', {
+           width: long,
+           height: long, 
+           text:  `${origin}/#/city-meta/register?InviteCode=${recmmendationCode}`, 
+           correctLevel : QRCode.CorrectLevel.L
+       })
+      },
     rule(){
       this.overlayShow = true
     },
@@ -359,7 +370,9 @@ export default {
           this.sumByIdentity = data.RecmmendationSumByIdentity 
           this.recmmendationCode = data.RecmmendationCode
           this.RecmmendationCodeImage = data.RecmmendationCodeImage
-
+          this.$nextTick ( ()=> {
+              this.qrcode(this.recmmendationCode)
+            })
           if((new Date('2022-6-11') - new Date()) > 0){
             if(this.sumByIdentity <= 10) {
               this.lockShow = true;
@@ -583,9 +596,9 @@ export default {
         display: flex;
         justify-content: space-between;
         
-        .left, .right{
-          height: 30px;
-        }
+        // .left, .right{
+        //   height: 30px;
+        // }
 
         .left{
           width: 80%;
@@ -634,6 +647,20 @@ export default {
           }
         }
         .right{
+            width: 20%;
+            height:60px;
+            position: relative;
+          > .qrCode{
+            width: 100%;
+            height:100%;
+             background: #fff;
+             padding:3px;
+             top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+          }
         }
       }
 

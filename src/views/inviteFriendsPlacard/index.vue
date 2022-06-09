@@ -30,15 +30,19 @@
             <img src="/static/images/avatar.png" alt="" class="avatar" width="22" height="22">
             <span><i>{{NickName}}</i>  邀请您来城市数藏一起领神秘藏品!</span>
           </div>
-          <div class="qr-code" style="position: relative;">
-            <img src="/static/images/invite-friends/a.png" style="width: 80%;margin: 0 auto;padding: 30px 0 20px 0">
+          <div class="qr-code" style="">
+            <img class="images" src="/static/images/invite-friends/a.png" >
             <!-- <div class="left">
               <img src="/static/images/invite-friends/u21.png" alt="" width="23" height="23">
             </div> -->
-            <div class="center" style="position: absolute;top: 9px; left: 121px">
+            <!-- <div class="center" style=""> -->
               <!-- <img src="/static/images/invite-friends/1.png" alt="" width="117" height="117"> -->
-              <img :src="getImageUrl(RecmmendationCodeImage)" alt="" width="112" height="112">
-            </div>
+              <!-- <img :src="getImageUrl(RecmmendationCodeImage)" alt="" width="112" height="112"> -->
+              <div class="qc" ref="qc">
+                 <div id="qrcode" ></div>
+              </div>
+              
+            <!-- </div> -->
             <!-- <div class="right">
               <img src="/static/images/invite-friends/u21.png" alt="" width="23" height="23">
             </div> -->
@@ -56,7 +60,7 @@
 </template>
 
 <script>
-
+import QRCode from 'qrcodejs2';
 import { CellGroup, Cell, Notify } from 'vant'
 import { BaseActionSheet, UserServiceAgreement, PrivacyAgreement } from '@/components'
 import html2canvas from 'html2canvas'
@@ -69,7 +73,8 @@ export default {
     Cell,
     BaseActionSheet,
     UserServiceAgreement,
-    PrivacyAgreement
+    PrivacyAgreement,
+    QRCode
   },
   data() {
     return {
@@ -94,17 +99,16 @@ export default {
 
   },
   mounted(){
-    // alert(/iPad|iPhone|iPod/.test(navigator.userAgent))
-    console.log(JSON.stringify(this.$route.query,'',4))
-    // debugger
     const { RecmmendationCodeImage, recmmendationCode, NickName} = this.$route.query
     this.RecmmendationCodeImage = RecmmendationCodeImage
     this.recmmendationCode = recmmendationCode
     this.NickName = NickName
     // console.log(this.recmmendationCode)
-    // setTimeout( () => {    
-      // this.capture()
-    // }, 1000)
+    setTimeout( () => {    
+       this.$nextTick ( ()=> {
+              this.qrcode(this.recmmendationCode)
+            })
+    }, 300)
   },
 
   // beforeRouteLeave(to, from, next) {
@@ -115,6 +119,16 @@ export default {
   // },
 
   methods: {
+    qrcode (recmmendationCode) {
+       let that = this;
+       let long = that.$refs.qc.clientWidth
+       let qrcode = new QRCode('qrcode', {
+           width: long,
+           height: long, 
+           text:  `${origin}/#/city-meta/register?InviteCode=${recmmendationCode}`,
+           correctLevel : QRCode.CorrectLevel.L
+       })
+      },
     getImageUrl(path) {
       return getImageUrl(path)
     },
@@ -290,25 +304,48 @@ export default {
       }
 
       .qr-code{
+        width:100%;
+        height: 200px;
         display: flex;
         align-items: center;
         align-content: center;
-
+        position: relative;
         .left{
-          padding-right: 40px;
+          // padding-right: 40px;
         }
         .center{
-          img{
-            position: absolute;
-            margin: 0.83rem 0 0.88rem -0.06333rem;
-            z-index: 111;
-          }
+        
+          // img{
+          //   position: absolute;
+          //   margin: 0.83rem 0 0.88rem -0.06333rem;
+          //   z-index: 111;
+          // }
         }
         .right{
-          padding-left: 40px;
+          // padding-left: 40px;
         }
       }
-
+      .qc {
+         position: absolute;
+            width: 112px;
+            height: 112px;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+      }
+      .images{
+        // width: 80%;margin: 0 auto;padding: 30px 0 20px 0
+        position: absolute;
+            width: 80%;
+            // height: 112px;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+      }
       .identify{
         font-size: 12px;
         font-weight: bold;
