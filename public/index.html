@@ -17,7 +17,17 @@
     <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
         Please enable it to continue.</strong>
 </noscript>
-<div id="app"></div>
+<div id="app">
+    <div class="loading"></div>
+</div>
 <!-- built files will be auto injected -->
 </body>
 </html>
+<style>
+    .loading{
+        background-image: url("/public/static/images/loading.gif");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+    }
+</style>
