@@ -376,12 +376,12 @@ export default {
         // overflow: hidden;
         video {
           object-fit:cover;
-           width: 315px;
+           width: 265px;
           height: 265px;
         }
         img {
           display: inline-block;
-          width: 315px;
+          width: 265px;
           height: 265px;
         }
       }
