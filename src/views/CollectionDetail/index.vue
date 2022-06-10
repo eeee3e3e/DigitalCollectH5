@@ -334,10 +334,8 @@ export default {
       if (this.hasUserInfo) {
         params.userid = this.userInfo.ID
       }
-      const normalBusiness = (resultData) => {
+      const normalBusiness = () => {
         // 正常逻辑
-        this.goodsDetail = resultData
-        // this.StartDateTime = this.goodsDetail.StartDateTime
         if (this.HomeStatus === '0') {
           this.Time()
         }
@@ -353,6 +351,8 @@ export default {
               Bonus:bonus,
               ServerTime:serverTime
             } = resultData
+
+            this.goodsDetail = resultData
             // 报名逻辑
             if (signUpStartTime&&signUpEndTime) {
 
@@ -384,7 +384,7 @@ export default {
                   // 未中签
                   this.HomeStatus = '5'
                 } else {
-                  normalBusiness(resultData)
+                  normalBusiness()
                 }
               } else if (!signUp) {
                 // 报名中---未报名
@@ -394,7 +394,7 @@ export default {
                 this.HomeStatus = '4'
               }
             } else {
-              normalBusiness(resultData)
+              normalBusiness()
             }
           })
     },
