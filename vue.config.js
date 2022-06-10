@@ -13,8 +13,8 @@ module.exports = defineConfig({
     proxy: {
       '/api': {
         // target: 'http://api.csscmeta.com',
-        // target: 'https://apitest.csscmeta.com',
-        target: 'http://121.196.44.29:8001',
+        target: 'https://apitest.csscmeta.com',
+        // target: 'http://121.196.44.29:8001',
         // target: 'http://121.196.44.29:8002',
         // target: 'http://121.196.44.29:8999',
         changOrigin: true,
@@ -24,8 +24,8 @@ module.exports = defineConfig({
       },
       '/static-proxy': {
         // target: 'http://api.csscmeta.com',
-        // target: 'https://apitest.csscmeta.com',
-        target: 'http://121.196.44.29:8001',
+        target: 'https://apitest.csscmeta.com',
+        // target: 'http://121.196.44.29:8001',
         // target: 'http://121.196.44.29:8002',
         // target: 'http://121.196.44.29:8999',
         changOrigin: true,
