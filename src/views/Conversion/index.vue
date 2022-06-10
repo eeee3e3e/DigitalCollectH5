@@ -33,7 +33,7 @@
         <button class="submit" :class="hasCode ? 'common-save-button' : ''" v-debounce @click="onToConversionResult" >立即兑换</button>
       </div>
     </div>
-
+    <Blindbox-dialog :isShow="diaolgShow" @closeQR="closeQR"></Blindbox-dialog>
     <base-action-sheet v-model="showHistory" title="兑换记录">
       <History/>
     </base-action-sheet>
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import BlindboxDialog from './components/BlindboxDialog.vue'
 import debounce from '@/utils/debounce'
 import { mapGetters } from 'vuex'
 import { Field } from 'vant'
@@ -52,13 +53,16 @@ export default {
   components: {
     Field,
     BaseActionSheet,
-    History
+    History,
+    BlindboxDialog
   },
   data() {
     return {
+      diaolgShow:false,
       code: undefined,
       showHistory: false,
-      loading: false
+      loading: false,
+      CommodityDetailsID:''
     }
   },
   computed: {
@@ -70,6 +74,10 @@ export default {
     }
   },
   methods: {
+    closeQR (v) {
+       this.diaolgShow = v
+       this.$router.push('/city-meta/conversion-result?id=' + this.CommodityDetailsID)
+    },
     onClickHistory() {
     },
     // 显示历史记录
@@ -77,7 +85,7 @@ export default {
       this.showHistory = true
     },
     // 前往兑换结果
-    onToConversionResult() {
+    onToConversionResult() { 
       if (this.loading) return
       this.loading = false
       const data = {
@@ -87,9 +95,17 @@ export default {
       goodsApi
           .postUserExchanges(data)
           .then(result => {
-            this.$router.push('/city-meta/conversion-result?id=' + result.Data.CommodityDetailsID)
+            this.CommodityDetailsID = result.Data.CommodityDetailsID
+            if (result.Data.SaleModeID === '2') {
+              this.diaolgShow = true
+            } else {
+              this.diaolgShow = false
+              this.$router.push('/city-meta/conversion-result?id=' + result.Data.CommodityDetailsID)
+            }
+            // this.$router.push('/city-meta/conversion-result?id=' + result.Data.CommodityDetailsID)
           })
           .finally(() => {
+            this.diaolgShow = false
             this.loading = false
           })
     }
