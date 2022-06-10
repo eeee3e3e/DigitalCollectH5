@@ -202,7 +202,20 @@
           <p style="margin-top:3px;">{{ count }}</p>
         </button>
         <button class="save_three" v-if="HomeStatus === '2'">藏品已售空</button>
-
+        <!-- 报名参与抽签 相关按钮 -->
+        <button class="save_four" v-if="HomeStatus === '3'">报名抽签</button>
+        <button class="save_five" v-if="HomeStatus === '4'">
+          <p>报名成功</p>
+          <p style="margin-top:3px;font-size:10px;">开售前 1 小时公布结果</p>
+        </button>
+        <button class="save_six" v-if="HomeStatus === '5'">
+          <p>本次未中签</p>
+          <p style="margin-top:3px;">祝您下次好运</p>
+        </button>
+        <button class="save_seven" v-if="HomeStatus === '6'">
+          <p>报名未开始</p>
+          <!-- <p style="margin-top:3px;">祝您下次好运</p> -->
+        </button>
       </div>
     </div>
   </div>
@@ -215,6 +228,7 @@ import { goodsApi } from '@/api'
 import getImageUrl from "@/utils/get-image-url";
 import { getMyCommodityDetails } from "@/api/goods";
 import moment from 'moment'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -233,6 +247,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['userInfo','hasUserInfo']),
     routeParams() {
       return this.$route.query
     }
@@ -255,7 +270,8 @@ export default {
   },
   methods: {
      play() {
-	  document.getElementById("videoid").play()
+      const videoEl = document.getElementById("videoid")
+      videoEl && videoEl.play()
     },
     // 天 时 分 秒 格式化函数
     countDown() {
@@ -314,13 +330,71 @@ export default {
     getDetail() {
       const { id, homeStatus } = this.routeParams
       this.HomeStatus = homeStatus
+      const params = {id}
+      if (this.hasUserInfo) {
+        params.userid = userInfo.ID
+      }
+      const normalBusiness = (resultData) => {
+        // 正常逻辑
+        this.goodsDetail = resultData
+        // this.StartDateTime = this.goodsDetail.StartDateTime
+        if (this.HomeStatus === '0') {
+          this.Time()
+        }
+      }
       goodsApi
-          .getGoodsDetailById(id)
+          .getGoodsDetailById(params)
           .then(result => {
-            this.goodsDetail = result.Data
-            // this.StartDateTime = this.goodsDetail.StartDateTime
-            if (this.HomeStatus === '0') {
-              this.Time()
+            const resultData = result.Data
+            const {
+              SignUpStartTime:signUpStartTime,
+              SignUpEndTime:signUpEndTime,
+              SignUp:signUp,
+              Bonus:bonus,
+              ServerTime:serverTime
+            } = resultData
+            // 报名逻辑
+            if (signUpStartTime&&signUpEndTime) {
+
+              /**
+               *
+               *  SignUpStartTime报名开始时间
+               *
+               *  SignUpEndTime报名结束时间
+               *
+               *  SignUp是否报名
+               *    true: 已报名
+               *    false：未报名
+               *
+               *  bonus是否中签
+               *    0: 没中或者等待开奖
+               *    100: 中签
+               *
+               * */
+
+              const nowDate = moment(serverTime.replace(/\-/ig, '/')).valueOf()
+              const startTime = moment(signUpStartTime.replace(/\-/ig, '/')).valueOf()
+              const endTime = moment(signUpEndTime.replace(/\-/ig, '/')).valueOf()
+              if (nowDate < startTime) {
+                // 报名未开始
+                this.HomeStatus = '6'
+              } else if (nowDate > endTime) {
+                // 报名已结束
+                if (bonus === 0) {
+                  // 未中签
+                  this.HomeStatus = '5'
+                } else {
+                  normalBusiness(resultData)
+                }
+              } else if (!signUp) {
+                // 报名中---未报名
+                this.HomeStatus = '3'
+              } else {
+                // 报名中---已报名等待开奖
+                this.HomeStatus = '4'
+              }
+            } else {
+              normalBusiness(resultData)
             }
           })
     },
@@ -954,20 +1028,6 @@ export default {
       border: none;
     }
 
-    .save_three {
-      width: 170px;
-      height: 42px;
-      background: #999999;
-      border-radius: 21px;
-      box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.06);;
-      font-size: 14px;
-      font-family: PingFangSC, PingFangSC-Medium;
-      font-weight: 500;
-      text-align: center;
-      color: #101012;
-      border: none;
-    }
-
     .save_two {
       letter-spacing: 2px;
       width: 170px;
@@ -981,6 +1041,39 @@ export default {
       text-align: center;
       color: #101012;
       border: none;
+    }
+
+    .save_four {
+      width: 170px;
+      height: 42px;
+      background-color: #3487ed;
+      background: linear-gradient(90deg,#3487ed, #5484ff);
+      border-radius: 21px;
+      box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.06);
+      font-size: 14px;
+      font-family: PingFangSC, PingFangSC-Medium;
+      font-weight: 500;
+      text-align: center;
+      color: #ffffff;
+      border: none;
+      outline: none;
+    }
+
+    .save_five,
+    .save_six,
+    .save_seven {
+      width: 170px;
+      height: 42px;
+      background: #999999;
+      border-radius: 21px;
+      box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.06);
+      font-size: 11px;
+      font-family: PingFangSC, PingFangSC-Medium;
+      font-weight: 500;
+      text-align: center;
+      color: #101012;
+      border: none;
+      outline: none;
     }
   }
 

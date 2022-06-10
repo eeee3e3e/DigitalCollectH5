@@ -49,6 +49,7 @@ import HomeBanner from './components/HomeBanner'
 import HomeHeader from './components/HomeHeader'
 import HomeCard from './components/HomeCard'
 import { goodsApi } from '@/api'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -72,6 +73,9 @@ export default {
         PageSize: 10
       }
     }
+  },
+  computed: {
+    ...mapGetters(['userInfo','hasUserInfo']),
   },
 
   created() {
@@ -98,12 +102,16 @@ export default {
       return new Promise((resolve) => {
         if (this.varAwait) return resolve()
         this.varAwait = true
-        const { pagination } = this
+        const { pagination, userInfo } = this
+        const params = {
+          pageIndex: pagination.PageIndex,
+          pageSize: pagination.PageSize
+        }
+        if (this.hasUserInfo) {
+          params.userid = userInfo.ID
+        }
         goodsApi
-            .getGoodsListByPage({
-              pageIndex: pagination.PageIndex,
-              pageSize: pagination.PageSize
-            })
+            .getGoodsListByPage(params)
             .then(result => {
               const data = result.Data || []
               if (isClear) {

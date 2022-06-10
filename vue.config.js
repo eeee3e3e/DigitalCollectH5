@@ -13,8 +13,8 @@ module.exports = defineConfig({
     proxy: {
       '/api': {
         // target: 'http://api.csscmeta.com',
-        target: 'https://apitest.csscmeta.com',
-        // target: 'http://121.196.44.29:8001',
+        // target: 'https://apitest.csscmeta.com',
+        target: 'http://121.196.44.29:8001',
         // target: 'http://121.196.44.29:8002',
         // target: 'http://121.196.44.29:8999',
         changOrigin: true,
@@ -24,8 +24,8 @@ module.exports = defineConfig({
       },
       '/static-proxy': {
         // target: 'http://api.csscmeta.com',
-        target: 'https://apitest.csscmeta.com',
-        // target: 'http://121.196.44.29:8001',
+        // target: 'https://apitest.csscmeta.com',
+        target: 'http://121.196.44.29:8001',
         // target: 'http://121.196.44.29:8002',
         // target: 'http://121.196.44.29:8999',
         changOrigin: true,
@@ -33,7 +33,7 @@ module.exports = defineConfig({
           '^/static-proxy': ''
         }
       }
-    },
+    }
   },
   css: {
     loaderOptions: {
@@ -41,9 +41,9 @@ module.exports = defineConfig({
         lessOptions: {
           modifyVars: {
             // 或者可以通过 less 文件覆盖（文件路径为绝对路径）
-            hack: `true; @import "/src/assets/styles/vant-variable.less";`,
-          },
-        },
+            hack: `true; @import "/src/assets/styles/vant-variable.less";`
+          }
+        }
       }
     }
   },

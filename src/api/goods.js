@@ -1,6 +1,16 @@
-import request from "@/utils/request";
+import request from '@/utils/request'
 
 const BASE_API = '/Commodity'
+
+// 商品 报名参与发售抽签
+export function postSignUp(data = {}) {
+  return request({
+    url: `${BASE_API}/SignUp`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data
+  })
+}
 
 // 获取商品列表前台
 export function getGoodsListByPage(params = {}) {
@@ -13,14 +23,12 @@ export function getGoodsListByPage(params = {}) {
 }
 
 // 获取商品详情
-export function getGoodsDetailById(id) {
+export function getGoodsDetailById(params = {}) {
   return request({
     url: `${BASE_API}/GetCommodity`,
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
-    params: {
-      id: id
-    }
+    params
   })
 }
 
