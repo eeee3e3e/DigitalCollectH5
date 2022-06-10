@@ -30,7 +30,7 @@
     </div>
     <div class="app-conversion-footer">
       <div class="app-conversion-footer-content">
-        <button class="submit" :class="hasCode ? 'common-save-button' : ''" @click="onToConversionResult">立即兑换</button>
+        <button class="submit" :class="hasCode ? 'common-save-button' : ''" v-debounce @click="onToConversionResult" >立即兑换</button>
       </div>
     </div>
 
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import debounce from '@/utils/debounce'
 import { mapGetters } from 'vuex'
 import { Field } from 'vant'
 import { BaseActionSheet } from '@/components'
