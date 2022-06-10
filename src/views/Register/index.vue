@@ -33,7 +33,7 @@
 
     <van-dialog v-model="isShowVerify" :show-confirm-button="false">
       <div style="text-align:center;">
-        <Verify :type="1" :codeLength=2 @success="onSendVerificationCode" @error="error" width="100%"></Verify>
+        <Verify :type="1" :codeLength="codeLength" @success="onSendVerificationCode" @error="error" width="100%"></Verify>
       </div>
     </van-dialog>
 
@@ -89,6 +89,7 @@ export default {
   },
   data() {
     return {
+      codeLength:2,
       isShowVerify: false,
       isRegShow: false,
       phoneNumber: '',
