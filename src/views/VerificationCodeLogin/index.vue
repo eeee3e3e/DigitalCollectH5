@@ -43,7 +43,7 @@
      <van-dialog v-model="isShow" :show-confirm-button="false">
         <div style="text-align:center;padding-bottom:5px;">
           <!-- <SlideVerify ref="slideblock" @success="sendSmsCode"></SlideVerify> -->
-          <Verify :type="1" codeLength="2" @success="sendSmsCode" @error="error" width="100%"  ></Verify>
+          <Verify :type="1" :codeLength="codeLength" @success="sendSmsCode" @error="error" width="100%"  ></Verify>
         </div>
      </van-dialog>
     <base-action-sheet title="用户服务协议" v-model="showUserServiceAgreement">
@@ -77,6 +77,7 @@ export default {
   },
   data() {
     return {
+      codeLength:2,
       isShowSlide:false,
       isShow:false,
       userPhone: undefined,

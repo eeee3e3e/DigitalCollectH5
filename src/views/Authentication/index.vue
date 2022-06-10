@@ -40,7 +40,7 @@
      <van-dialog v-model="isShow" :show-confirm-button="false">
         <div style="text-align:center;">
           <!-- <SlideVerify ref="slideblock" @success="sendSmsCode"></SlideVerify> -->
-          <Verify :type="1" codeLength="2" @success="sendSmsCode" @error="error" width="100%"  ></Verify>
+          <Verify :type="1" :codeLength="codeLength" @success="sendSmsCode" @error="error" width="100%"  ></Verify>
         </div>
      </van-dialog>
   </div>
@@ -66,6 +66,7 @@ export default {
   },
   data() {
     return {
+      codeLength:2,
       isShow:false,
       code: undefined,
       showHistory: false,
