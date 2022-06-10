@@ -203,7 +203,7 @@
         </button>
         <button class="save_three" v-if="HomeStatus === '2'">藏品已售空</button>
         <!-- 报名参与抽签 相关按钮 -->
-        <button class="save_four" v-if="HomeStatus === '3'">报名抽签</button>
+        <button class="save_four" v-if="HomeStatus === '3'" @click="goSignUp">报名抽签</button>
         <button class="save_five" v-if="HomeStatus === '4'">
           <p>报名成功</p>
           <p style="margin-top:3px;font-size:10px;">开售前 1 小时公布结果</p>
@@ -269,7 +269,7 @@ export default {
     },1000)
   },
   methods: {
-     play() {
+    play() {
       const videoEl = document.getElementById("videoid")
       videoEl && videoEl.play()
     },
@@ -332,7 +332,7 @@ export default {
       this.HomeStatus = homeStatus
       const params = {id}
       if (this.hasUserInfo) {
-        params.userid = userInfo.ID
+        params.userid = this.userInfo.ID
       }
       const normalBusiness = (resultData) => {
         // 正常逻辑
@@ -412,6 +412,25 @@ export default {
             this.collectionDetail = result.Data
             console.log('this.collectionDetail', this.collectionDetail)
           })
+    },
+    // 报名
+    goSignUp() {
+      if (!this.hasUserInfo) {
+        // 去登陆
+        this.$router.push('/city-meta/verification-code-login')
+        return
+      }
+      if (!this.userInfo.IsIdentityVerify) {
+        // 没有实名认证
+        this.$router.push('/city-meta/authentication')
+        return
+      }
+      goodsApi.postSignUp({
+        userId: this.userInfo.ID,
+        commodityId: this.$route.query.id
+      }).then(res=>{
+        window.location.reload()
+      })
     }
   }
 }
