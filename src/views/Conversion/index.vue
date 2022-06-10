@@ -105,7 +105,7 @@ export default {
             // this.$router.push('/city-meta/conversion-result?id=' + result.Data.CommodityDetailsID)
           })
           .finally(() => {
-            this.diaolgShow = false
+            // this.diaolgShow = false
             this.loading = false
           })
     }
