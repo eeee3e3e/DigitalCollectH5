@@ -8,6 +8,6 @@ export default function getImageUrl(path = '') {
   // const pre = isDev ? '/static-proxy' : 'http://121.196.44.29:8001'
   // const pre = isDev ? '/static-proxy' : 'http://121.196.44.29:8002'
   // const pre = isDev ? '/static-proxy' : 'http://121.196.44.29:8999'
-  http://resource.csscmeta.com
+  // http://resource.csscmeta.com
   return `${pre}${path}`
 }

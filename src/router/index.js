@@ -5,7 +5,7 @@ import setDocumentTitle from "@/utils/set-document-title";
 import { getAuthorization, getUserId } from "@/utils/cookies";
 import tip from "@/utils/tip";
 import store from "@/store";
-import versionTood from '@/utils/versionUpdate'
+// import versionTood from '@/utils/versionUpdate'
 const originalPush = VueRouter.prototype.push
 const originalReplace = VueRouter.prototype.replace
 
@@ -35,7 +35,7 @@ const whiteList = [
 ]
 
 router.beforeEach(async function (to, from, next) {
-  versionTood.isNewVersion()
+  // versionTood.isNewVersion()
   const originNext = function (options) {
     options ? next(options) : next()
     setDocumentTitle(to)
