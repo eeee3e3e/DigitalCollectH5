@@ -57,6 +57,16 @@ export function getMyExchangesRecordList(params) {
   })
 }
 
+// 获取我的空投兑换记录
+export function GetAirDropsByUserId(params) {
+  return request({
+    url: `/CommodityAirDrop/GetAirDropsByUserId`,
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    params: params
+  })
+}
+
 // 兑换商品
 export function postUserExchanges(data) {
   return request({

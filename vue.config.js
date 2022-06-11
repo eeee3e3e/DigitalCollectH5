@@ -16,6 +16,7 @@ module.exports = defineConfig({
         target: 'https://apitest.csscmeta.com',
         // target: 'http://121.196.44.29:8001',
         // target: 'http://121.196.44.29:8002',
+        // target: 'http://121.196.44.29:8997',
         // target: 'http://121.196.44.29:8999',
         changOrigin: true,
         pathRewrite: {
@@ -27,6 +28,7 @@ module.exports = defineConfig({
         target: 'https://apitest.csscmeta.com',
         // target: 'http://121.196.44.29:8001',
         // target: 'http://121.196.44.29:8002',
+        // target: 'http://121.196.44.29:8997',
         // target: 'http://121.196.44.29:8999',
         changOrigin: true,
         pathRewrite: {

@@ -9,7 +9,7 @@
           :offset="200"
           :finished="finished"
           finished-text="没有更多了"
-          @load="onLoadMore"
+          @loading="loading"
       >
 
         <div class="card-main">
@@ -21,7 +21,8 @@
               </div>
               <div class="into">
                 <p v-html="item.CommodityName"></p>
-                <p class="desc" v-html="item.CommodityExchangesDateTime"></p>
+                <!-- <p class="desc" v-html="item.CommodityExchangesDateTime"></p> -->
+                <p class="desc" v-html="item.ExchangeTime"></p>
               </div>
               <div class="right">
                 <img src="/static/images/right-icon.png" alt="">
@@ -32,12 +33,12 @@
 
         <template #loading></template>
         <template #error></template>
-        <template #finished>
+        <!-- <template #finished>
           <div class="finished">
             <img src="/static/images/home/cry-icon.png" alt="" class="icon">
             <span>已经到底啦 ~ ~</span>
           </div>
-        </template>
+        </template> -->
       </List>
     </PullRefresh>
   </div>
@@ -50,6 +51,8 @@ import { goodsApi } from "@/api";
 import { mapGetters } from "vuex";
 import getImageUrl from "@/utils/get-image-url";
 import tip from "@/utils/tip";
+import axios from "axios";
+
 export default {
   components: {
     BaseReuseCard,
@@ -93,7 +96,8 @@ export default {
     },
 
     // 获取数据
-    getDataSource(isClear = false) {
+    // getDataSource(isClear = false) {
+    getDataSource1(isClear = false) {
       return new Promise((resolve) => {
         const { pagination } = this
         goodsApi
@@ -111,6 +115,7 @@ export default {
               }
 
               this.finished = result.TotalCount === 0 ? true : result.TotalCount < (result.PageIndex * result.PageSize)
+              this.loading = false
             })
             .finally(() => {
               this.finished = true
@@ -120,16 +125,63 @@ export default {
       })
     },
 
+
+    getDataSource(isClear = false) {
+
+      const params = {
+        // userId: this.userInfo.ID
+        userID: `874e9095-1cf6-4871-977e-9dcef769a689`
+      }
+      // console.log('params: ', JSON.stringify(params,'',4))
+
+      axios({ 
+        method: 'GET',
+        url: `http://121.196.44.29:8999/api/CommodityAirDrop/GetAirDropsByUserId?userID=${params.userID}`,
+        // url: `https://api.csscmeta.com:8443/api/UserInfo/VerifyVerificationCodeByRecommend`,
+        // url: `https://apitest.csscmeta.com/api/UserInfo/VerifyVerificationCodeByRecommend`,
+      }).then(res => {
+        const { ReturnCode, ReturnMessage, Data, TotalCount } = res.data
+        if(ReturnCode == 200) {
+          console.log('空投纪录', JSON.stringify(Data, '', 4))
+          // debugger
+          // if (isClear) {
+          //   this.dataSource = Data
+          // } else {
+            this.dataSource.push(...Data)
+          // }
+          // console.log(JSON.parse(JSON.stringify(this.dataSource)),'-----',Data)
+          // JSON.parse(JSON.stringify(this.dataSource)).concat(Data)
+          this.finished = TotalCount === 0 ? true : TotalCount < (this.PageIndex * this.PageSize)
+          tip(ReturnMessage);
+
+        } else {
+          console.log(ReturnMessage)
+          tip(ReturnMessage);
+        }
+      }).catch(error => {
+        console.info(error);
+
+      }).finally(() => {
+        this.finished = true
+        this.loading = false
+      });
+
+    },
+
+
     // 刷新
     async onRefresh() {
+      // alert(1)
       this.pagination.PageSize = 10
       this.pagination.PageIndex = 1
       await this.getDataSource(true)
       this.refreshing = false
+      // this.isClear = true
     },
 
     // 加载更多
     async onLoadMore() {
+      // alert(2)
       this.pagination.PageSize = 10
       this.pagination.PageIndex++
       await this.getDataSource()
