@@ -4,8 +4,8 @@
       <div class="app-home-card-header-left">
         <img class="icon" src="/static/images/home/timer-icon.png" alt="">
         
-        <span v-if="goods.BrandName === '景德镇市古窑民俗旅游有限公司'">2022-06-11 11:08:00</span>
-        <span v-else v-html="goods.StartDateTime"></span>
+        <!-- <span v-if="goods.BrandName === '景德镇市古窑民俗旅游有限公司'">2022-06-11 11:08:00</span> -->
+        <span  v-html="goods.StartDateTime"></span>
       </div>
       <div class="app-home-card-header-right">
         <span v-html="goods.SerialType"></span>
@@ -34,8 +34,8 @@
           </div>
           <div v-if="goods.HomeStatus === '0'" class="card-view-tag-body have-not-started">
             <img class="icon" src="/static/images/home/have-not-started-icon.png" alt="">
-            <!-- <span v-html="goods.HomeStatusName"></span> -->
-            <span>报名中</span>
+            <span v-html="goods.HomeStatusName"></span>
+            <!-- <span>报名中</span> -->
           </div>
         </div>
       </div>
