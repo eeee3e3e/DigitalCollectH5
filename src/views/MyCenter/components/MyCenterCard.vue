@@ -191,6 +191,7 @@ export default {
 
           .user-name {
             font-size: 18px;
+            width: 9em;
             font-family: PingFangSC, PingFangSC-Medium;
             font-weight: 500;
             text-align: left;

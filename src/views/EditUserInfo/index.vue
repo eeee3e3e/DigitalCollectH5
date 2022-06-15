@@ -192,7 +192,7 @@ export default {
 
     // 限制昵称文本长度
     changeNickName() {
-      const max = 20
+      const max = 10
       const nickName = this.form.NickName.replace(/\s*/g,'')
       if (nickName.length > max) {
         tip.error(`昵称超过${max}个字符，已被截取`)
