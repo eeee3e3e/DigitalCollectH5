@@ -195,6 +195,12 @@ export default {
             font-weight: 500;
             text-align: left;
             color: #ffffff;
+
+            line-height: 24px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
           }
 
           .user-login-entry {
@@ -203,7 +209,7 @@ export default {
             font-weight: 400;
             text-align: left;
             color: #91B3F7;
-            margin-top: 10px;
+            margin-top: 4px;
           }
 
           .user-desc {
@@ -212,7 +218,7 @@ export default {
             font-weight: 400;
             text-align: left;
             color: #666666;
-            margin-top: 10px;
+            margin-top: 4px;
             display: flex;
             align-items: center;
 

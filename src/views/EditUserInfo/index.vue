@@ -32,7 +32,7 @@
             </Cell>
             <Cell is-link>
               <template>
-                <input class="input-user-nick-name" v-model="form.NickName"/>
+                <input class="input-user-nick-name" v-model="form.NickName" @change="changeNickName"/>
               </template>
               <template #title>
                 <span>昵称</span>
@@ -188,6 +188,16 @@ export default {
           .finally(() => {
             AppLoading.closeAppLoading()
           })
+    },
+
+    // 限制昵称文本长度
+    changeNickName() {
+      const max = 20
+      const nickName = this.form.NickName.replace(/\s*/g,'')
+      if (nickName.length > max) {
+        tip.error(`昵称超过${max}个字符，已被截取`)
+      }
+      this.form.NickName = Array.from(nickName).slice(0, max).join('')
     }
   }
 }
