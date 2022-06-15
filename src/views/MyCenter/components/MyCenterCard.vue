@@ -63,7 +63,7 @@
         <GridItem text="我的消息" @click="onShowUnderDevelopmentTip('myNews')">
           <template #icon>
             <img class="user-card-grid-item-icon" src="/static/images/my-center/my-message-icon.png" alt="">
-            <!-- <div v-if="Number(TotalCount) > 0" class="infos">{{Number(TotalCount) >99 ?  '99+' : TotalCount}}</div> -->
+            <div v-if="Number(UnReadTotalCount) > 0" class="infos">{{Number(UnReadTotalCount) >99 ?  '99+' : UnReadTotalCount}}</div>
           </template>
         </GridItem>
       </Grid>
@@ -86,7 +86,8 @@ export default {
   },
   data () {
     return {
-      TotalCount:''
+      TotalCount:'',
+      UnReadTotalCount:''
     }
   },
   computed: {
@@ -114,6 +115,7 @@ export default {
       userApi.getUnreadMessages(params).then(res=>{
         console.log(res)
         this.TotalCount = res.TotalCount
+        this.UnReadTotalCount = res.UnReadTotalCount
       })
     },
     // 编辑信息
@@ -134,12 +136,11 @@ export default {
     onShowUnderDevelopmentTip(v) {
       if (v==='examples'){
         this.$router.push('examples-record')
+      } else if (v==='myNews') {
+        this.$router.push('my-news')
       } else{
         underDevelopmentTip()
       }
-      //  else if (v==='myNews') {
-      //   this.$router.push('my-news')
-      // } 
     }
   },
 }

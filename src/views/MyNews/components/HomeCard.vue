@@ -5,7 +5,7 @@
         <div>{{goods.CreateTime}}</div>
         <div>系统推送</div>
       </div>
-      <div class="home-card-info">
+      <div class="home-card-info" @click="returnUrl">
         <div>{{goods.Title}}</div>
         <div ref="infoItem" class="ellipsis" :class="{'more':showMore}">{{goods.Content}}</div>
            <div class="switch-arrow"
@@ -35,6 +35,9 @@ export default {
     this.hasMoreArrow=cellChild.scrollHeight>cellChild.offsetHeight
   },
   methods:{
+    returnUrl () {
+      this.$router.push('/city-meta/collection')
+    },
      getImageSrc(path) {
       return getImageUrl(path)
     }
@@ -64,7 +67,7 @@ export default {
    padding:0px 16px;
    >div:nth-child(1){
       font-size: 14px;
-    font-family: DINAlternate, DINAlternate-Bold;
+    font-family: PingFangSC, PingFangSC-Regular;
     font-weight: 700;
     color: #666666;
     line-height: 12px;
