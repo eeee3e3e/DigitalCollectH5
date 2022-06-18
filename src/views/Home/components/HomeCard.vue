@@ -3,7 +3,7 @@
     <div class="app-home-card-header">
       <div class="app-home-card-header-left">
         <img class="icon" src="/static/images/home/timer-icon.png" alt="">
-        
+
         <!-- <span v-if="goods.BrandName === '景德镇市古窑民俗旅游有限公司'">2022-06-11 11:08:00</span> -->
         <span  v-html="goods.StartDateTime"></span>
       </div>
@@ -27,12 +27,37 @@
           <!--            <img class="icon" src="/static/images/home/have-not-started-icon.png" alt="">-->
           <!--            <span v-html="goods.HomeStatusName"></span>-->
         </div>
+
+        <!-- 报名抽签相关藏品状态 -->
+        <div v-else-if="drawLotsCollection" class="card-view-tag">
+          <!-- 未开始 -->
+          <div v-if="drawLotsCollectionTag.status === '-1'" class="card-view-tag-body have-not-started">
+            <img class="icon" src="/static/images/home/have-not-started-icon.png" alt="">
+            <span>{{drawLotsCollectionTag.text}}</span>
+          </div>
+          <!-- 报名中 -->
+          <div v-else-if="drawLotsCollectionTag.status === '-2'" class="card-view-tag-body sign-up">
+            <img class="icon" src="/static/images/home/sign-up-icon.png" alt="">
+            <span>{{drawLotsCollectionTag.text}}</span>
+          </div>
+          <!-- 抽签中 -->
+          <div v-else-if="drawLotsCollectionTag.status === '-3'" class="card-view-tag-body luck-draw">
+            <img class="icon" src="/static/images/home/luck-draw-icon.png" alt="">
+            <span>{{drawLotsCollectionTag.text}}</span>
+          </div>
+          <!-- 正在热售 -->
+          <div v-else-if="drawLotsCollectionTag.status === '-4'" class="card-view-tag-body is-hot-sale">
+            <img class="icon" src="/static/images/home/is-hot-sale-icon.png" alt="">
+            <span>{{drawLotsCollectionTag.text}}</span>
+          </div>
+        </div>
+
         <div v-else class="card-view-tag">
           <div v-if="goods.HomeStatus === '1'" class="card-view-tag-body is-hot-sale">
             <img class="icon" src="/static/images/home/is-hot-sale-icon.png" alt="">
             <span v-html="goods.HomeStatusName"></span>
           </div>
-          <div v-if="goods.HomeStatus === '0'" class="card-view-tag-body have-not-started">
+          <div v-else-if="goods.HomeStatus === '0'" class="card-view-tag-body have-not-started">
             <img class="icon" src="/static/images/home/have-not-started-icon.png" alt="">
             <span v-html="goods.HomeStatusName"></span>
             <!-- <span>报名中</span> -->
@@ -59,13 +84,67 @@
 <script>
 import { Image, Loading } from 'vant'
 import getImageUrl from "@/utils/get-image-url";
-// import moment from 'moment'
+import moment from 'moment'
+import {
+  judgeSignUpTime,
+  judgeSignUpStatus,
+  judgeSellTime,
+  judgeWin,
+  countDown
+} from '@/utils/draw-lots'
 
 export default {
   props: {
     goods: {
       type: Object,
       default: () => ({})
+    }
+  },
+  data() {
+    return {
+      drawLotsCollection: false,
+      drawLotsCollectionTag: {}
+    }
+  },
+  created() {
+    let {HomeStatus, ServerTime, SignUpEndTime, SignUpStartTime, StartDateTime} = this.goods
+    if ((HomeStatus !== '2') && SignUpEndTime && SignUpStartTime) {
+      // 报名抽签的藏品
+      this.drawLotsCollection = true
+      const timeConversion= time => moment(time.replace(/\-/ig, '/')).valueOf()
+      // 当前服务器时间
+      const nowTimeStamp = timeConversion(ServerTime)
+      // 报名时间
+      const signUpStartTimeStamp = timeConversion(SignUpEndTime)
+      const signUpEndTimeStamp = timeConversion(SignUpStartTime)
+      // 预售时间
+      const startDateTimeStamp = timeConversion(StartDateTime)
+      // 报名阶段
+      let result = judgeSignUpTime(nowTimeStamp, signUpStartTimeStamp, signUpEndTimeStamp)
+      if (result.status === 0) {
+        this.drawLotsCollectionTag = {
+          status: '-1',
+          text: '未开始'
+        }
+      } else if (result.status === 1) {
+        this.drawLotsCollectionTag = {
+          status: '-2',
+          text: '报名中'
+        }
+      } else if (result.status === 2) {
+        result = judgeSellTime(nowTimeStamp, startDateTimeStamp, 60*60*1000)
+        if (result.status === 1) {
+          this.drawLotsCollectionTag = {
+            status: '-4',
+            text: '正在热售'
+          }
+        } else if (result.status === 2) {
+          this.drawLotsCollectionTag = {
+            status: '-3',
+            text: '抽签中'
+          }
+        }
+      }
     }
   },
   components: {
@@ -103,6 +182,7 @@ export default {
 
       span {
         font-family: DINAlternate, DINAlternate-Bold;
+        font-size: 11px;
       }
 
       .icon {
@@ -185,14 +265,14 @@ export default {
         left: 14px;
 
         &-body {
-          font-size: 12px;
+          font-size: 11px;
           font-family: PingFangSC, PingFangSC-Medium;
           font-weight: 500;
           padding: 8px 10px;
           box-sizing: border-box;
 
           .icon {
-            width: 11px;
+            height: 11px;
             margin-right: 6px;
           }
         }
@@ -200,7 +280,12 @@ export default {
         .is-hot-sale {
           color: #90c2ff;
         }
-
+        .sign-up {
+          color: #6594FF;
+        }
+        .luck-draw {
+          color: #60DE9F;
+        }
         .have-not-started {
           color: #FF8B37;
         }
