@@ -19,7 +19,7 @@ Vue.use(VueJsonp)
 // if (process.env.NODE_ENV === 'development') {
   // new VConsole();
 // }
-new VConsole();
+// new VConsole();
 
 Vue.use(VueClipboard)
 Vue.use(GlobalFilters)
