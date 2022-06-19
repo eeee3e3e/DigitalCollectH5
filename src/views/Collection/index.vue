@@ -29,8 +29,9 @@
                     <img v-if="item.CommodityStatus=== 'chaining' && Number(item.CollectionCount)<=5" class="bg-icon ready" src="/static/images/collection/slz.png" alt="">
                     <img v-if="item.CommodityStatus=== 'chained' && Number(item.CollectionCount)<=5" class="bg-icon ready" src="/static/images/collection/ready.png" alt="">
                     <img v-if="item.CommodityStatus=== 'allow-give' && Number(item.CollectionCount)<=5" class="bg-icon ready" src="/static/images/collection/kzz.png" alt="">
-                    <span  class="bg-icons readys" v-if="Number(item.CollectionCount)>5">{{Number(item.CollectionCount) >99 ?  '99+' : item.CollectionCount}}</span>
+                    <span  class="bg-icons readys" v-if="Number(item.CollectionCount)>5">{{Number(item.CollectionCount) >99 ?  '99+' : 'x'+ item.CollectionCount}}</span>
                   </div>
+                   <img v-if="Number(item.CollectionCount)>5" class="bg-icon-size bgSzie" src="/static/images/collection/cd.png" alt="" />
                 </div>
                 <div class="card-item-info">
                   <div class="card-item-info-body">
@@ -227,13 +228,26 @@ export default {
             background-size: 100% 100%;
             background-repeat: no-repeat;
             height: 150px;
-
+            position: relative;
+             .bg-icon-size {
+                position: absolute;
+                top: 0;
+                left: 5px;
+                // z-index: 10;
+              }
+            .bgSzie{
+              // z-index: 1;
+                width: 95%;
+                height:98%;
+                 object-fit: cover;
+              }
             &-body {
               width: 100%;
               height: 100%;
               display: flex;
               align-items: center;
               justify-content: center;
+               z-index: 999;
               //background-color: #000000;
               position: relative;
 
@@ -275,7 +289,6 @@ export default {
                   width: 60%;
                 }
               }
-
               .ready {
                 width: 40px;
                 height: 40px;
