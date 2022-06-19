@@ -34,13 +34,21 @@
                    <img v-if="Number(item.CollectionCount)>5" class="bg-icon-size bgSzie" src="/static/images/collection/cd.png" alt="" />
                 </div>
                 <div class="card-item-info">
-                  <div class="card-item-info-body">
+                  <div class="card-item-info-body" v-if="Number(item.CollectionCount)<=5">
                     <div class="card-item-info-body-top">
                       <!--                      //修改为 12位，左右布局-->
                       <p>{{ item.CommodityCode | filterCommodityID }}</p>
                       <p> #{{ item.CommodityNo }}/{{ item.LimitNum }}</p>
                     </div>
                     <p class="card-item-info-body-title" v-html="item.CommodityName"></p>
+                    <p class="card-item-info-body-source" v-html="item.BrandName"></p>
+                  </div>
+                  <!-- //// -->
+                   <div class="card-item-info-body" v-if="Number(item.CollectionCount)>5">
+                    <div class="card-item-info-body-name">
+                      <p v-html="item.CommodityName"></p>
+                    </div>
+                    <p class="card-item-info-body-title" style="color:#8DB1FF;font-size:13px;">藏品数量 x{{item.CollectionCount}}</p>
                     <p class="card-item-info-body-source" v-html="item.BrandName"></p>
                   </div>
                 </div>
@@ -332,6 +340,28 @@ export default {
                   //text-overflow: ellipsis;
                   //white-space: nowrap;
                   transform: scale(0.9);
+                  text-align: left;
+                }
+              }
+              &-name {
+                // padding-left: 15px;
+                // padding-right: 5px;
+                display: flex;
+                justify-content: space-between;
+                height: 16px;
+
+                p {
+                  width: 100%;
+                  box-sizing: border-box;
+                  font-size: 14px;
+                  font-family: PingFangSC, PingFangSC-Medium;
+                  font-weight: 500;
+                   color: #ffffff;
+                  line-height: 16px;
+                  height: 16px;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
                   text-align: left;
                 }
               }

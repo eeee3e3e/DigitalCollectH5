@@ -9,7 +9,7 @@ Vue.directive('debounce', {
         el.disabled = true
         setTimeout(() => {
           el.disabled = false
-        }, binding.value || 3 * 1000)
+        }, binding.value || 3 * 1500)
       }
     })
   }

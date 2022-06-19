@@ -3,9 +3,8 @@
     <div class="exhibition-hall">
       <div class="exhibition-hall-show">
         <div class="exhibition-hall-show-body">
-            <!-- 注释盒子 为canvas绘制盒子。暂未使用 -->
-          <!-- <div  v-if="collectStatus === '2' && goodsDetail.AttachmentList && goodsDetail.AttachmentList.length && goodsDetail.AttachmentList[0].split('.')[goodsDetail.AttachmentList[0].split('.').length-1] === 'glb'" id="container" class="notclick"  style="width:100%;height:100%"></div>
-           <div v-if="collectStatus === '1' && collectionDetail.AttachmentList && collectionDetail.AttachmentList.length && collectionDetail.AttachmentList[0].split('.')[collectionDetail.AttachmentList[0].split('.').length-1] === 'glb'" id="container" class="notclick"  style="width:100%;height:100%"></div>        -->
+          <div  v-if="collectStatus === '2' && goodsDetail.AttachmentList && goodsDetail.AttachmentList.length && goodsDetail.AttachmentList[0].split('.')[goodsDetail.AttachmentList[0].split('.').length-1] === 'glb'" id="container" class="notclick"  style="width:100%;height:100%"></div>
+           <div v-if="collectStatus === '1' && collectionDetail.AttachmentList && collectionDetail.AttachmentList.length && collectionDetail.AttachmentList[0].split('.')[collectionDetail.AttachmentList[0].split('.').length-1] === 'glb'" id="container" class="notclick"  style="width:100%;height:100%"></div>       
           <img v-if="collectStatus === '2' && goodsDetail.AttachmentList && goodsDetail.AttachmentList.length && goodsDetail.AttachmentList[0].split('.')[goodsDetail.AttachmentList[0].split('.').length-1] !== 'glb'"
                :src="getImageSrc(goodsDetail.AttachmentList[0])" alt="">
           <img v-if="collectStatus === '1' && collectionDetail.AttachmentList && collectionDetail.AttachmentList.length && collectionDetail.AttachmentList[0].split('.')[collectionDetail.AttachmentList[0].split('.').length-1] !== 'glb'"
@@ -303,197 +302,6 @@ export default {
     this.clock = null
   },
   methods: {
-    // 天 时 分 秒 格式化函数
-    countDown() {
-      let d = parseInt(this.seconds / (24 * 60 * 60))
-      d = d < 10 ? "0" + d : d
-      let h = parseInt(this.seconds / (60 * 60) % 24);
-      h = h < 10 ? "0" + h : h
-      let m = parseInt(this.seconds / 60 % 60);
-      m = m < 10 ? "0" + m : m
-      let s = parseInt(this.seconds % 60);
-      s = s < 10 ? "0" + s : s
-      this.count = d + '天' + h + '时' + m + '分' + s + '秒'
-    },
-    //定时器没过1秒参数减1
-    Time() {
-      const { goodsDetail } = this
-      const StartDateTime = goodsDetail.StartDateTime.replace(/\-/ig, '/')
-      const nowDate = moment().valueOf()
-      const StartDateTimeMoment = moment(StartDateTime).valueOf()
-      if (StartDateTimeMoment <= nowDate) {
-        this.HomeStatus = '1'
-        return
-      }
-      setTimeout(() => {
-        this.seconds = (StartDateTimeMoment - nowDate) / 1000
-        this.countDown()
-        this.Time()
-      }, 1000)
-    },
-    // 转赠藏品
-    examplesCollection() {
-      // underDevelopmentTip()
-      // this.$router.push('collection-examples')
-      this.$router.push({
-        path:'collection-examples',
-        query:{
-          AttachmentList:JSON.stringify(this.collectionDetail.AttachmentList),
-          CommodityName:this.collectionDetail.CommodityName,
-          CommodityCode:this.collectionDetail.CommodityCode,
-          CommodityNo:this.collectionDetail.CommodityNo,
-          LimitNum:this.collectionDetail.LimitNum,
-          CommodityDetailsID:this.collectionDetail.CommodityDetailsID,
-          ReleaseUserName:this.collectionDetail.ReleaseUserName
-        }
-      }
-        )
-    },
-    getImageSrc(path) {
-      return getImageUrl(path)
-    },
-    // 前往购买
-    goBuy() {
-      window.location.href = this.goodsDetail.YouzanUrl ? this.goodsDetail.YouzanUrl : ''
-    },
-    // 获取商品详情
-    getDetail() {
-      const { id, homeStatus } = this.routeParams
-      this.HomeStatus = homeStatus
-      const params = {id}
-      if (this.hasUserInfo) {
-        params.userid = this.userInfo.ID
-      }
-      const normalBusiness = () => {
-        // 正常逻辑
-        if (this.HomeStatus === '0') {
-          this.Time()
-        }
-      }
-      goodsApi
-          .getGoodsDetailById(params)
-          .then(result => {
-            const resultData = result.Data
-            const {
-              SignUpStartTime:signUpStartTime,
-              SignUpEndTime:signUpEndTime,
-              SignUp:signUp,
-              Bonus:bonus,
-              ServerTime:serverTime
-            } = resultData
-
-            this.goodsDetail = resultData
-             /**
-               *
-               *  注释代码为three.js 关于模型文件的路径处理（后期可能会用）
-             
-               * */
-            // if (this.goodsDetail.AttachmentList && this.goodsDetail.AttachmentList.length && this.goodsDetail.AttachmentList[0].split('.')[this.goodsDetail.AttachmentList[0].split('.').length-1] === 'glb') {
-            //  this.glb =  this.getImageSrc(this.goodsDetail.AttachmentList[0])
-            //   this.loading = true
-            //   this.$nextTick(()=>{
-            //     setTimeout(()=>{
-            //       this.init()  
-            //     },100)
-            //   })
-              
-            // }
-            
-            // 报名逻辑
-            if (signUpStartTime&&signUpEndTime) {
-
-              /**
-               *
-               *  SignUpStartTime报名开始时间
-               *
-               *  SignUpEndTime报名结束时间
-               *
-               *  SignUp是否报名
-               *    true: 已报名
-               *    false：未报名
-               *
-               *  bonus是否中签
-               *    0: 没中或者等待开奖
-               *    100: 中签
-               *
-               * */
-
-              const nowDate = moment(serverTime.replace(/\-/ig, '/')).valueOf()
-              const startTime = moment(signUpStartTime.replace(/\-/ig, '/')).valueOf()
-              const endTime = moment(signUpEndTime.replace(/\-/ig, '/')).valueOf()
-              if (nowDate < startTime) {
-                // 报名未开始
-                this.HomeStatus = '6'
-              } else if (nowDate > endTime) {
-                // 报名已结束
-                if (bonus === 0) {
-                  // 未中签
-                  this.HomeStatus = '5'
-                } else {
-                  normalBusiness()
-                }
-              } else if (!signUp) {
-                // 报名中---未报名
-                this.HomeStatus = '3'
-              } else {
-                // 报名中---已报名等待开奖
-                this.HomeStatus = '4'
-              }
-            } else {
-              normalBusiness()
-            }
-          })
-    },
-    // 获取我的藏品详情
-    getCollDetail() {
-      // 需要两个参数
-      const { userId, commodityDetailsID } = this.routeParams
-      const params = {
-        userId: userId,
-        commodityDetailsID: commodityDetailsID
-      }
-      goodsApi
-          .getMyCommodityDetails(params)
-          .then(result => {
-            this.collectionDetail = result.Data
-              /**
-               *
-               *  注释代码为three.js 关于模型文件的路径处理（后期可能会用）
-             
-               * */
-            // if (this.collectionDetail.AttachmentList && this.collectionDetail.AttachmentList.length && this.collectionDetail.AttachmentList[0].split('.')[this.collectionDetail.AttachmentList[0].split('.').length-1] === 'glb') {
-            //   this.glb = this.getImageSrc(this.collectionDetail.AttachmentList[0])
-            //   this.loading = true
-            //   this.$nextTick(()=>{
-            //     setTimeout(()=>{
-            //       this.init()  
-            //     },100)
-            //   })
-            // }
-          })
-    },
-    // 报名
-    goSignUp() {
-      if (!this.hasUserInfo) {
-        // 去登陆
-        this.$router.push('/city-meta/verification-code-login')
-        return
-      }
-      if (!this.userInfo.IsIdentityVerify) {
-        // 没有实名认证
-        this.$router.push('/city-meta/authentication')
-        return
-      }
-      goodsApi.postSignUp({
-        userId: this.userInfo.ID,
-        commodityId: this.$route.query.id
-      }).then(res=>{
-        window.location.reload()
-      })
-    },
-               /**
-               *  init && animate && loadGlbModel 为GLB模型文件的加载响应事件，无需关系，目前因为跨域问题，暂时未使用
-               * */
     init() {
       // 场景
       this.scene = new THREE.Scene();
@@ -585,6 +393,186 @@ export default {
       })
       }).catch(error=>{})
       
+    },
+    // 天 时 分 秒 格式化函数
+    countDown() {
+      let d = parseInt(this.seconds / (24 * 60 * 60))
+      d = d < 10 ? "0" + d : d
+      let h = parseInt(this.seconds / (60 * 60) % 24);
+      h = h < 10 ? "0" + h : h
+      let m = parseInt(this.seconds / 60 % 60);
+      m = m < 10 ? "0" + m : m
+      let s = parseInt(this.seconds % 60);
+      s = s < 10 ? "0" + s : s
+      this.count = d + '天' + h + '时' + m + '分' + s + '秒'
+    },
+    //定时器没过1秒参数减1
+    Time() {
+      const { goodsDetail } = this
+      const StartDateTime = goodsDetail.StartDateTime.replace(/\-/ig, '/')
+      const nowDate = moment().valueOf()
+      const StartDateTimeMoment = moment(StartDateTime).valueOf()
+      if (StartDateTimeMoment <= nowDate) {
+        this.HomeStatus = '1'
+        return
+      }
+      setTimeout(() => {
+        this.seconds = (StartDateTimeMoment - nowDate) / 1000
+        this.countDown()
+        this.Time()
+      }, 1000)
+    },
+    // 转赠藏品
+    examplesCollection() {
+      // underDevelopmentTip()
+      // this.$router.push('collection-examples')
+      this.$router.push({
+        path:'collection-examples',
+        query:{
+          AttachmentList:JSON.stringify(this.collectionDetail.AttachmentList),
+          CommodityName:this.collectionDetail.CommodityName,
+          CommodityCode:this.collectionDetail.CommodityCode,
+          CommodityNo:this.collectionDetail.CommodityNo,
+          LimitNum:this.collectionDetail.LimitNum,
+          CommodityDetailsID:this.collectionDetail.CommodityDetailsID,
+          ReleaseUserName:this.collectionDetail.ReleaseUserName
+        }
+      }
+        )
+    },
+    getImageSrc(path) {
+      return getImageUrl(path)
+    },
+    // 前往购买
+    goBuy() {
+      window.location.href = this.goodsDetail.YouzanUrl ? this.goodsDetail.YouzanUrl : ''
+    },
+    // 获取商品详情
+    getDetail() {
+      const { id, homeStatus } = this.routeParams
+      this.HomeStatus = homeStatus
+      const params = {id}
+      if (this.hasUserInfo) {
+        params.userid = this.userInfo.ID
+      }
+      const normalBusiness = () => {
+        // 正常逻辑
+        if (this.HomeStatus === '0') {
+          this.Time()
+        }
+      }
+      goodsApi
+          .getGoodsDetailById(params)
+          .then(result => {
+            const resultData = result.Data
+            const {
+              SignUpStartTime:signUpStartTime,
+              SignUpEndTime:signUpEndTime,
+              SignUp:signUp,
+              Bonus:bonus,
+              ServerTime:serverTime
+            } = resultData
+
+            this.goodsDetail = resultData
+            if (this.goodsDetail.AttachmentList && this.goodsDetail.AttachmentList.length && this.goodsDetail.AttachmentList[0].split('.')[this.goodsDetail.AttachmentList[0].split('.').length-1] === 'glb') {
+              // this.glb =  `http://121.196.44.29:8999${this.goodsDetail.AttachmentList[0]}`
+             this.glb =  this.getImageSrc(this.goodsDetail.AttachmentList[0])
+              this.loading = true
+              this.$nextTick(()=>{
+                setTimeout(()=>{
+                  this.init()  
+                },100)
+              })
+              
+            }
+            
+            // 报名逻辑
+            if (signUpStartTime&&signUpEndTime) {
+
+              /**
+               *
+               *  SignUpStartTime报名开始时间
+               *
+               *  SignUpEndTime报名结束时间
+               *
+               *  SignUp是否报名
+               *    true: 已报名
+               *    false：未报名
+               *
+               *  bonus是否中签
+               *    0: 没中或者等待开奖
+               *    100: 中签
+               *
+               * */
+
+              const nowDate = moment(serverTime.replace(/\-/ig, '/')).valueOf()
+              const startTime = moment(signUpStartTime.replace(/\-/ig, '/')).valueOf()
+              const endTime = moment(signUpEndTime.replace(/\-/ig, '/')).valueOf()
+              if (nowDate < startTime) {
+                // 报名未开始
+                this.HomeStatus = '6'
+              } else if (nowDate > endTime) {
+                // 报名已结束
+                if (bonus === 0) {
+                  // 未中签
+                  this.HomeStatus = '5'
+                } else {
+                  normalBusiness()
+                }
+              } else if (!signUp) {
+                // 报名中---未报名
+                this.HomeStatus = '3'
+              } else {
+                // 报名中---已报名等待开奖
+                this.HomeStatus = '4'
+              }
+            } else {
+              normalBusiness()
+            }
+          })
+    },
+    // 获取我的藏品详情
+    getCollDetail() {
+      // 需要两个参数
+      const { userId, commodityDetailsID } = this.routeParams
+      const params = {
+        userId: userId,
+        commodityDetailsID: commodityDetailsID
+      }
+      goodsApi
+          .getMyCommodityDetails(params)
+          .then(result => {
+            this.collectionDetail = result.Data
+            if (this.collectionDetail.AttachmentList && this.collectionDetail.AttachmentList.length && this.collectionDetail.AttachmentList[0].split('.')[this.collectionDetail.AttachmentList[0].split('.').length-1] === 'glb') {
+              this.glb = this.getImageSrc(this.collectionDetail.AttachmentList[0])
+              this.loading = true
+              this.$nextTick(()=>{
+                setTimeout(()=>{
+                  this.init()  
+                },100)
+              })
+            }
+            console.log('this.collectionDetail', this.collectionDetail)
+          })
+    },
+    // 报名
+    goSignUp() {
+      if (!this.hasUserInfo) {
+        // 去登陆
+        this.$router.push('/city-meta/verification-code-login')
+        return
+      }
+      if (!this.userInfo.IsIdentityVerify) {
+        // 没有实名认证
+        this.$router.push('/city-meta/authentication')
+        return
+      }
+      goodsApi.postSignUp({
+        userId: this.userInfo.ID,
+        commodityId: this.$route.query.id
+      }).then(res=>{
+        window.location.reload()
+      })
     }
   }
 }

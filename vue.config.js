@@ -10,13 +10,15 @@ module.exports = defineConfig({
   productionSourceMap: false,
   transpileDependencies: true,
   devServer: {
+    host: '0.0.0.0',
+    port: 8997,
     proxy: {
       '/api': {
         // target: 'http://api.csscmeta.com',
-        target: 'https://apitest.csscmeta.com',
+        // target: 'https://apitest.csscmeta.com',
         // target: 'http://121.196.44.29:8001',
         // target: 'http://121.196.44.29:8002',
-        // target: 'http://121.196.44.29:8999',
+        target: 'http://121.196.44.29:8999',
         changOrigin: true,
         pathRewrite: {
           '^/api': '/api'
@@ -24,10 +26,10 @@ module.exports = defineConfig({
       },
       '/static-proxy': {
         // target: 'http://api.csscmeta.com',
-        target: 'https://apitest.csscmeta.com',
+        // target: 'https://apitest.csscmeta.com',
         // target: 'http://121.196.44.29:8001',
         // target: 'http://121.196.44.29:8002',
-        // target: 'http://121.196.44.29:8999',
+        target: 'https://citydemo.oss-cn-shenzhen.aliyuncs.com/',
         changOrigin: true,
         pathRewrite: {
           '^/static-proxy': ''
