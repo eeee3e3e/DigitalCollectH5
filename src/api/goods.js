@@ -54,7 +54,24 @@ export function getMyGoodsDetailsList(params) {
     params: params
   })
 }
-
+// 调整后的藏品列表
+export function GetMyDrawerCommodityDetailsList(params) {
+  return request({
+    url: `/CommodityDetails/GetMyDrawerCommodityDetailsList`,
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    params: params
+  })
+}
+// 获取抽屉藏品列表
+export function GetMyDrawerCommodityDetailsListByCommodityId(params) {
+  return request({
+    url: `/CommodityDetails/GetMyDrawerCommodityDetailsListByCommodityId`,
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    params: params
+  })
+}
 // 获取我的兑换列表
 export function getMyExchangesRecordList(params) {
   return request({
