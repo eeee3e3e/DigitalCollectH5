@@ -15,10 +15,10 @@ module.exports = defineConfig({
     proxy: {
       '/api': {
         // target: 'http://api.csscmeta.com',
-        // target: 'https://apitest.csscmeta.com',
+        target: 'https://apitest.csscmeta.com',
         // target: 'http://121.196.44.29:8001',
         // target: 'http://121.196.44.29:8002',
-        target: 'http://121.196.44.29:8999',
+        // target: 'http://121.196.44.29:8999',
         changOrigin: true,
         pathRewrite: {
           '^/api': '/api'
@@ -29,7 +29,8 @@ module.exports = defineConfig({
         // target: 'https://apitest.csscmeta.com',
         // target: 'http://121.196.44.29:8001',
         // target: 'http://121.196.44.29:8002',
-        target: 'https://citydemo.oss-cn-shenzhen.aliyuncs.com/',
+        // target: 'https://citydemo.oss-cn-shenzhen.aliyuncs.com/',
+        target: 'https://oss.csscmeta.com/',
         changOrigin: true,
         pathRewrite: {
           '^/static-proxy': ''
