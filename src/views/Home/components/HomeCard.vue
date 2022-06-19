@@ -182,7 +182,7 @@ export default {
 
       span {
         font-family: DINAlternate, DINAlternate-Bold;
-        font-size: 11px;
+        // font-size: 11px;
       }
 
       .icon {
