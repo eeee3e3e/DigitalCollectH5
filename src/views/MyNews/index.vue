@@ -116,6 +116,7 @@ export default {
                  } else {
                    this.dataSource.push(...data)
                   }
+                this.pagination.TotalCount = result.TotalCount
                  this.finished = result.TotalCount === 0 ? true : result.TotalCount < (result.PageIndex * 10)
                 //  this.varAwait = false
                 //  this.loading = false
