@@ -194,24 +194,38 @@
       <div class="footerdes">
         <p class="price">￥{{ goodsDetail.Price }}</p>
         <button class="save_one" v-if="HomeStatus === '1'" @click="goBuy">前往购买</button>
-        <button class="save_two" v-if="HomeStatus === '0'">
+        <button class="save_two" v-else-if="HomeStatus === '0'">
           <p>距抢购开始</p>
           <p style="margin-top:3px;">{{ count }}</p>
         </button>
-        <button class="save_three" v-if="HomeStatus === '2'">藏品已售空</button>
+        <button class="save_three" v-else-if="HomeStatus === '2'">藏品已售空</button>
+
+
+
         <!-- 报名参与抽签 相关按钮 -->
-        <button class="save_four" v-if="HomeStatus === '3'" @click="goSignUp">报名抽签</button>
-        <button class="save_five" v-if="HomeStatus === '4'">
+        <button class="save_seven" v-else-if="HomeStatus === '-6'">
+          <p>报名未开始</p>
+          <!-- <p style="margin-top:3px;">祝您下次好运</p> -->
+        </button>
+
+        <button class="save_four" v-else-if="HomeStatus === '-3'" @click="goSignUp">报名抽签</button>
+        <button class="save_five" v-else-if="HomeStatus === '-4'">
           <p>报名成功</p>
           <p style="margin-top:3px;font-size:10px;">开售前 1 小时公布结果</p>
         </button>
-        <button class="save_six" v-if="HomeStatus === '5'">
+
+        <button class="save_five" v-else-if="HomeStatus === '-8'">
+          <p>报名结束，距发售</p>
+          <p style="margin-top:3px;font-size:10px;">{{ count||'倒计时' }}</p>
+        </button>
+
+        <button class="save_one" v-else-if="HomeStatus === '-7'" @click="goBuy">
+          <p style="font-size:11px;">恭喜您中签</p>
+          <p style="margin-top:3px;font-size:10px;">立即前往购买</p>
+        </button>
+        <button class="save_six" v-else-if="HomeStatus === '-5'">
           <p>本次未中签</p>
           <p style="margin-top:3px;">祝您下次好运</p>
-        </button>
-        <button class="save_seven" v-if="HomeStatus === '6'">
-          <p>报名未开始</p>
-          <!-- <p style="margin-top:3px;">祝您下次好运</p> -->
         </button>
       </div>
     </div>
@@ -224,9 +238,17 @@ import underDevelopmentTip from "@/utils/under-development-tip";
 import { BaseReuseCard } from '@/components'
 import { goodsApi } from '@/api'
 import getImageUrl from "@/utils/get-image-url";
-import { getMyCommodityDetails } from "@/api/goods";
+// import { getMyCommodityDetails } from "@/api/goods";
 import moment from 'moment'
 import { mapGetters } from 'vuex'
+import {
+  judgeSignUpTime,
+  judgeSignUpStatus,
+  judgeSellTime,
+  judgeWin,
+  countDown
+} from '@/utils/draw-lots'
+
 import * as THREE from 'three'
 import * as Stats from 'stats.js'
 import request from 'axios'
@@ -241,6 +263,7 @@ export default {
     Loading,
   },
   data() {
+    this.timer = 0
     return {
       loading:false,
       glb:'',
@@ -273,9 +296,9 @@ export default {
     }
   },
   created() {
-   
+
   },
-  mounted () {  
+  mounted () {
     this.$refs.detail.scrollTo(0,0)
     // 读取路由[collectStatus]参数 ’1‘ || ’2‘
     const { collectStatus } = this.routeParams
@@ -285,7 +308,10 @@ export default {
       this.getDetail()
     } else if (this.collectStatus === '1') {
       this.getCollDetail()
-    }   
+    }
+  },
+  beforeDestroy () {
+    clearTimeout(this.timer)
   },
   destroyed() {
     cancelAnimationFrame(this.clearAnim)  // 清除requestAnimationFrame
@@ -395,14 +421,14 @@ export default {
       
     },
     // 天 时 分 秒 格式化函数
-    countDown() {
-      let d = parseInt(this.seconds / (24 * 60 * 60))
+    countDown(seconds) {
+      let d = parseInt(seconds / (24 * 60 * 60))
       d = d < 10 ? "0" + d : d
-      let h = parseInt(this.seconds / (60 * 60) % 24);
+      let h = parseInt(seconds / (60 * 60) % 24);
       h = h < 10 ? "0" + h : h
-      let m = parseInt(this.seconds / 60 % 60);
+      let m = parseInt(seconds / 60 % 60);
       m = m < 10 ? "0" + m : m
-      let s = parseInt(this.seconds % 60);
+      let s = parseInt(seconds % 60);
       s = s < 10 ? "0" + s : s
       this.count = d + '天' + h + '时' + m + '分' + s + '秒'
     },
@@ -416,10 +442,10 @@ export default {
         this.HomeStatus = '1'
         return
       }
-      setTimeout(() => {
+      this.timer = setTimeout(() => {
         this.seconds = (StartDateTimeMoment - nowDate) / 1000
         this.countDown()
-        this.Time()
+        this.Time(this.seconds)
       }, 1000)
     },
     // 转赠藏品
@@ -449,29 +475,27 @@ export default {
     },
     // 获取商品详情
     getDetail() {
-      const { id, homeStatus } = this.routeParams
-      this.HomeStatus = homeStatus
+      const { id } = this.routeParams
+      this.HomeStatus = ''
       const params = {id}
       if (this.hasUserInfo) {
         params.userid = this.userInfo.ID
-      }
-      const normalBusiness = () => {
-        // 正常逻辑
-        if (this.HomeStatus === '0') {
-          this.Time()
-        }
       }
       goodsApi
           .getGoodsDetailById(params)
           .then(result => {
             const resultData = result.Data
-            const {
+            let {
               SignUpStartTime:signUpStartTime,
               SignUpEndTime:signUpEndTime,
               SignUp:signUp,
               Bonus:bonus,
-              ServerTime:serverTime
+              ServerTime:serverTime,
+              HomeStatus:homeStatus,
+              StartDateTime: startDateTime
             } = resultData
+
+            this.HomeStatus = homeStatus
 
             this.goodsDetail = resultData
             if (this.goodsDetail.AttachmentList && this.goodsDetail.AttachmentList.length && this.goodsDetail.AttachmentList[0].split('.')[this.goodsDetail.AttachmentList[0].split('.').length-1] === 'glb') {
@@ -488,43 +512,83 @@ export default {
             
             // 报名逻辑
             if (signUpStartTime&&signUpEndTime) {
-
               /**
+               * signUpStartTime: 报名开始时间
+               * signUpEndTime: 报名结束时间
+               * startDateTime: 预售开始时间
+               * endDateTime: 预售结束时间
+               * signUp: 是否报名
+               * bonus: 是否中签
+               * homeStatus: 售空状态
                *
-               *  SignUpStartTime报名开始时间
+               *   if(当前时间 小于 报名开始时间) --- 报名未开始
+               *      return 报名未开始
                *
-               *  SignUpEndTime报名结束时间
+               *   if((当前时间 大于 报名开始时间) && (当前时间 小于 报名结束时间)) --- 报名中
+               *      if(signUp的值为true) --- 未报名
+               *        return 未报名
+               *      else ------------------ 已报名
+               *        return 已报名
                *
-               *  SignUp是否报名
-               *    true: 已报名
-               *    false：未报名
+               *   if(当前时间 大于 报名结束时间) --- 报名已结束
+               *      if(报名结束时间 到 预售时间前1小时) --- 倒计时
+               *        return 报名结束，开始倒计时
+               *      else if(售空状态 === '2') --- 已售空
+               *        return 已售空
+               *      else if(是否中签状态 === 100) --- 已中签
+               *        return 报名结束，已中签
+               *      else if(是否中签状态 === 0) --- 未中签
+               *        return 报名结束，未中签
+               *      else
+               *        return -1(异常状态)
                *
-               *  bonus是否中签
-               *    0: 没中或者等待开奖
-               *    100: 中签
-               *
-               * */
+               */
 
-              const nowDate = moment(serverTime.replace(/\-/ig, '/')).valueOf()
-              const startTime = moment(signUpStartTime.replace(/\-/ig, '/')).valueOf()
-              const endTime = moment(signUpEndTime.replace(/\-/ig, '/')).valueOf()
-              if (nowDate < startTime) {
-                // 报名未开始
-                this.HomeStatus = '6'
-              } else if (nowDate > endTime) {
-                // 报名已结束
-                if (bonus === 0) {
-                  // 未中签
-                  this.HomeStatus = '5'
-                } else {
-                  normalBusiness()
+              const nowTimeStamp = timeConversion(serverTime)
+              // 报名时间
+              const signUpStartTimeStamp = timeConversion(signUpStartTime)
+              const signUpEndTimeStamp = timeConversion(signUpEndTime)
+              // 预售时间
+              const startDateTimeStamp = timeConversion(startDateTime)
+              let result = judgeSignUpTime(nowTimeStamp, signUpStartTimeStamp, signUpEndTimeStamp)
+              // console.log('判断报名时间--',result)
+              if (result.status === 0) {
+                this.HomeStatus = '-6'
+              } else if (result.status === 1) {
+                result = judgeSignUpStatus(signUp)
+                // console.log('判断报名状态--',result)
+                if (result.status === 0) {
+                  this.HomeStatus = '-3'
+                } else if (result.status === 1) {
+                  this.HomeStatus = '-4'
                 }
-              } else if (!signUp) {
-                // 报名中---未报名
-                this.HomeStatus = '3'
-              } else {
-                // 报名中---已报名等待开奖
-                this.HomeStatus = '4'
+              } else if (result.status === 2) {
+                const offset = 60 * 60 * 1000
+                result = judgeSellTime(nowTimeStamp, startDateTimeStamp, offset, homeStatus==='2')
+                // console.log('判断开售时间--',result)
+                if (result.status === 0) {
+                  this.HomeStatus = '2'
+                } else if (result.status === 1) {
+                  result = judgeWin(bonus === 100)
+                  // console.log('判断中签状态--',result)
+                  if (result.status === 1) {
+                    this.HomeStatus = '-7'
+                  }else if(result.status === 0) {
+                    this.HomeStatus = '-5'
+                  }
+                } else if (result.status === 2) {
+                  // 倒计时
+                  this.HomeStatus = '-8'
+                  countDown(nowTimeStamp, startDateTimeStamp - offset, 1000, res=>{
+                    this.timer = res.timer
+                    if(res.status === 0){
+                      // window.location.reload()
+                      this.getDetail()
+                      return
+                    }
+                    this.countDown(res.timeDiff)
+                  })
+                }
               }
             } else {
               normalBusiness()
@@ -571,8 +635,104 @@ export default {
         userId: this.userInfo.ID,
         commodityId: this.$route.query.id
       }).then(res=>{
-        window.location.reload()
+        // window.location.reload()
+        this.getDetail()
       })
+    },
+               /**
+               *  init && animate && loadGlbModel 为GLB模型文件的加载响应事件，无需关系，目前因为跨域问题，暂时未使用
+               * */
+    init() {
+      // 场景
+      this.scene = new THREE.Scene();
+      const container = document.getElementById('container')
+      // 1.2 相机
+      this.camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+      // 设置摄像机位置,相机方向逆X轴方向，倾斜向下看
+      this.camera.position.set(0, 0, 50)
+      // 指向场景中心
+      this.camera.lookAt(this.scene.position);
+      // 1.3 渲染器
+      this.renderer = new THREE.WebGLRenderer({ antialias: true });
+      // 创建纹理加载器
+      this.textureLoader = new THREE.TextureLoader();
+      // 创建一个组合对象
+      this.groupBox = new THREE.Group();
+      // 设置环境
+      this.renderer.setClearColor(new THREE.Color("#191c23"),.1);
+      // 设置场景大小
+      this.renderer.setSize(
+       container.clientWidth, container.clientHeight + 180
+      );
+      // 渲染器开启阴影效果
+      this.renderer.shadowMap.enabled = false;
+      // 点光源
+      let point = new THREE.PointLight(0xffffff);
+      point.position.set(4000, 4000, 4000); // 点光源位置
+      this.scene.add(point); // 点光源添加到场景中
+      // 环境光
+      let ambient = new THREE.AmbientLight(0xffffff);
+      this.scene.add(ambient);
+      let geometry = new THREE.BoxGeometry(0, 0, 0)
+        let material = new THREE.MeshNormalMaterial()
+        this.mesh = new THREE.Mesh(geometry, material)
+      this.mesh.geometry.center()
+        this.scene.add(this.mesh)
+      // 渲染div到canvas
+      container.appendChild(this.renderer.domElement);
+
+      //创建相机控件
+      this.control = new OrbitControls(this.camera, this.renderer.domElement)
+      this.control.enableDamping = true
+      // 动态阻尼系数 就是鼠标拖拽旋转灵敏度，阻尼越小越灵敏
+      this.control.dampingFactor = 0.5;
+      // 是否可以缩放
+      // this.control.enableZoom = true;
+      // 是否自动旋转
+      this.control.autoRotate = true;
+      // 设置相机距离原点的最近距离
+      this.control.minDistance = 20;
+      // 设置相机距离原点的最远距离
+      this.control.maxDistance = 500;
+      // 是否开启右键拖拽
+      this.control.enablePan = false;
+      // 上下翻转的最大角度
+      this.control.maxPolarAngle = 1.5;
+      // 上下翻转的最小角度
+      this.control.minPolarAngle = 0.0;
+      // 是否可以旋转
+      this.enableRotate = true;
+      this.loadGlbModel(); // 加载 glb模型
+    },
+    animate (mesh) {
+      this.scene.rotation._y += 0.01
+      this.control.update()
+      requestAnimationFrame(this.animate)
+      this.renderer.render(this.scene, this.camera)
+    },
+    // 加载 GLTF 模型
+    loadGlbModel() {
+      const loader = new GLTFLoader()
+      request.get(this.glb,{
+        responseType: 'blob',
+        headers: {
+          'Content-type': 'application/json;charset:utf-8;',
+            "Access-Control-Allow-Origin": "*",
+          }
+      }).then(res=>{
+        let blob = new Blob([res.data])
+        let modelUrl = window.URL.createObjectURL(blob);
+        loader.load(modelUrl, (gltf) => {
+        gltf.scene.scale.set(250,150,200)
+        this.scene.add(gltf.scene)
+        this.loading = false
+      }, (xhr) => {
+         this.animate()
+      }, (error) => {
+          console.error(error)
+      })
+      }).catch(error=>{})
+
     }
   }
 }
