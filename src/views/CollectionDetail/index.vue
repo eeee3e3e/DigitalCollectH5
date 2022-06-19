@@ -444,8 +444,8 @@ export default {
       }
       this.timer = setTimeout(() => {
         this.seconds = (StartDateTimeMoment - nowDate) / 1000
-        this.countDown()
-        this.Time(this.seconds)
+        this.countDown(this.seconds)
+        this.Time()
       }, 1000)
     },
     // 转赠藏品
