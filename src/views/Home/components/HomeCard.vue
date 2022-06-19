@@ -5,7 +5,7 @@
         <img class="icon" src="/static/images/home/timer-icon.png" alt="">
 
         <!-- <span v-if="goods.BrandName === '景德镇市古窑民俗旅游有限公司'">2022-06-11 11:08:00</span> -->
-        <span  v-html="goods.StartDateTime"></span>
+        <span  v-html="goods.ActivityStartTime||goods.StartDateTime"></span>
       </div>
       <div class="app-home-card-header-right">
         <span v-html="goods.SerialType"></span>
