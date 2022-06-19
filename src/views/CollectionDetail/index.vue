@@ -4,7 +4,7 @@
       <div class="exhibition-hall-show">
         <div class="exhibition-hall-show-body">
           <div  v-if="collectStatus === '2' && goodsDetail.AttachmentList && goodsDetail.AttachmentList.length && goodsDetail.AttachmentList[0].split('.')[goodsDetail.AttachmentList[0].split('.').length-1] === 'glb'" id="container" class="notclick"  style="width:100%;height:100%"></div>
-           <div v-if="collectStatus === '1' && collectionDetail.AttachmentList && collectionDetail.AttachmentList.length && collectionDetail.AttachmentList[0].split('.')[collectionDetail.AttachmentList[0].split('.').length-1] === 'glb'" id="container" class="notclick"  style="width:100%;height:100%"></div>       
+           <div v-if="collectStatus === '1' && collectionDetail.AttachmentList && collectionDetail.AttachmentList.length && collectionDetail.AttachmentList[0].split('.')[collectionDetail.AttachmentList[0].split('.').length-1] === 'glb'" id="container" class="notclick"  style="width:100%;height:100%"></div>
           <img v-if="collectStatus === '2' && goodsDetail.AttachmentList && goodsDetail.AttachmentList.length && goodsDetail.AttachmentList[0].split('.')[goodsDetail.AttachmentList[0].split('.').length-1] !== 'glb'"
                :src="getImageSrc(goodsDetail.AttachmentList[0])" alt="">
           <img v-if="collectStatus === '1' && collectionDetail.AttachmentList && collectionDetail.AttachmentList.length && collectionDetail.AttachmentList[0].split('.')[collectionDetail.AttachmentList[0].split('.').length-1] !== 'glb'"
@@ -366,7 +366,7 @@ export default {
         this.scene.add(this.mesh)
       // 渲染div到canvas
       container.appendChild(this.renderer.domElement);
- 
+
       //创建相机控件
       this.control = new OrbitControls(this.camera, this.renderer.domElement)
       this.control.enableDamping = true
@@ -418,7 +418,7 @@ export default {
           console.error(error)
       })
       }).catch(error=>{})
-      
+
     },
     // 天 时 分 秒 格式化函数
     countDown(seconds) {
@@ -504,12 +504,20 @@ export default {
               this.loading = true
               this.$nextTick(()=>{
                 setTimeout(()=>{
-                  this.init()  
+                  this.init()
                 },100)
               })
-              
+
             }
-            
+
+            // YYYY-MM-DD HH:mm:ss 转 时间戳
+            const timeConversion= time => moment(time.replace(/\-/ig, '/')).valueOf()
+            // 正常逻辑
+            const normalBusiness = () => {
+              if (this.HomeStatus === '0') {
+                this.Time()
+              }
+            }
             // 报名逻辑
             if (signUpStartTime&&signUpEndTime) {
               /**
@@ -612,7 +620,7 @@ export default {
               this.loading = true
               this.$nextTick(()=>{
                 setTimeout(()=>{
-                  this.init()  
+                  this.init()
                 },100)
               })
             }
