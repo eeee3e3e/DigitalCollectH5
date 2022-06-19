@@ -102,6 +102,7 @@ export default {
       return new Promise((resolve) => {
         if (this.varAwait) return resolve()
         this.varAwait = true
+        this.loading = true
         const { pagination, userInfo } = this
         const params = {
           pageIndex: pagination.PageIndex,
@@ -119,11 +120,11 @@ export default {
               } else {
                 this.dataSource.push(...data)
               }
-
+              this.pagination.TotalCount = result.TotalCount
               this.finished = result.TotalCount === 0 ? true : result.TotalCount < (result.PageIndex * result.PageSize)
             })
             .finally(() => {
-              this.finished = true
+              // this.finished = true
               this.varAwait = false
               this.loading = false
               resolve()

@@ -12,12 +12,14 @@ import './utils/tip'
 import './utils/ban-zoom'
 import SlideVerify from 'vue-monoplasty-slide-verify'
 import Verify from 'vue2-verify'
+import { VueJsonp } from 'vue-jsonp'
 Vue.use(Verify)
 Vue.use(SlideVerify)
+Vue.use(VueJsonp)
 // if (process.env.NODE_ENV === 'development') {
   // new VConsole();
 // }
-// new VConsole();
+new VConsole();
 
 Vue.use(VueClipboard)
 Vue.use(GlobalFilters)

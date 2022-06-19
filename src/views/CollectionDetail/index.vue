@@ -1,19 +1,17 @@
 <template>
-  <div class="app-collection-detail">
+  <div class="app-collection-detail" ref="detail">
     <div class="exhibition-hall">
       <div class="exhibition-hall-show">
         <div class="exhibition-hall-show-body">
-          <img v-if="collectStatus === '2' && goodsDetail.AttachmentList && goodsDetail.AttachmentList.length && goodsDetail.AttachmentList[0].split('.')[goodsDetail.AttachmentList[0].split('.').length-1] !== 'mp4'"
+            <!-- 注释盒子 为canvas绘制盒子。暂未使用 -->
+          <!-- <div  v-if="collectStatus === '2' && goodsDetail.AttachmentList && goodsDetail.AttachmentList.length && goodsDetail.AttachmentList[0].split('.')[goodsDetail.AttachmentList[0].split('.').length-1] === 'glb'" id="container" class="notclick"  style="width:100%;height:100%"></div>
+           <div v-if="collectStatus === '1' && collectionDetail.AttachmentList && collectionDetail.AttachmentList.length && collectionDetail.AttachmentList[0].split('.')[collectionDetail.AttachmentList[0].split('.').length-1] === 'glb'" id="container" class="notclick"  style="width:100%;height:100%"></div>        -->
+          <img v-if="collectStatus === '2' && goodsDetail.AttachmentList && goodsDetail.AttachmentList.length && goodsDetail.AttachmentList[0].split('.')[goodsDetail.AttachmentList[0].split('.').length-1] !== 'glb'"
                :src="getImageSrc(goodsDetail.AttachmentList[0])" alt="">
-          <img v-if="collectStatus === '1' && collectionDetail.AttachmentList && collectionDetail.AttachmentList.length && collectionDetail.AttachmentList[0].split('.')[collectionDetail.AttachmentList[0].split('.').length-1] !== 'mp4'"
+          <img v-if="collectStatus === '1' && collectionDetail.AttachmentList && collectionDetail.AttachmentList.length && collectionDetail.AttachmentList[0].split('.')[collectionDetail.AttachmentList[0].split('.').length-1] !== 'glb'"
                :src="getImageSrc(collectionDetail.AttachmentList[0])" alt="">
-               <div @click="play">
-               <video id="videoid" :poster="getImageSrc(goodsDetail.FrontImage)" x5-video-player-type="h5"  webkit-playsinline playsinline muted v-if="collectStatus === '2' && goodsDetail.AttachmentList && goodsDetail.AttachmentList.length && goodsDetail.AttachmentList[0].split('.')[goodsDetail.AttachmentList[0].split('.').length-1] === 'mp4'"
-               :src="getImageSrc(goodsDetail.AttachmentList[0])"  loop="loop" ></video>
-               <video id="videoid" :poster="getImageSrc(collectionDetail.FrontImage)" x5-video-player-type="h5"  webkit-playsinline playsinline muted v-if="collectStatus === '1' && collectionDetail.AttachmentList && collectionDetail.AttachmentList.length && collectionDetail.AttachmentList[0].split('.')[collectionDetail.AttachmentList[0].split('.').length-1] === 'mp4'"
-               :src="getImageSrc(collectionDetail.AttachmentList[0])" loop="loop" a></video>
-               </div>
         </div>
+        <loading class="showLoading" v-if="loading"></loading>
       </div>
       <div class="exhibition-hall-body">
         <div class="content">
@@ -236,6 +234,7 @@
 </template>
 
 <script>
+import { Loading } from 'vant';
 import underDevelopmentTip from "@/utils/under-development-tip";
 import { BaseReuseCard } from '@/components'
 import { goodsApi } from '@/api'
@@ -251,13 +250,36 @@ import {
   countDown
 } from '@/utils/draw-lots'
 
+import * as THREE from 'three'
+import * as Stats from 'stats.js'
+import request from 'axios'
+// import * as dat from 'dat.gui'
+// import OrbitControls from 'three-orbitcontrols'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+const $ = name => document.querySelector(name)
 export default {
   components: {
-    BaseReuseCard
+    BaseReuseCard,
+    Loading,
   },
   data() {
     this.timer = 0
     return {
+      loading:false,
+      glb:'',
+      scene: null, // 场景
+      camera: null, // 照相机
+      renderer: null, // 渲染器
+      mesh: null, // 网格
+      textureLoader: null, // 纹理加载器
+      mixer: null,
+      groupBox: null,
+      stats: null, // 性能监测
+      control: null, // 相机控件
+      publicPath: process.env.BASE_URL,
+      clearAnim: null,
+      clock: null,
       seconds: '', //倒计时
       count: '',
       StartDateTime: '', // 預售時間
@@ -275,6 +297,10 @@ export default {
     }
   },
   created() {
+
+  },
+  mounted () {
+    this.$refs.detail.scrollTo(0,0)
     // 读取路由[collectStatus]参数 ’1‘ || ’2‘
     const { collectStatus } = this.routeParams
     this.collectStatus = collectStatus
@@ -290,11 +316,24 @@ export default {
       this.play()
     },1000)
   },
+  beforeDestroy () {
+    clearTimeout(this.timer)
+  },
+  destroyed() {
+    cancelAnimationFrame(this.clearAnim)  // 清除requestAnimationFrame
+    // this.renderer.domElement.removeEventListener('click', this.modelMouseClick, false)
+    this.scene = null, // 场景
+    this.camera = null, // 照相机
+    this.renderer = null, // 渲染器
+    this.mesh = null, // 网格
+    this.textureLoader = null, // 纹理加载器
+    this.mixer = null,
+    this.groupBox = null,
+    this.stats = null, // 性能监测
+    this.control = null, // 相机控件
+    this.clock = null
+  },
   methods: {
-    play() {
-      const videoEl = document.getElementById("videoid")
-      videoEl && videoEl.play()
-    },
     // 天 时 分 秒 格式化函数
     countDown(seconds) {
       let d = parseInt(seconds / (24 * 60 * 60))
@@ -373,6 +412,21 @@ export default {
             this.HomeStatus = homeStatus
 
             this.goodsDetail = resultData
+             /**
+               *
+               *  注释代码为three.js 关于模型文件的路径处理（后期可能会用）
+
+               * */
+            // if (this.goodsDetail.AttachmentList && this.goodsDetail.AttachmentList.length && this.goodsDetail.AttachmentList[0].split('.')[this.goodsDetail.AttachmentList[0].split('.').length-1] === 'glb') {
+            //  this.glb =  this.getImageSrc(this.goodsDetail.AttachmentList[0])
+            //   this.loading = true
+            //   this.$nextTick(()=>{
+            //     setTimeout(()=>{
+            //       this.init()
+            //     },100)
+            //   })
+
+            // }
 
             // YYYY-MM-DD HH:mm:ss 转 时间戳
             const timeConversion= time => moment(time.replace(/\-/ig, '/')).valueOf()
@@ -479,7 +533,20 @@ export default {
           .getMyCommodityDetails(params)
           .then(result => {
             this.collectionDetail = result.Data
-            console.log('this.collectionDetail', this.collectionDetail)
+              /**
+               *
+               *  注释代码为three.js 关于模型文件的路径处理（后期可能会用）
+
+               * */
+            // if (this.collectionDetail.AttachmentList && this.collectionDetail.AttachmentList.length && this.collectionDetail.AttachmentList[0].split('.')[this.collectionDetail.AttachmentList[0].split('.').length-1] === 'glb') {
+            //   this.glb = this.getImageSrc(this.collectionDetail.AttachmentList[0])
+            //   this.loading = true
+            //   this.$nextTick(()=>{
+            //     setTimeout(()=>{
+            //       this.init()
+            //     },100)
+            //   })
+            // }
           })
     },
     // 报名
@@ -501,17 +568,111 @@ export default {
         // window.location.reload()
         this.getDetail()
       })
+    },
+               /**
+               *  init && animate && loadGlbModel 为GLB模型文件的加载响应事件，无需关系，目前因为跨域问题，暂时未使用
+               * */
+    init() {
+      // 场景
+      this.scene = new THREE.Scene();
+      const container = document.getElementById('container')
+      // 1.2 相机
+      this.camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+      // 设置摄像机位置,相机方向逆X轴方向，倾斜向下看
+      this.camera.position.set(0, 0, 50)
+      // 指向场景中心
+      this.camera.lookAt(this.scene.position);
+      // 1.3 渲染器
+      this.renderer = new THREE.WebGLRenderer({ antialias: true });
+      // 创建纹理加载器
+      this.textureLoader = new THREE.TextureLoader();
+      // 创建一个组合对象
+      this.groupBox = new THREE.Group();
+      // 设置环境
+      this.renderer.setClearColor(new THREE.Color("#191c23"),.1);
+      // 设置场景大小
+      this.renderer.setSize(
+       container.clientWidth, container.clientHeight + 180
+      );
+      // 渲染器开启阴影效果
+      this.renderer.shadowMap.enabled = false;
+      // 点光源
+      let point = new THREE.PointLight(0xffffff);
+      point.position.set(4000, 4000, 4000); // 点光源位置
+      this.scene.add(point); // 点光源添加到场景中
+      // 环境光
+      let ambient = new THREE.AmbientLight(0xffffff);
+      this.scene.add(ambient);
+      let geometry = new THREE.BoxGeometry(0, 0, 0)
+        let material = new THREE.MeshNormalMaterial()
+        this.mesh = new THREE.Mesh(geometry, material)
+      this.mesh.geometry.center()
+        this.scene.add(this.mesh)
+      // 渲染div到canvas
+      container.appendChild(this.renderer.domElement);
+
+      //创建相机控件
+      this.control = new OrbitControls(this.camera, this.renderer.domElement)
+      this.control.enableDamping = true
+      // 动态阻尼系数 就是鼠标拖拽旋转灵敏度，阻尼越小越灵敏
+      this.control.dampingFactor = 0.5;
+      // 是否可以缩放
+      // this.control.enableZoom = true;
+      // 是否自动旋转
+      this.control.autoRotate = true;
+      // 设置相机距离原点的最近距离
+      this.control.minDistance = 20;
+      // 设置相机距离原点的最远距离
+      this.control.maxDistance = 500;
+      // 是否开启右键拖拽
+      this.control.enablePan = false;
+      // 上下翻转的最大角度
+      this.control.maxPolarAngle = 1.5;
+      // 上下翻转的最小角度
+      this.control.minPolarAngle = 0.0;
+      // 是否可以旋转
+      this.enableRotate = true;
+      this.loadGlbModel(); // 加载 glb模型
+    },
+    animate (mesh) {
+      this.scene.rotation._y += 0.01
+      this.control.update()
+      requestAnimationFrame(this.animate)
+      this.renderer.render(this.scene, this.camera)
+    },
+    // 加载 GLTF 模型
+    loadGlbModel() {
+      const loader = new GLTFLoader()
+      request.get(this.glb,{
+        responseType: 'blob',
+        headers: {
+          'Content-type': 'application/json;charset:utf-8;',
+            "Access-Control-Allow-Origin": "*",
+          }
+      }).then(res=>{
+        let blob = new Blob([res.data])
+        let modelUrl = window.URL.createObjectURL(blob);
+        loader.load(modelUrl, (gltf) => {
+        gltf.scene.scale.set(250,150,200)
+        this.scene.add(gltf.scene)
+        this.loading = false
+      }, (xhr) => {
+         this.animate()
+      }, (error) => {
+          console.error(error)
+      })
+      }).catch(error=>{})
+
     }
-  },
-  beforeDestroy () {
-    clearTimeout(this.timer)
   }
 }
 </script>
 
 <style scoped lang="less">
 @import "../../assets/styles/global-variable";
-
+.notclick{
+  pointer-events: none;
+}
 .app-collection-detail {
   background: #0b0e15;
   padding-bottom: 110px;
@@ -526,6 +687,7 @@ export default {
     position: relative;
 
     &-show {
+      text-align: center;
       padding-top: 94px;
       padding-left: 30px;
       padding-right: 30px;

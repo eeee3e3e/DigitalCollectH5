@@ -116,6 +116,14 @@ const routes = [
         component: () => import('@/views/examplesRecord')
       },
       {
+        path: 'collection-list',
+        meta: {
+          title: '藏品列表',
+          showToBack: true
+        },
+        component: () => import('@/views/CollectionList')
+      },
+      {
         path: 'my-news',
         meta: {
           title: '我的消息',

@@ -1,13 +1,15 @@
 <template>
   <div class="app-collection">
-    <collection-header :total-count="Total"/>
     <div class="app-collection-main pub-content">
-      <collection-for-entry/>
+      <!-- <collection-for-entry/> -->
+      <div class="title">
+       <img class="icon" src="/static/images/collection/collectionList.png" alt="">
+        <span v-if="dataSource && dataSource.length">{{dataSource[0].CommodityName}}</span>
+        </div>
+      <div class="collectionNumber">获得藏品数目：{{this.pagination.TotalCount}}</div>
       <div class="app-collection-main-body">
         <PullRefresh v-model="refreshing" @refresh="onRefresh">
-          <Empty v-if="!dataSource.length && !loading && finished && !varAwait" description="您还没获得数字藏品 ~"
-                 image="/static/images/collection/not-data-slot.png"/>
-          <List v-else
+          <List
                 v-model="loading"
                 :offset="200"
                 :finished="finished"
@@ -26,12 +28,10 @@
                         <Loading type="spinner" size="20"/>
                       </template>
                     </base-image>
-                    <img v-if="item.CommodityStatus=== 'chaining' && Number(item.CollectionCount)<=5" class="bg-icon ready" src="/static/images/collection/slz.png" alt="">
-                    <img v-if="item.CommodityStatus=== 'chained' && Number(item.CollectionCount)<=5" class="bg-icon ready" src="/static/images/collection/ready.png" alt="">
-                    <img v-if="item.CommodityStatus=== 'allow-give' && Number(item.CollectionCount)<=5" class="bg-icon ready" src="/static/images/collection/kzz.png" alt="">
-                    <span  class="bg-icons readys" v-if="Number(item.CollectionCount)>5">{{Number(item.CollectionCount) >99 ?  '99+' : 'x'+ item.CollectionCount}}</span>
+                    <img v-if="item.CommodityStatus=== 'chaining'" class="bg-icon ready" src="/static/images/collection/slz.png" alt="">
+                    <img v-if="item.CommodityStatus=== 'chained'" class="bg-icon ready" src="/static/images/collection/ready.png" alt="">
+                    <img v-if="item.CommodityStatus=== 'allow-give'" class="bg-icon ready" src="/static/images/collection/kzz.png" alt="">
                   </div>
-                   <img v-if="Number(item.CollectionCount)>5" class="bg-icon-size bgSzie" src="/static/images/collection/cd.png" alt="" />
                 </div>
                 <div class="card-item-info">
                   <div class="card-item-info-body">
@@ -63,8 +63,6 @@
 </template>
 
 <script>
-import CollectionHeader from './components/CollectionHeader'
-import CollectionForEntry from './components/CollectionForEntry'
 import { Empty, PullRefresh, List, Image, Loading } from 'vant'
 import { goodsApi } from '@/api'
 import { mapGetters } from 'vuex'
@@ -73,8 +71,6 @@ import getImageUrl from "@/utils/get-image-url";
 export default {
   components: {
     BaseImage: Image,
-    CollectionHeader,
-    CollectionForEntry,
     Empty,
     PullRefresh,
     Loading,
@@ -91,12 +87,14 @@ export default {
         PageSize: 10,
         TotalCount: 0
       },
-      Total:0,
       dataSource: [],
     }
   },
   computed: {
     ...mapGetters(['userInfo','hasUserInfo']),
+    routeParams() {
+      return this.$route.query
+    }
   },
   created() {
     if (this.hasUserInfo) {
@@ -108,16 +106,18 @@ export default {
     // 获取列表数据
     getDataSource(isClear = false) {
       const { pagination, userInfo } = this
+       const { commodityId } = this.routeParams
       if (this.varAwait) return
       this.varAwait = true
       this.loading = true
       const params = {
         userId: userInfo.ID,
+        commodityId:commodityId,
         pageIndex: pagination.PageIndex,
         pageSize: pagination.PageSize
       }
       goodsApi
-          .GetMyDrawerCommodityDetailsList(params)
+          .GetMyDrawerCommodityDetailsListByCommodityId(params)
           .then(result => {
             const data = result.Data || []
             if (isClear) {
@@ -126,7 +126,6 @@ export default {
               this.dataSource.push(...data)
             }
             this.pagination.TotalCount = result.TotalCount
-            this.Total = result.Total
             this.finished = result.TotalCount === 0 ? true : result.TotalCount < (result.PageIndex * result.PageSize)
             // this.loading = false
             // this.varAwait = false
@@ -138,15 +137,7 @@ export default {
           })
     },
     goTocollection(item) {
-      if (Number(item.CollectionCount)>5) {
-        this.$router.push({
-        path: '/city-meta/collection-list',
-        query: {
-          commodityId: item.CommodityID
-        }
-        })
-      } else {
-        this.$router.push({
+      this.$router.push({
         path: '/city-meta/collection_s',
         query: {
           userId: this.userInfo.ID,
@@ -155,7 +146,6 @@ export default {
           CommodityStatus: item.CommodityStatus
         }
       })
-      }
     },
     // 刷新
     async onRefresh() {
@@ -199,6 +189,32 @@ export default {
   }
 
   &-main {
+    padding-top:70px;
+    .title{
+      display: flex;
+      text-align: justify;
+      align-items: center;
+      .icon {
+        width: 12px;
+        height: 12px;
+        margin-right: 12px;
+      }
+      >span{
+        font-size: 16px;
+      font-family: PingFangSC, PingFangSC-Medium;
+      font-weight: 500;
+      text-align: justify;
+      color: #ffffff;
+      line-height: 22px;
+      }
+    }
+    .collectionNumber{
+      font-size: 12px;
+      font-family: PingFangSC, PingFangSC-Regular;
+      font-weight: 400;
+      color: #91b3f7;
+      line-height: 22px;
+    }
     &-body {
       .card {
         display: flex;
@@ -228,26 +244,13 @@ export default {
             background-size: 100% 100%;
             background-repeat: no-repeat;
             height: 150px;
-            position: relative;
-             .bg-icon-size {
-                position: absolute;
-                top: 0;
-                left: 5px;
-                // z-index: 10;
-              }
-            .bgSzie{
-              // z-index: 1;
-                width: 95%;
-                height:98%;
-                 object-fit: cover;
-              }
+
             &-body {
               width: 100%;
               height: 100%;
               display: flex;
               align-items: center;
               justify-content: center;
-               z-index: 999;
               //background-color: #000000;
               position: relative;
 
@@ -262,21 +265,7 @@ export default {
                 left: 0;
                 // z-index: 10;
               }
-              .bg-icons {
-                position: absolute;
-                bottom: 5px;
-                right: 5px;
-                // z-index: 10;
-              }
-              .readys {
-                background: red;
-                text-align: center;
-                line-height: 17px;
-                color:#FFF;
-                font-size: 12px;
-                width: 30px;
-                border-radius: 20px;
-              }
+
               .await {
                 width: 100%;
                 height: 100%;
@@ -289,6 +278,7 @@ export default {
                   width: 60%;
                 }
               }
+
               .ready {
                 width: 40px;
                 height: 40px;
