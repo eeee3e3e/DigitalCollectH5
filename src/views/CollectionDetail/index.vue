@@ -572,6 +572,11 @@ export default {
       this.renderer = new THREE.WebGLRenderer({ antialias: true });
       // 创建纹理加载器
       this.textureLoader = new THREE.TextureLoader();
+      const IS_IOS = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+            if (IS_IOS) {
+              console.log(111111)
+                window.createImageBitmap = undefined;
+            }
       // 创建一个组合对象
       this.groupBox = new THREE.Group();
       // 设置环境
