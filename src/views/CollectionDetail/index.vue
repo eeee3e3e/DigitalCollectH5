@@ -578,7 +578,7 @@ export default {
       this.renderer.setClearColor(new THREE.Color("#191c23"),.1);
       // 设置场景大小
       this.renderer.setSize(
-       container.clientWidth, container.clientHeight + 180
+       container.clientWidth, container.clientHeight + 290
       );
       // 渲染器开启阴影效果
       this.renderer.shadowMap.enabled = false;
@@ -646,7 +646,7 @@ export default {
         let height=bBox.max.y-bBox.min.y;
         var dist = height / (2 * Math.tan(_this.camera.fov * Math.PI / 360));
         console.log("模型缩放比例",20 / dist);
-        gltf.scene.scale.set(20 / dist, 20 / dist, 20 / dist)
+        gltf.scene.scale.set(25 / dist, 11.5 / dist, 25 / dist)
         this.scene.add(gltf.scene)
         this.loading = false
       }, (xhr) => {
