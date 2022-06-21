@@ -587,6 +587,7 @@ export default {
       point.position.set(4000, 4000, 4000); // 点光源位置
       this.scene.add(point); // 点光源添加到场景中
       // 环境光
+          // this.scene.fog = new THREE.Fog(0xffffff,100,120);
       let ambient = new THREE.AmbientLight(0xffffff);
       this.scene.add(ambient);
       let geometry = new THREE.BoxGeometry(0, 0, 0)
@@ -632,14 +633,20 @@ export default {
       request.get(this.glb,{
         responseType: 'blob',
         headers: {
-          'Content-type': 'application/json;charset:utf-8;',
-            "Access-Control-Allow-Origin": "*",
+          'Content-Type':'model/gltf-binary'
           }
       }).then(res=>{
         let blob = new Blob([res.data])
         let modelUrl = window.URL.createObjectURL(blob);
         loader.load(modelUrl, (gltf) => {
-        gltf.scene.scale.set(250,150,200)
+        // gltf.scene.scale.set(200,150,200)
+        // this.scene.add(gltf.scene)
+        let _this = this
+        var bBox = new THREE.Box3().setFromObject(gltf.scene);
+        let height=bBox.max.y-bBox.min.y;
+        var dist = height / (2 * Math.tan(_this.camera.fov * Math.PI / 360));
+        console.log("模型缩放比例",20 / dist);
+        gltf.scene.scale.set(20 / dist, 20 / dist, 20 / dist)
         this.scene.add(gltf.scene)
         this.loading = false
       }, (xhr) => {
