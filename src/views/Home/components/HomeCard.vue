@@ -265,7 +265,7 @@ export default {
         left: 14px;
 
         &-body {
-          font-size: 11px;
+          font-size: 12px;
           font-family: PingFangSC, PingFangSC-Medium;
           font-weight: 500;
           padding: 8px 10px;
