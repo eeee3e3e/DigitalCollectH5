@@ -115,8 +115,8 @@ export default {
       // 当前服务器时间
       const nowTimeStamp = timeConversion(ServerTime)
       // 报名时间
-      const signUpStartTimeStamp = timeConversion(SignUpEndTime)
-      const signUpEndTimeStamp = timeConversion(SignUpStartTime)
+      const signUpStartTimeStamp = timeConversion(SignUpStartTime)
+      const signUpEndTimeStamp = timeConversion(SignUpEndTime)
       // 预售时间
       const startDateTimeStamp = timeConversion(StartDateTime)
       // 报名阶段
